@@ -36,7 +36,7 @@ CREATE TABLE tarvike (
   yksikko VARCHAR(20) NOT NULL,
   varastotilanne INTEGER NOT NULL,
   ostohinta NUMERIC(8,2) NOT NULL,
-  kate NUMERIC(6,2) NOT NULL,
+  kate NUMERIC(6,2) DEFAULT 40 NOT NULL,
   alv NUMERIC(4,2) DEFAULT 24 NOT NULL,
   tila VARCHAR(20) DEFAULT 'kaytossa' NOT NULL
 );
@@ -55,7 +55,7 @@ CREATE TABLE tuntityyppi (
   ttid SERIAL PRIMARY KEY,
   nimi VARCHAR(30) NOT NULL,
   hinta NUMERIC(5,2) NOT NULL,
-  alv NUMERIC(4,2) NOT NULL,
+  alv NUMERIC(4,2) DEFAULT 24 NOT NULL
 );
 
 CREATE TABLE tehdaan (

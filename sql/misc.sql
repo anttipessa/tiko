@@ -1,0 +1,11 @@
+/*
+Drop table
+ */
+
+DROP TABLE asiakas CASCADE;
+DROP TABLE tyokohde CASCADE;
+DROP TABLE lasku CASCADE;
+DROP TABLE tarvike CASCADE;
+DROP TABLE sisaltaa CASCADE;
+DROP TABLE tuntityyppi CASCADE;
+DROP TABLE tehdaan CASCADE;
