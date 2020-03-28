@@ -1,3 +1,5 @@
+-- Test insert queries
+
 -- Asiakas
 
 INSERT INTO asiakas VALUES (DEFAULT, 'Jorma', 'Jormakka', 'Hameenkatu 45, 33200 Tampere', '0401234567', 'jorma.jormakka@suomi24.fi');
@@ -26,3 +28,19 @@ INSERT INTO tuntityyppi VALUES (DEFAULT, 'suunnittelu', 55);
 INSERT INTO tuntityyppi VALUES (DEFAULT, 'tyo', 45);
 INSERT INTO tuntityyppi VALUES (DEFAULT, 'aputyo', 35);
 INSERT INTO tuntityyppi VALUES (DEFAULT, 'asennus', 40);
+
+-- Tehdaan
+
+INSERT INTO tehdaan VALUES (1, 1, 2);
+INSERT INTO tehdaan VALUES (2, 1, 4);
+
+-- Sisaltaa
+
+INSERT INTO sisaltaa VALUES (1, 1, 1);
+INSERT INTO sisaltaa VALUES (1, 2, 20);
+INSERT INTO sisaltaa VALUES (1, 3, 1, 10);
+
+-- Lasku
+
+INSERT INTO lasku VALUES (DEFAULT, 1, 1, 1);
+
