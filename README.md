@@ -12,7 +12,7 @@ Komennolla `docker-compose logs -f` voi katsoa kontissa tapahtuvia lokeja. Lokin
 
 Kun kontti on pystyssä, pääset sisällä olevaan Postgres-tietokantaan antamalla seuraavan komennon:
 
-`docker exec -it tiko_ht_db_1 psql -U tiko -W tiko_ht`
+`docker exec -it tiko_db_1 psql -U tiko -W tiko_ht`
 
 Ohjelma pyytää salasanaa johon kirjoitetaan `t1k0` ja painetaan Enter.
 
