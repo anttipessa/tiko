@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+    build:
+      context: ./
+      dockerfile: .dockerfiles/db
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/postgresql/data
+    restart: always
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

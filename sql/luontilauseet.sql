@@ -9,25 +9,30 @@ CREATE TABLE asiakas (
 
 CREATE TABLE tyokohde (
   kohdeid SERIAL PRIMARY KEY,
-  asiakasid INTEGER,  
+  asiakasid INTEGER NOT NULL,
   tyyppi VARCHAR(30) NOT NULL,
   osoite VARCHAR(100) NOT NULL,
   eralkm INTEGER DEFAULT 1 NOT NULL,
-  FOREIGN KEY (asiakasid) REFERENCES asiakas(asiakasid)
+  FOREIGN KEY (asiakasid) REFERENCES asiakas(asiakasid),
+  CHECK (LOWER(tyyppi) IN ('urakka', 'tunti')),
+  CHECK (eralkm >= 0)
 );
 
 CREATE TABLE lasku (
   laskuid SERIAL PRIMARY KEY,
-  asiakasid INTEGER,
-  kohdeid INTEGER,
+  asiakasid INTEGER NOT NULL,
+  kohdeid INTEGER NOT NULL,
   edeltavaid INTEGER,
   luontipvm DATE DEFAULT CURRENT_DATE NOT NULL,
   erapvm DATE DEFAULT CURRENT_DATE + INTERVAL '28 day' NOT NULL,
   maksupvm DATE,
   tila VARCHAR(10) DEFAULT 'kesken' NOT NULL,
+  perintakulu NUMERIC(4,2),
   FOREIGN KEY (asiakasid) REFERENCES asiakas(asiakasid),
   FOREIGN KEY (kohdeid) REFERENCES tyokohde(kohdeid),
-  FOREIGN KEY (edeltavaid) REFERENCES lasku(laskuid)
+  FOREIGN KEY (edeltavaid) REFERENCES lasku(laskuid),
+  CHECK (LOWER(tila) IN ('kesken', 'valmis')),
+  CHECK (luontipvm < erapvm)
 );
 
 CREATE TABLE tarvike (
@@ -38,7 +43,8 @@ CREATE TABLE tarvike (
   ostohinta NUMERIC(8,2) NOT NULL,
   kate NUMERIC(6,2) DEFAULT 40 NOT NULL,
   alv NUMERIC(4,2) DEFAULT 24 NOT NULL,
-  tila VARCHAR(20) DEFAULT 'kaytossa' NOT NULL
+  tila VARCHAR(20) DEFAULT 'kaytossa' NOT NULL,
+  CHECK (LOWER(tila) IN ('kaytossa', 'vanhentunut'))
 );
 
 CREATE TABLE sisaltaa (
@@ -48,8 +54,9 @@ CREATE TABLE sisaltaa (
   ale NUMERIC(5,2) DEFAULT 0,
   PRIMARY KEY (kohdeid, tarvikeid),
   FOREIGN KEY (kohdeid) REFERENCES tyokohde(kohdeid),
-  FOREIGN KEY (tarvikeid) REFERENCES tarvike(tarvikeid)
-  );
+  FOREIGN KEY (tarvikeid) REFERENCES tarvike(tarvikeid),
+  CHECK (lkm >= 0)
+);
   
 CREATE TABLE tuntityyppi (
   ttid SERIAL PRIMARY KEY,
@@ -65,5 +72,6 @@ CREATE TABLE tehdaan (
   ale NUMERIC(5,2) DEFAULT 0,
   PRIMARY KEY (ttid, kohdeid),
   FOREIGN KEY (ttid) REFERENCES tuntityyppi(ttid),
-  FOREIGN KEY (kohdeid) REFERENCES tyokohde(kohdeid)
+  FOREIGN KEY (kohdeid) REFERENCES tyokohde(kohdeid),
+  CHECK (lkm >= 0)
   );
