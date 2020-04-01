@@ -754,33 +754,36 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
-                              <Component id="jScrollPane7" min="-2" pref="519" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jSeparator3" min="-2" pref="373" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jScrollPane5" pref="286" max="32767" attributes="0"/>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="1" attributes="0">
-                                                  <Component id="paattyvaEtsittavaAsiakas" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="paattyvaEtsittavaOsoite" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="haePaattyvaKohdeOsoite" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="haePaattyvaKohdeAsiakas" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="luoLaskuOK" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane7" min="-2" pref="519" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jSeparator3" min="-2" pref="373" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jScrollPane5" pref="286" max="32767" attributes="0"/>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Group type="103" groupAlignment="1" attributes="0">
+                                                      <Component id="paattyvaEtsittavaAsiakas" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="paattyvaEtsittavaOsoite" max="32767" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="haePaattyvaKohdeOsoite" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="haePaattyvaKohdeAsiakas" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -813,7 +816,9 @@
                       <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane7" min="-2" pref="177" max="-2" attributes="0"/>
-                      <EmptySpace pref="136" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="luoLaskuOK" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="95" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -869,10 +874,10 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="5" rowCount="0">
                         <Column editable="false" title="Nimike" type="java.lang.Object"/>
-                        <Column editable="false" title="Kappalehinta" type="java.lang.Object"/>
-                        <Column editable="false" title="M&#xe4;&#xe4;r&#xe4;" type="java.lang.Object"/>
-                        <Column editable="true" title="Alennus" type="java.lang.Object"/>
-                        <Column editable="false" title="Yhteens&#xe4;" type="java.lang.Object"/>
+                        <Column editable="false" title="Kappalehinta" type="java.lang.Float"/>
+                        <Column editable="false" title="M&#xe4;&#xe4;r&#xe4;" type="java.lang.Float"/>
+                        <Column editable="true" title="Alennus %" type="java.lang.Float"/>
+                        <Column editable="false" title="Yhteens&#xe4;" type="java.lang.Float"/>
                       </Table>
                     </Property>
                   </Properties>
@@ -896,6 +901,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="haePaattyvaKohdeAsiakasActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="luoLaskuOK">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="P&#xe4;&#xe4;t&#xe4; ty&#xf6; ja luo lasku"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="luoLaskuOKActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
