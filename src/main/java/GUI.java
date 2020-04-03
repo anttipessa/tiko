@@ -694,9 +694,10 @@ public class GUI extends javax.swing.JFrame {
                 } catch (Exception e) {
                     jLabel6.setText("Virheellinen puhelinnumero");
                 }
+            } else {
+                dbmanager.lisaaAsiakas(uusiEtunimi.getText(), uusiSukunimi.getText(),
+                        uusiOsoite.getText(), uusiSahkoposti.getText());
             }
-            dbmanager.lisaaAsiakas(uusiEtunimi.getText(), uusiSukunimi.getText(),
-                    uusiOsoite.getText(), uusiSahkoposti.getText());
         }
     }//GEN-LAST:event_lisaaAsiakasOKActionPerformed
 
