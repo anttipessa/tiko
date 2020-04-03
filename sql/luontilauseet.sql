@@ -31,7 +31,7 @@ CREATE TABLE lasku (
   FOREIGN KEY (asiakasid) REFERENCES asiakas(asiakasid),
   FOREIGN KEY (kohdeid) REFERENCES tyokohde(kohdeid),
   FOREIGN KEY (edeltavaid) REFERENCES lasku(laskuid),
-  CHECK (LOWER(tila) IN ('kesken', 'valmis')),
+  CHECK (LOWER(tila) IN ('kesken', 'siirtynyt', 'valmis')),
   CHECK (luontipvm < erapvm)
 );
 
@@ -74,4 +74,4 @@ CREATE TABLE tehdaan (
   FOREIGN KEY (ttid) REFERENCES tuntityyppi(ttid),
   FOREIGN KEY (kohdeid) REFERENCES tyokohde(kohdeid),
   CHECK (lkm >= 0)
-  );
+);

@@ -8,11 +8,11 @@ public class DBManager {
     /*
     // private static final String AJURI = "org.postgresql.Driver";
     private static final String PROTOKOLLA = "jdbc:postgresql:";
-    private static final String PALVELIN = "dbstud2.sis.uta.fi";
+    private static final String PALVELIN = "localhost";
     private static final int PORTTI = 5432;
-    private static final String TIETOKANTA = "";  // t‰h‰n oma k‰ytt‰j‰tunnus
-    private static final String KAYTTAJA = "";  // t‰h‰n oma k‰ytt‰j‰tunnus
-    private static final String SALASANA = "";  // t‰h‰n tietokannan salasana
+    private static final String TIETOKANTA = "tiko_ht"; // t√§h√§n oma k√§ytt√§j√§tunnus
+    private static final String KAYTTAJA = "tiko"; // t√§h√§n oma k√§ytt√§j√§tunnus
+    private static final String SALASANA = "t1k0"; // t√§h√§n tietokannan salasana
     */
     
     public DBManager() {
@@ -47,7 +47,7 @@ public class DBManager {
                 System.out.println(line);
             }
         } catch (Exception e) {
-            System.out.println("Tarvikelistauksen p‰ivitysoperaatio r‰j‰hti.");
+            System.out.println("Tarvikelistauksen pÔøΩivitysoperaatio rÔøΩjÔøΩhti.");
         }
     }
     

@@ -20,7 +20,7 @@ CREATE TABLE asiakas (
 
 CREATE TABLE tyokohde (
   kohdeid SERIAL PRIMARY KEY,
-  asiakasid INTEGER NOT NULL, 
+  asiakasid INTEGER NOT NULL,
   tyyppi VARCHAR(30) NOT NULL,
   osoite VARCHAR(100) NOT NULL,
   eralkm INTEGER DEFAULT 1 NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE lasku (
   FOREIGN KEY (asiakasid) REFERENCES asiakas(asiakasid),
   FOREIGN KEY (kohdeid) REFERENCES tyokohde(kohdeid),
   FOREIGN KEY (edeltavaid) REFERENCES lasku(laskuid),
-  CHECK (LOWER(tila) IN ('kesken', 'valmis')),
+  CHECK (LOWER(tila) IN ('kesken', 'siirtynyt', 'valmis')),
   CHECK (luontipvm < erapvm)
 );
 
