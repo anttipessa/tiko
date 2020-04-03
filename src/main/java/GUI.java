@@ -1,15 +1,19 @@
 
+import java.io.File;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 
 public class GUI extends javax.swing.JFrame {
 
+    private DBManager dbmanager;
     /**
      * Creates new form GUI
      */
-    public GUI() {
+    public GUI(DBManager dbm) {
         initComponents();
+        this.dbmanager = dbm;
     }
 
     /**
@@ -25,13 +29,13 @@ public class GUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         uusiEtunimi = new javax.swing.JTextField();
         uusiSukunimi = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        uusiOsoite = new javax.swing.JTextField();
+        uusiPuhelin = new javax.swing.JTextField();
         uusiSahkoposti = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        uusiOsoite = new javax.swing.JLabel();
-        uusiPuhelin = new javax.swing.JLabel();
+        osoiteLabel = new javax.swing.JLabel();
+        puhelinLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lisaaAsiakasOK = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -95,18 +99,24 @@ public class GUI extends javax.swing.JFrame {
         luoLaskuOK = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Etunimi*");
 
         jLabel2.setText("Sukunimi*");
 
-        uusiOsoite.setText("Osoite*");
+        osoiteLabel.setText("Osoite*");
 
-        uusiPuhelin.setText("Puhelin");
+        puhelinLabel.setText("Puhelin");
 
         jLabel5.setText("S‰hkˆposti");
 
@@ -124,28 +134,24 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(93, 93, 93)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(uusiOsoite, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(uusiPuhelin, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(uusiSahkoposti, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(jTextField4)
-                            .addComponent(uusiSukunimi)
-                            .addComponent(jTextField3))
-                        .addGap(116, 116, 116)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lisaaAsiakasOK)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(uusiEtunimi, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(osoiteLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel5)
+                        .addComponent(puhelinLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(uusiEtunimi)
+                    .addComponent(uusiSahkoposti, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(uusiPuhelin)
+                    .addComponent(uusiSukunimi)
+                    .addComponent(uusiOsoite))
+                .addGap(116, 116, 116)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lisaaAsiakasOK)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,14 +166,14 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(uusiOsoite))
+                    .addComponent(uusiOsoite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(osoiteLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(uusiPuhelin))
+                            .addComponent(uusiPuhelin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(puhelinLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -175,7 +181,7 @@ public class GUI extends javax.swing.JFrame {
                                 .addComponent(uusiSahkoposti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(lisaaAsiakasOK))))
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(384, Short.MAX_VALUE))
+                .addContainerGap(372, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Lis‰‰ asiakas", jPanel1);
@@ -246,7 +252,7 @@ public class GUI extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(kohteenOsoite)
                                 .addComponent(erienLKM, 0, 225, Short.MAX_VALUE)))))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,7 +280,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(onTarjous))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(lisaaKohdeOK)
                 .addGap(150, 150, 150))
         );
@@ -316,7 +322,7 @@ public class GUI extends javax.swing.JFrame {
                                 .addComponent(etsittavaTarjous)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(haeTarjouksista)))))
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(292, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,7 +336,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(poistaTarjousStatus)
-                .addContainerGap(302, Short.MAX_VALUE))
+                .addContainerGap(290, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Hallinnoi tarjouksia", jPanel7);
@@ -445,7 +451,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -485,7 +491,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(tarvikemaara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13)
                             .addComponent(lisaaTarvikeOK))))
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Lis‰‰ veloituksia kohteeseen", jPanel3);
@@ -584,7 +590,7 @@ public class GUI extends javax.swing.JFrame {
                                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(haePaattyvaKohdeOsoite)
                                                 .addComponent(haePaattyvaKohdeAsiakas)))))))))
-                .addContainerGap(128, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -607,7 +613,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(luoLaskuOK)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("P‰‰t‰ kohde ja laskuta", jPanel4);
@@ -616,24 +622,37 @@ public class GUI extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 725, Short.MAX_VALUE)
+            .addGap(0, 775, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 573, Short.MAX_VALUE)
+            .addGap(0, 561, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Luo karhukirjeet", jPanel5);
+
+        jButton1.setText("Selaa..");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 725, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(346, 346, 346)
+                .addComponent(jButton1)
+                .addContainerGap(362, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 573, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(232, 232, 232)
+                .addComponent(jButton1)
+                .addContainerGap(306, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("P‰ivit‰ hinnasto", jPanel6);
@@ -651,7 +670,7 @@ public class GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE))
         );
 
         pack();
@@ -663,13 +682,22 @@ public class GUI extends javax.swing.JFrame {
                 || uusiOsoite.getText().isBlank()) {
             jLabel6.setText("T‰ytith‰n kaikki vaaditut kent‰t.");
         } else {
-            jLabel6.setText("");
+            if (!uusiPuhelin.getText().isBlank()) {
+                try {
 
-            // t‰‰ll‰ pit‰is luoda uusi asiakas
-            //dbmanager.createCustomer(jLabel1.getTExt(), ...
-            System.out.println("insert into asiakas values " + 
-                    uusiEtunimi.getText());
+                    int pnumero = Integer.parseInt(uusiPuhelin.getText());
+
+                    jLabel6.setText("");
+                    dbmanager.lisaaAsiakas(uusiEtunimi.getText(), uusiSukunimi.getText(),
+                            uusiOsoite.getText(), pnumero, uusiSahkoposti.getText());
+
+                } catch (Exception e) {
+                    jLabel6.setText("Virheellinen puhelinnumero");
+                }
             }
+            dbmanager.lisaaAsiakas(uusiEtunimi.getText(), uusiSukunimi.getText(),
+                    uusiOsoite.getText(), uusiSahkoposti.getText());
+        }
     }//GEN-LAST:event_lisaaAsiakasOKActionPerformed
 
     private void haeAsiakkaatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_haeAsiakkaatActionPerformed
@@ -863,6 +891,22 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_luoLaskuOKActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        dbmanager.close();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Select a file");
+        int returnVal = fc.showOpenDialog(this);
+        
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            
+            dbmanager.update(file);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void paivitaKohdeSisaltaaTaulukko(String id) {
         DefaultTableModel model = (DefaultTableModel)kohdeSisaltaa.getModel();
         
@@ -873,41 +917,13 @@ public class GUI extends javax.swing.JFrame {
     }
     
     
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUI().setVisible(true);
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> asiakasLista;
     private javax.swing.JComboBox<String> erienLKM;
@@ -921,6 +937,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton haePaattyvaKohdeOsoite;
     private javax.swing.JButton haeTarjouksista;
     private javax.swing.JButton haeTarvikeNimella;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -955,8 +972,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JList<String> kohdeLista;
     private javax.swing.JTable kohdeSisaltaa;
     private javax.swing.JTextField kohteenOsoite;
@@ -969,18 +984,20 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton lisaaTuntejaOK;
     private javax.swing.JButton luoLaskuOK;
     private javax.swing.JCheckBox onTarjous;
+    private javax.swing.JLabel osoiteLabel;
     private javax.swing.JTextField paattyvaEtsittavaAsiakas;
     private javax.swing.JTextField paattyvaEtsittavaOsoite;
     private javax.swing.JList<String> paattyvaKohdeLista;
     private javax.swing.JButton poistaTarjousStatus;
+    private javax.swing.JLabel puhelinLabel;
     private javax.swing.JList<String> tarjousLista;
     private javax.swing.JList<String> tarvikeLista;
     private javax.swing.JTextField tarvikemaara;
     private javax.swing.JTextField tuntimaara;
     private javax.swing.JComboBox<String> tuntityyppi;
     private javax.swing.JTextField uusiEtunimi;
-    private javax.swing.JLabel uusiOsoite;
-    private javax.swing.JLabel uusiPuhelin;
+    private javax.swing.JTextField uusiOsoite;
+    private javax.swing.JTextField uusiPuhelin;
     private javax.swing.JTextField uusiSahkoposti;
     private javax.swing.JTextField uusiSukunimi;
     // End of variables declaration//GEN-END:variables
