@@ -13,13 +13,23 @@ public class DBManager {
     private static final String TIETOKANTA = "tiko_ht"; // tähän oma käyttäjätunnus
     private static final String KAYTTAJA = "tiko"; // tähän oma käyttäjätunnus
     private static final String SALASANA = "t1k0"; // tähän tietokannan salasana
+    
+    private Connection con;
 
+    /**
+     * Alustaa tietokantayhteyden DBManager-oliolle.
+     * 
+     * Jos tietokantayhteyden avaaminen epäonnistuu, keskeytetään
+     * ohjelman suoritus.
+     */
     public DBManager() {
-        Connection con = null;
         try {
-            con = DriverManager.getConnection(PROTOKOLLA + "//" + PALVELIN + ":" + PORTTI + "/" + TIETOKANTA, KAYTTAJA, SALASANA);
+            con = DriverManager.getConnection(PROTOKOLLA + "//" + PALVELIN + ":"
+                    + PORTTI + "/" + TIETOKANTA, KAYTTAJA, SALASANA);
 
-
+            System.out.println("Tietokantayhteys avattu!");
+            
+            /*
             Statement stmt = con.createStatement();
             ResultSet rset = stmt.executeQuery("SELECT 1+1");
             if (rset.next()) {
@@ -27,39 +37,67 @@ public class DBManager {
             } else {
                 System.out.println("Ei löytynyt mitään!");
             }
-            stmt.close(); 
+            stmt.close();
+            */
             
         } catch (SQLException poikkeus) {
-            System.out.println("Tapahtui seuraava virhe: " + poikkeus.getMessage());
-        }
-
-        if (con != null) try {    
-            con.close();
-        } catch (SQLException poikkeus) {
-            System.out.println("Yhteyden sulkeminen tietokantaan ei onnistunut. Lopetetaan ohjelman suoritus.");
-            return;
+            System.out.println("Yhteyden avaaminen tietokantaan epäonnistui: "
+                    + poikkeus.getMessage());
+            // Lopetetaan ohjelman suoritus, jos tietokantayhteys epäonnistuu
+            System.exit(0);
         }
     }
 
 
-    
     public void lisaaAsiakas (String enimi, String snimi, String osoite, 
-            int puhelin, String sahkoposti) {
+                              String puhelin, String sahkoposti) throws SQLException {
         System.out.println("luodaan uusi asiakas: " + enimi + snimi + osoite + 
                 puhelin + sahkoposti);
+
+        try {
+            Statement stmt = con.createStatement();
+            String update;
+            if (sahkoposti.length() == 0) {
+                update = "INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti)"
+                    + " VALUES ('%s', '%s', '%s', %s, NULL)";
+                stmt.executeUpdate(String.format(update, enimi, snimi, osoite, puhelin));
+            } else {
+                update = "INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti)"
+                    + " VALUES ('%s', '%s', '%s', %s, '%s')";
+                stmt.executeUpdate(String.format(update, enimi, snimi, osoite, puhelin, sahkoposti));
+            }
+            stmt.close();
+            
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
     }
     
     public void lisaaAsiakas (String enimi, String snimi, String osoite, 
-            String sahkoposti) {
+                              String sahkoposti) throws SQLException {
         System.out.println("luodaan uusi asiakas ilman puhelinnumeroa: " + 
                 enimi + snimi + osoite + sahkoposti);
+        
+        try {
+            Statement stmt = con.createStatement();
+            String update;
+            
+            if (sahkoposti.length() == 0) {
+                update = "INSERT INTO asiakas (enimi, snimi, osoite, sposti)"
+                    + " VALUES ('%s', '%s', '%s', NULL)";
+                stmt.executeUpdate(String.format(update, enimi, snimi, osoite));
+            } else {
+                update = "INSERT INTO asiakas (enimi, snimi, osoite, sposti)"
+                    + " VALUES ('%s', '%s', '%s', '%s')";
+                stmt.executeUpdate(String.format(update, enimi, snimi, osoite, sahkoposti));
+            }
+            
+            stmt.close();
+            
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
     }
-    
-    
-    
-    
-    
-    
     
     
     
@@ -71,12 +109,16 @@ public class DBManager {
                 System.out.println(line);
             }
         } catch (Exception e) {
-            System.out.println("Tarvikelistauksen p�ivitysoperaatio r�j�hti.");
+            System.out.println("Tarvikelistauksen päivitysoperaatio räjähti.");
         }
     }
     
     public void close() {
-        System.out.println("suljetaan yhteydet");
-        // close();
+        try {
+            System.out.println("Suljetaan yhteydet..");
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Yhteyden sulkeminen epäonnistui..");
+        }
     }
 }

@@ -3,7 +3,7 @@ import java.io.File;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
-
+import java.sql.*;
 
 public class GUI extends javax.swing.JFrame {
 
@@ -120,9 +120,9 @@ public class GUI extends javax.swing.JFrame {
 
         puhelinLabel.setText("Puhelin");
 
-        jLabel5.setText("S‰hkˆposti");
+        jLabel5.setText("S√§hk√∂posti");
 
-        lisaaAsiakasOK.setText("Lis‰‰ asiakas");
+        lisaaAsiakasOK.setText("Lis√§√§ asiakas");
         lisaaAsiakasOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lisaaAsiakasOKActionPerformed(evt);
@@ -143,17 +143,18 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(puhelinLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(uusiEtunimi)
-                    .addComponent(uusiSahkoposti, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(uusiPuhelin)
-                    .addComponent(uusiSukunimi)
-                    .addComponent(uusiOsoite))
-                .addGap(116, 116, 116)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lisaaAsiakasOK)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(uusiEtunimi)
+                        .addComponent(uusiSahkoposti, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(uusiPuhelin)
+                        .addComponent(uusiSukunimi)
+                        .addComponent(uusiOsoite)))
+                .addContainerGap(353, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,22 +172,21 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(uusiOsoite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(osoiteLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(uusiPuhelin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(puhelinLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(uusiPuhelin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(puhelinLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(uusiSahkoposti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lisaaAsiakasOK))))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(358, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(uusiSahkoposti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(lisaaAsiakasOK)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Lis‰‰ asiakas", jPanel1);
+        jTabbedPane1.addTab("Lis√§√§ asiakas", jPanel1);
 
         jScrollPane1.setViewportView(asiakasLista);
 
@@ -199,13 +199,13 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        kohteenTyyppi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Urakka", "Tuntityˆ" }));
+        kohteenTyyppi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Urakka", "Tuntity√∂" }));
 
         jLabel4.setText("Tyyppi");
 
         kohteenOsoiteLabel.setText("Osoite");
 
-        jLabel7.setText("Maksuerien lukum‰‰r‰");
+        jLabel7.setText("Maksuerien lukum√§√§r√§");
 
         erienLKM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2" }));
 
@@ -287,7 +287,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(150, 150, 150))
         );
 
-        jTabbedPane1.addTab("Lis‰‰ tyˆkohde", jPanel2);
+        jTabbedPane1.addTab("Lis√§√§ ty√∂kohde", jPanel2);
 
         jLabel8.setText("Hae tarjouksista");
 
@@ -300,7 +300,7 @@ public class GUI extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(tarjousLista);
 
-        poistaTarjousStatus.setText("Tarjous hyv‰ksytty");
+        poistaTarjousStatus.setText("Tarjous hyv√§ksytty");
         poistaTarjousStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 poistaTarjousStatusActionPerformed(evt);
@@ -361,11 +361,11 @@ public class GUI extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(kohdeLista);
 
-        jLabel11.setText("Lis‰‰ tunteja");
+        jLabel11.setText("Lis√§√§ tunteja");
 
-        tuntityyppi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "suunnittelu", "tyˆ", "aputyˆ" }));
+        tuntityyppi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "suunnittelu", "ty√∂", "aputy√∂" }));
 
-        lisaaTuntejaOK.setText("Lis‰‰");
+        lisaaTuntejaOK.setText("Lis√§√§");
         lisaaTuntejaOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lisaaTuntejaOKActionPerformed(evt);
@@ -383,9 +383,9 @@ public class GUI extends javax.swing.JFrame {
 
         jScrollPane4.setViewportView(tarvikeLista);
 
-        jLabel13.setText("Tarvikkeen m‰‰r‰");
+        jLabel13.setText("Tarvikkeen m√§√§r√§");
 
-        lisaaTarvikeOK.setText("Lis‰‰");
+        lisaaTarvikeOK.setText("Lis√§√§");
         lisaaTarvikeOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lisaaTarvikeOKActionPerformed(evt);
@@ -397,7 +397,7 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nimike", "M‰‰r‰"
+                "Nimike", "M√§√§r√§"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -410,7 +410,7 @@ public class GUI extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(kohdeSisaltaa);
 
-        jLabel14.setText("Tuntien m‰‰r‰");
+        jLabel14.setText("Tuntien m√§√§r√§");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -498,7 +498,7 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Lis‰‰ veloituksia kohteeseen", jPanel3);
+        jTabbedPane1.addTab("Lis√§√§ veloituksia kohteeseen", jPanel3);
 
         jPanel4.setPreferredSize(new java.awt.Dimension(725, 573));
 
@@ -518,7 +518,7 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nimike", "Kappalehinta", "M‰‰r‰", "Alennus %", "Yhteens‰"
+                "Nimike", "Kappalehinta", "M√§√§r√§", "Alennus %", "Yhteens√§"
             }
         ) {
             Class[] types = new Class [] {
@@ -557,7 +557,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        luoLaskuOK.setText("P‰‰t‰ tyˆ ja luo lasku");
+        luoLaskuOK.setText("P√§√§t√§ ty√∂ ja luo lasku");
         luoLaskuOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 luoLaskuOKActionPerformed(evt);
@@ -620,7 +620,7 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("P‰‰t‰ kohde ja laskuta", jPanel4);
+        jTabbedPane1.addTab("P√§√§t√§ kohde ja laskuta", jPanel4);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -659,7 +659,7 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(292, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("P‰ivit‰ hinnasto", jPanel6);
+        jTabbedPane1.addTab("P√§ivit√§ hinnasto", jPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -685,23 +685,46 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(uusiEtunimi.getText().isBlank() || uusiSukunimi.getText().isBlank()
                 || uusiOsoite.getText().isBlank()) {
-            jLabel6.setText("TÔøΩytithÔøΩn kaikki vaaditut kentÔøΩt.");
+            jLabel6.setText("T√§ytith√§n kaikki vaaditut kent√§t.");
         } else {
             if (!uusiPuhelin.getText().isBlank()) {
                 try {
-
                     int pnumero = Integer.parseInt(uusiPuhelin.getText());
-
+                    String pnro = "" + pnumero;
+                    if (uusiPuhelin.getText().charAt(0)=='0') {
+                        pnro = "0" + pnumero;
+                    }                    
                     jLabel6.setText("");
-                    dbmanager.lisaaAsiakas(uusiEtunimi.getText(), uusiSukunimi.getText(),
-                            uusiOsoite.getText(), pnumero, uusiSahkoposti.getText());
+                    try {
+                        dbmanager.lisaaAsiakas(uusiEtunimi.getText(), uusiSukunimi.getText(),
+                            uusiOsoite.getText(), pnro, uusiSahkoposti.getText());
+                        jLabel6.setText("Asiakas lis√§tty onnistuneesti.");
+                        uusiEtunimi.setText("");
+                        uusiSukunimi.setText("");
+                        uusiOsoite.setText("");
+                        uusiPuhelin.setText("");
+                        uusiSahkoposti.setText("");
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                        jLabel6.setText("Asiakkaan lis√§ys ep√§onnistui.");
+                    }
 
                 } catch (Exception e) {
-                    jLabel6.setText("Virheellinen puhelinnumero");
+                    jLabel6.setText("Virheellinen puhelinnumero!");
                 }
             } else {
-                dbmanager.lisaaAsiakas(uusiEtunimi.getText(), uusiSukunimi.getText(),
+                try{
+                    dbmanager.lisaaAsiakas(uusiEtunimi.getText(), uusiSukunimi.getText(),
                         uusiOsoite.getText(), uusiSahkoposti.getText());
+                    jLabel6.setText("Asiakas lis√§tty onnistuneesti.");
+                    uusiEtunimi.setText("");
+                    uusiSukunimi.setText("");
+                    uusiOsoite.setText("");
+                    uusiSahkoposti.setText("");
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                    jLabel6.setText("Asiakkaan lis√§ys ep√§onnistui.");
+                }
             }
         }
     }//GEN-LAST:event_lisaaAsiakasOKActionPerformed
@@ -726,17 +749,17 @@ public class GUI extends javax.swing.JFrame {
         if(asiakasLista.getSelectedValue() == null
                 || kohteenOsoite.getText().isBlank()
                 || kohteenTyyppi.getSelectedItem().toString().isBlank()) {
-            System.out.println("vituix mÔøΩn" );
+            System.out.println("vituix m√§n" );
             
         } else {
-            System.out.println("kaikki ok, insert into tyÔøΩkohde...");
+            System.out.println("kaikki ok, insert into ty√∂kohde...");
         }
         
     }//GEN-LAST:event_lisaaKohdeOKActionPerformed
 
     private void poistaTarjousStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poistaTarjousStatusActionPerformed
         if(tarjousLista.getSelectedValue() == null) {
-            System.out.println("vituix mÔøΩn" );
+            System.out.println("vituix m√§n" );
         } else {
             System.out.println("kaikki ok, update tyokohde set tarjous false"
                     + "where id = ???");
@@ -762,7 +785,7 @@ public class GUI extends javax.swing.JFrame {
     private void lisaaTarvikeOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lisaaTarvikeOKActionPerformed
         if(tarvikeLista.getSelectedValue() == null
             || tarvikemaara.getText().isBlank()) {
-            System.out.println("vituix mÔøΩn" );
+            System.out.println("vituix m√§n" );
         } else {
             try {
                 float maara = Float.parseFloat(tarvikemaara.getText());
@@ -771,7 +794,7 @@ public class GUI extends javax.swing.JFrame {
                 paivitaKohdeSisaltaaTaulukko(
                         kohdeLista.getSelectedValue().split(" ")[0]);
             } catch (Exception e) {
-                System.out.println("vituix mÔøΩn ihan eri tavalla" );
+                System.out.println("vituix m√§n ihan eri tavalla" );
             }
         }
     }//GEN-LAST:event_lisaaTarvikeOKActionPerformed
@@ -796,7 +819,7 @@ public class GUI extends javax.swing.JFrame {
         if(kohdeLista.getSelectedValue() == null
             || tuntityyppi.getSelectedItem().toString().isBlank()
             || tuntimaara.getText().isBlank()) {
-            System.out.println("vituix mÔøΩn" );
+            System.out.println("vituix m√§n" );
         } else {
             try {
                 float tunnit = Float.parseFloat(tuntimaara.getText());
@@ -805,7 +828,7 @@ public class GUI extends javax.swing.JFrame {
                 paivitaKohdeSisaltaaTaulukko(
                         kohdeLista.getSelectedValue().split(" ")[0]);
             } catch (Exception e) {
-                System.out.println("vituix mÔøΩn ihan eri tavalla" );
+                System.out.println("vituix m√§n ihan eri tavalla" );
             }
         }
     }//GEN-LAST:event_lisaaTuntejaOKActionPerformed
@@ -872,8 +895,8 @@ public class GUI extends javax.swing.JFrame {
     private void paattyvaKohdeListaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_paattyvaKohdeListaValueChanged
         if (!evt.getValueIsAdjusting()) {
             DefaultTableModel sisalto = (DefaultTableModel)kohteenSisaltoTaulukko.getModel();
-            sisalto.addRow(new Object[]{"TuntityÔøΩ", 60, 5.7, 0, 5.7*60});
-            sisalto.addRow(new Object[]{"AputyÔøΩ", 40, 4, 0, 4*40});
+            sisalto.addRow(new Object[]{"Tuntity√∂", 60, 5.7, 0, 5.7*60});
+            sisalto.addRow(new Object[]{"Aputy√∂", 40, 4, 0, 4*40});
         }
     }//GEN-LAST:event_paattyvaKohdeListaValueChanged
 
@@ -917,8 +940,8 @@ public class GUI extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel)kohdeSisaltaa.getModel();
         
         // for tyot/tarvikkeet in tyokohde where tyokohde.id = id{
-            model.addRow(new Object[]{"TuntityÔøΩ", "2"});
-            model.addRow(new Object[]{"AputyÔøΩ", "4"});
+            model.addRow(new Object[]{"Tuntity√∂", "2"});
+            model.addRow(new Object[]{"Aputy√∂", "4"});
         //}
     }
     
