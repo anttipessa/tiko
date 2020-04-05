@@ -676,7 +676,7 @@ public class GUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Päivitä hinnasto", jPanel6);
 
-        jLabel17.setText("Nimi");
+        jLabel17.setText("Nimi*");
 
         jLabel18.setText("Yksikkö*");
 
@@ -684,9 +684,9 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel20.setText("Varastotilanne*");
 
-        jLabel21.setText("Kate");
+        jLabel21.setText("Kate (%)");
 
-        jLabel22.setText("Alv");
+        jLabel22.setText("Alv (%)");
 
         uusiKate.setText("40");
 
@@ -714,7 +714,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(uusiTarvikeNimi)
