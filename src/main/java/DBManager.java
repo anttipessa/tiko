@@ -7,7 +7,6 @@ import java.util.*;
 
 public class DBManager {
 
-    private static final String AJURI = "org.postgresql.Driver";
     private static final String PROTOKOLLA = "jdbc:postgresql:";
     private static final String PALVELIN = "localhost";
     private static final int PORTTI = 5432;
@@ -101,10 +100,10 @@ public class DBManager {
 
         try {
             PreparedStatement pstmt = con.prepareStatement(
-                    "SELECT asiakasid, enimi, snimi " +
-                    "FROM asiakas " +
-                    "WHERE LOWER(enimi) = ? OR LOWER(snimi) = ?" +
-                    "ORDER BY asiakasid");
+                    "SELECT asiakasid, enimi, snimi "
+                    + "FROM asiakas "
+                    + "WHERE LOWER(enimi) = ? OR LOWER(snimi) = ?"
+                    + "ORDER BY asiakasid");
             pstmt.setString(1, nimi);
             pstmt.setString(2, nimi);
             ResultSet rs = pstmt.executeQuery();
@@ -137,10 +136,10 @@ public class DBManager {
 
         try {
             PreparedStatement pstmt = con.prepareStatement(
-                    "SELECT asiakasid, enimi, snimi " +
-                    "FROM asiakas " +
-                    "WHERE LOWER(enimi) = ? AND LOWER(snimi) = ?" +
-                    "ORDER BY asiakasid");
+                    "SELECT asiakasid, enimi, snimi "
+                    + "FROM asiakas "
+                    + "WHERE LOWER(enimi) = ? AND LOWER(snimi) = ?"
+                    + "ORDER BY asiakasid");
             pstmt.setString(1, enimi);
             pstmt.setString(2, snimi);
             ResultSet rs = pstmt.executeQuery();
@@ -199,7 +198,7 @@ public class DBManager {
             Statement stmt = con.createStatement();
 
             String update = "INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm)"
-                         + " VALUES (%s, '%s', %s, '%s', %s)";
+                    + " VALUES (%s, '%s', %s, '%s', %s)";
             stmt.executeUpdate(String.format(update, asiakasid, tyyppi, tarjous, osoite, eralkm));
 
             stmt.close();
@@ -208,53 +207,53 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-    
+
     /**
      * Hakee tietokannasta kaikki ty√∂kohteet jotka ovat tarjousvaiheessa.
-     * 
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<String> haeTarjoukset() throws SQLException {
         ArrayList<String> tarjoukset = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT kohdeid, osoite "
-                                           + "FROM tyokohde "
-                                           + "WHERE tarjous "
-                                           + "ORDER BY kohdeid");
+                    + "FROM tyokohde "
+                    + "WHERE tarjous "
+                    + "ORDER BY kohdeid");
             while (rs.next()) {
                 String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
                 tarjoukset.add(tyokohde);
             }
             rs.close();
             stmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return tarjoukset;
     }
-    
+
     /**
-     * Hakee tietokannasta ne ty√∂kohteet, jotka ovat tarjousvaiheessa ja
-     * joiden osoite sis√§lt√§√§ parametrina annetun hakusanan.
-     * 
+     * Hakee tietokannasta ne ty√∂kohteet, jotka ovat tarjousvaiheessa ja joiden
+     * osoite sis√§lt√§√§ parametrina annetun hakusanan.
+     *
      * @param osoite
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<String> haeTarjoukset(String osoite) throws SQLException {
         ArrayList<String> tarjoukset = new ArrayList<>();
-        
+
         try {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT kohdeid, osoite "
-                  + "FROM tyokohde "
-                  + "WHERE LOWER(osoite) LIKE ? AND tarjous "
-                  + "ORDER BY kohdeid");
+                    + "FROM tyokohde "
+                    + "WHERE LOWER(osoite) LIKE ? AND tarjous "
+                    + "ORDER BY kohdeid");
             pstmt.setString(1, "%" + osoite + "%");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -263,19 +262,19 @@ public class DBManager {
             }
             rs.close();
             pstmt.close();
-            
+
         } catch (SQLException e) {
-            throw new SQLException (e.getMessage());
+            throw new SQLException(e.getMessage());
         }
-        
+
         return tarjoukset;
     }
-    
+
     public void hyvaksyTarjous(String kohdeid) throws SQLException {
         try {
             Statement stmt = con.createStatement();
-            String query = "UPDATE tyokohde SET tarjous = FALSE " +
-                           "WHERE kohdeid = %s";
+            String query = "UPDATE tyokohde SET tarjous = FALSE "
+                    + "WHERE kohdeid = %s";
             stmt.executeUpdate(String.format(query, kohdeid));
             System.out.println("P√§ivitys ok.");
         } catch (SQLException e) {
@@ -283,6 +282,77 @@ public class DBManager {
         }
     }
 
+    /**
+     * Hakee kaikki kohteet joista on sopimus.
+     *
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<String> haeKohteet() throws SQLException {
+
+        ArrayList<String> kohteet = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT kohdeid, osoite "
+                    + "FROM tyokohde "
+                    + "WHERE tarjous = false "
+                    + "ORDER BY kohdeid");
+            while (rs.next()) {
+                String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
+                kohteet.add(tyokohde);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return kohteet;
+    }
+
+    /**
+     * Hakee tietokannasta ne tyˆkohteet, jotka ovat sopimusvaiheessa ja joiden
+     * osoite sis‰lt‰‰ parametrina annetun hakusanan.
+     *
+     * @param osoite
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<String> haeKohteet(String osoite) throws SQLException {
+
+        ArrayList<String> kohteet = new ArrayList<>();
+
+        try {
+            PreparedStatement pstmt = con.prepareStatement(
+                    "SELECT kohdeid, osoite "
+                    + "FROM tyokohde "
+                    + "WHERE LOWER(osoite) LIKE ? AND tarjous = false "
+                    + "ORDER BY kohdeid");
+            pstmt.setString(1, "%" + osoite + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
+                kohteet.add(tyokohde);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return kohteet;
+    }
+
+    /**
+     *  Lis‰‰ tarvikkeen tietokantaan annettuilla parameterill‰.
+     *
+     * @param nimi
+     * @param yksikko
+     * @param varastotil
+     * @param ostohinta
+     * @param kate
+     * @param alv
+     * @throws SQLException
+     */
     public void lisaaTarvike(String nimi, String yksikko, int varastotil, double ostohinta, double kate, double alv) throws SQLException {
         try {
             Statement stmt = con.createStatement();

@@ -1056,15 +1056,25 @@ public class GUI extends javax.swing.JFrame {
         DefaultListModel dlmPaattyvaKohde = new DefaultListModel();
 
         if (!paattyvaEtsittavaOsoite.getText().isBlank()) {
-
-            //??? kohteet = dbmanager.get
-            //for kohde in kohteet {
-            dlmPaattyvaKohde.addElement("0001 Kanslerinrinne 1, 33100 Tampere");
-            //}
+            String osoite = paattyvaEtsittavaOsoite.getText().toLowerCase();
+            try {
+                ArrayList<String> kohteet = dbmanager.haeKohteet(osoite);
+                for (String kohde : kohteet) {
+                    dlmPaattyvaKohde.addElement(kohde);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            try {
+                ArrayList<String> kohteet = dbmanager.haeKohteet();
+                for (String kohde : kohteet) {
+                    dlmPaattyvaKohde.addElement(kohde);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        /* else {
-            select * from tyokohde where tarjous = false
-         */
 
         paattyvaKohdeLista.setModel(dlmPaattyvaKohde);
     }//GEN-LAST:event_haePaattyvaKohdeOsoiteActionPerformed
