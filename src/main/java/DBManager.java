@@ -101,15 +101,15 @@ public class DBManager {
 
         try {
             PreparedStatement pstmt = con.prepareStatement(
-                    "SELECT asiakasid, enimi, snimi "
-                    + "FROM asiakas "
-                    + "WHERE enimi = ? OR snimi = ?"
-                    + "ORDER BY asiakasid");
+                    "SELECT asiakasid, enimi, snimi " +
+                    "FROM asiakas " +
+                    "WHERE LOWER(enimi) = ? OR LOWER(snimi) = ?" +
+                    "ORDER BY asiakasid");
             pstmt.setString(1, nimi);
             pstmt.setString(2, nimi);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String asiakas = rs.getInt("asiakasid") + " " + rs.getString("enimi")
+                String asiakas = rs.getInt("asiakasid") + " - " + rs.getString("enimi")
                         + " " + rs.getString("snimi");
                 asiakkaat.add(asiakas);
             }
@@ -137,15 +137,15 @@ public class DBManager {
 
         try {
             PreparedStatement pstmt = con.prepareStatement(
-                    "SELECT asiakasid, enimi, snimi "
-                    + "FROM asiakas "
-                    + "WHERE enimi = ? AND snimi = ?"
-                    + "ORDER BY asiakasid");
+                    "SELECT asiakasid, enimi, snimi " +
+                    "FROM asiakas " +
+                    "WHERE LOWER(enimi) = ? AND LOWER(snimi) = ?" +
+                    "ORDER BY asiakasid");
             pstmt.setString(1, enimi);
             pstmt.setString(2, snimi);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String asiakas = rs.getInt("asiakasid") + " " + rs.getString("enimi")
+                String asiakas = rs.getInt("asiakasid") + " - " + rs.getString("enimi")
                         + " " + rs.getString("snimi");
                 asiakkaat.add(asiakas);
             }
@@ -175,7 +175,7 @@ public class DBManager {
                     + "FROM asiakas "
                     + "ORDER BY asiakasid");
             while (rs.next()) {
-                String asiakas = rs.getInt("asiakasid") + " " + rs.getString("enimi")
+                String asiakas = rs.getInt("asiakasid") + " - " + rs.getString("enimi")
                         + " " + rs.getString("snimi");
                 asiakkaat.add(asiakas);
             }
@@ -190,21 +190,94 @@ public class DBManager {
         return asiakkaat;
     }
 
-    public void lisaaKohde(String asiakasid, String tyyppi, String osoite, String eralkm)
+    public void lisaaKohde(String asiakasid, String tyyppi, String tarjous, String osoite, String eralkm)
             throws SQLException {
         System.out.println("luodaan uusi työkohde: " + asiakasid + tyyppi + osoite
                 + eralkm);
 
         try {
             Statement stmt = con.createStatement();
-            String update;
 
-            update = "INSERT INTO tyokohde (asiakasid, tyyppi, osoite, eralkm)"
-                    + " VALUES (%s, '%s', '%s', %s)";
-            stmt.executeUpdate(String.format(update, asiakasid, tyyppi, osoite, eralkm));
+            String update = "INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm)"
+                         + " VALUES (%s, '%s', %s, '%s', %s)";
+            stmt.executeUpdate(String.format(update, asiakasid, tyyppi, tarjous, osoite, eralkm));
 
             stmt.close();
 
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
+    
+    /**
+     * Hakee tietokannasta kaikki työkohteet jotka ovat tarjousvaiheessa.
+     * 
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<String> haeTarjoukset() throws SQLException {
+        ArrayList<String> tarjoukset = new ArrayList<>();
+        
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT kohdeid, osoite "
+                                           + "FROM tyokohde "
+                                           + "WHERE tarjous "
+                                           + "ORDER BY kohdeid");
+            while (rs.next()) {
+                String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
+                tarjoukset.add(tyokohde);
+            }
+            rs.close();
+            stmt.close();
+            
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        
+        return tarjoukset;
+    }
+    
+    /**
+     * Hakee tietokannasta ne työkohteet, jotka ovat tarjousvaiheessa ja
+     * joiden osoite sisältää parametrina annetun hakusanan.
+     * 
+     * @param osoite
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<String> haeTarjoukset(String osoite) throws SQLException {
+        ArrayList<String> tarjoukset = new ArrayList<>();
+        
+        try {
+            PreparedStatement pstmt = con.prepareStatement(
+                    "SELECT kohdeid, osoite "
+                  + "FROM tyokohde "
+                  + "WHERE LOWER(osoite) LIKE ? AND tarjous "
+                  + "ORDER BY kohdeid");
+            pstmt.setString(1, "%" + osoite + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
+                tarjoukset.add(tyokohde);
+            }
+            rs.close();
+            pstmt.close();
+            
+        } catch (SQLException e) {
+            throw new SQLException (e.getMessage());
+        }
+        
+        return tarjoukset;
+    }
+    
+    public void hyvaksyTarjous(String kohdeid) throws SQLException {
+        try {
+            Statement stmt = con.createStatement();
+            String query = "UPDATE tyokohde SET tarjous = FALSE " +
+                           "WHERE kohdeid = %s";
+            stmt.executeUpdate(String.format(query, kohdeid));
+            System.out.println("Päivitys ok.");
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }

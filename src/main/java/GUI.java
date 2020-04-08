@@ -56,7 +56,6 @@ public class GUI extends javax.swing.JFrame {
         lisaaKohdeOK = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         onTarjous = new javax.swing.JCheckBox();
-        haeKaikkiAsiakkaat = new javax.swing.JButton();
         jLabel26 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -66,6 +65,7 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tarjousLista = new javax.swing.JList<>();
         poistaTarjousStatus = new javax.swing.JButton();
+        jLabel24 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         etsittavaOsoite = new javax.swing.JTextField();
@@ -239,13 +239,7 @@ public class GUI extends javax.swing.JFrame {
 
         onTarjous.setSelected(true);
 
-        haeKaikkiAsiakkaat.setText("Hae kaikki");
-        haeKaikkiAsiakkaat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                haeKaikkiAsiakkaatActionPerformed(evt);
-            }
-        });
-
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel25.setText(" ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -262,17 +256,6 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(kohteenOsoite)
-                                    .addComponent(erienLKM, 0, 225, Short.MAX_VALUE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(onTarjous)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -285,32 +268,37 @@ public class GUI extends javax.swing.JFrame {
                                 .addGap(163, 163, 163))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(haeKaikkiAsiakkaat)
-                                .addGap(0, 80, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(6, 415, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lisaaKohdeOK)
-                                    .addComponent(jLabel26)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jLabel25)))
-                                .addGap(88, 88, 88))))))
+                                    .addComponent(jLabel26))
+                                .addGap(88, 88, 88))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(kohteenOsoite)
+                                        .addComponent(erienLKM, 0, 225, Short.MAX_VALUE))
+                                    .addComponent(onTarjous)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(311, 311, 311)
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(etsittavaAsiakas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(haeAsiakkaat))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(haeKaikkiAsiakkaat))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(etsittavaAsiakas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(haeAsiakkaat))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(kohteenTyyppi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,6 +326,8 @@ public class GUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Lisää työkohde", jPanel2);
 
+        etsittavaTarjous.setToolTipText("");
+
         jLabel8.setText("Hae tarjouksista");
 
         haeTarjouksista.setText("Hae");
@@ -356,23 +346,31 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel24.setText(" ");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(poistaTarjousStatus)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                                .addComponent(etsittavaTarjous)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(haeTarjouksista)))))
+                        .addGap(71, 71, 71)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                        .addComponent(etsittavaTarjous)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(haeTarjouksista))))
+                            .addComponent(poistaTarjousStatus)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(273, 273, 273)
+                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(270, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -387,7 +385,9 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(poistaTarjousStatus)
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel24)
+                .addContainerGap(222, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Hallinnoi tarjouksia", jPanel7);
@@ -870,7 +870,7 @@ public class GUI extends javax.swing.JFrame {
         if (!etsittavaAsiakas.getText().isBlank()) {
             String[] osat = etsittavaAsiakas.getText().split(" ");
             if (osat.length == 1) {
-                String nimi = osat[0];
+                String nimi = osat[0].toLowerCase();
                 try {
                     ArrayList<String> asiakkaat = dbmanager.haeAsiakkaat(nimi);
                     for (String asiakas : asiakkaat) {
@@ -880,8 +880,8 @@ public class GUI extends javax.swing.JFrame {
                     System.out.println(e.getMessage());
                 }
             } else if (osat.length == 2) {
-                String enimi = osat[0];
-                String snimi = osat[1];
+                String enimi = osat[0].toLowerCase();
+                String snimi = osat[1].toLowerCase();
                 try {
                     ArrayList<String> asiakkaat = dbmanager.haeAsiakkaat(enimi, snimi);
                     for (String asiakas : asiakkaat) {
@@ -891,8 +891,17 @@ public class GUI extends javax.swing.JFrame {
                     System.out.println(e.getMessage());
                 }
             }
+        } else {
+            try {
+                ArrayList<String> asiakkaat = dbmanager.haeAsiakkaat();
+                for (String asiakas : asiakkaat) {
+                    dlmAsiakas.addElement(asiakas);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        
+
         asiakasLista.setModel(dlmAsiakas);
 
     }//GEN-LAST:event_haeAsiakkaatActionPerformed
@@ -908,12 +917,17 @@ public class GUI extends javax.swing.JFrame {
             String asiakasid = asiakasLista.getSelectedValue().split(" ")[0];
             String tyyppi = kohteenTyyppi.getSelectedItem().toString();
             String osoite = kohteenOsoite.getText();
+            String tarjous = Boolean.toString(onTarjous.isSelected());
             String eralkm = erienLKM.getSelectedItem().toString();
-            System.out.println(asiakasid + " " + tyyppi + " " + osoite);
             try {
-                dbmanager.lisaaKohde(asiakasid, tyyppi, osoite, eralkm);
+                dbmanager.lisaaKohde(asiakasid, tyyppi, tarjous, osoite, eralkm);
                 jLabel25.setText("Työkohde lisätty onnistuneesti.");
+                asiakasLista.setModel(new DefaultListModel());
+                kohteenTyyppi.setSelectedIndex(0);
                 kohteenOsoite.setText("");
+                onTarjous.setSelected(false);
+                erienLKM.setSelectedIndex(0);
+
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
                 jLabel25.setText("Työkohteen lisäys epäonnistui.");
@@ -924,26 +938,44 @@ public class GUI extends javax.swing.JFrame {
 
     private void poistaTarjousStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poistaTarjousStatusActionPerformed
         if (tarjousLista.getSelectedValue() == null) {
-            System.out.println("vituix män");
+            jLabel24.setText("Valitse hyväksyttävä tarjous!");
         } else {
-            System.out.println("kaikki ok, update tyokohde set tarjous false"
-                    + "where id = ???");
+            try {
+                String kohdeid = tarjousLista.getSelectedValue().split(" ")[0];
+                dbmanager.hyvaksyTarjous(kohdeid);
+                tarjousLista.setModel(new DefaultListModel());
+                jLabel24.setText("Tarjous hyväksytty onnistuneesti.");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                jLabel24.setText("Tarjouksen hyväksyminen epäonnistui.");
+            }
         }
     }//GEN-LAST:event_poistaTarjousStatusActionPerformed
 
     private void haeTarjouksistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_haeTarjouksistaActionPerformed
         DefaultListModel dlmTarjous = new DefaultListModel();
-
+        jLabel24.setText("");
         if (!etsittavaTarjous.getText().isBlank()) {
-            //??? tarjoukset = dbmanager.getOffers(etsittavaTarjous.getText());
-            //for tarjous in tarjoukset {
-            dlmTarjous.addElement("0001 yksi tarjous");
-            //}
+            String osoite = etsittavaTarjous.getText().toLowerCase();
+            try {
+                ArrayList<String> tarjoukset = dbmanager.haeTarjoukset(osoite);
+                for (String tarjous : tarjoukset) {
+                    dlmTarjous.addElement(tarjous);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            try {
+                ArrayList<String> tarjoukset = dbmanager.haeTarjoukset();
+                for (String tarjous : tarjoukset) {
+                    dlmTarjous.addElement(tarjous);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
-        /* else {
-            select * from tyokohde where tarjous = true
-        }
-         */
 
         tarjousLista.setModel(dlmTarjous);
     }//GEN-LAST:event_haeTarjouksistaActionPerformed
@@ -1127,21 +1159,6 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lisaaTarvikeActionPerformed
 
-    private void haeKaikkiAsiakkaatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_haeKaikkiAsiakkaatActionPerformed
-        DefaultListModel dlmAsiakas = new DefaultListModel();
-
-        try {
-            ArrayList<String> asiakasluettelo = dbmanager.haeAsiakkaat();
-            for (String asiakas : asiakasluettelo) {
-                dlmAsiakas.addElement(asiakas);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        asiakasLista.setModel(dlmAsiakas);
-    }//GEN-LAST:event_haeKaikkiAsiakkaatActionPerformed
-
     private void paivitaKohdeSisaltaaTaulukko(String id) {
         DefaultTableModel model = (DefaultTableModel) kohdeSisaltaa.getModel();
 
@@ -1163,7 +1180,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField etsittavaTarjous;
     private javax.swing.JTextField etsittavaTarvike;
     private javax.swing.JButton haeAsiakkaat;
-    private javax.swing.JButton haeKaikkiAsiakkaat;
     private javax.swing.JButton haeKohdeOsoitteella;
     private javax.swing.JButton haePaattyvaKohdeAsiakas;
     private javax.swing.JButton haePaattyvaKohdeOsoite;
@@ -1186,6 +1202,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
