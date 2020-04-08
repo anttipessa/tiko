@@ -11,6 +11,7 @@ CREATE TABLE tyokohde (
   kohdeid SERIAL PRIMARY KEY,
   asiakasid INTEGER NOT NULL,
   tyyppi VARCHAR(30) NOT NULL,
+  tarjous BOOLEAN NOT NULL,
   osoite VARCHAR(100) NOT NULL,
   eralkm INTEGER DEFAULT 1 NOT NULL,
   FOREIGN KEY (asiakasid) REFERENCES asiakas(asiakasid),

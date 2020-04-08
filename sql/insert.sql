@@ -8,8 +8,8 @@ INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Natalia', '
 
 -- Tyokohde
 
-INSERT INTO tyokohde (asiakasid, tyyppi, osoite, eralkm) VALUES (1, 'tunti', 'Hameenkatu 45, 33200 Tampere', 1);
-INSERT INTO tyokohde (asiakasid, tyyppi, osoite, eralkm) VALUES (3, 'urakka', 'Linnankatu 89, 02380 Espoo', 2);
+INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (1, 'tunti', FALSE, 'Hameenkatu 45, 33200 Tampere', 1);
+INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (3, 'urakka', FALSE, 'Linnankatu 89, 02380 Espoo', 2);
 
 -- Tarvike
 

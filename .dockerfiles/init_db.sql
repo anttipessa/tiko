@@ -22,6 +22,7 @@ CREATE TABLE tyokohde (
   kohdeid SERIAL PRIMARY KEY,
   asiakasid INTEGER NOT NULL,
   tyyppi VARCHAR(30) NOT NULL,
+  tarjous BOOLEAN NOT NULL,
   osoite VARCHAR(100) NOT NULL,
   eralkm INTEGER DEFAULT 1 NOT NULL,
   FOREIGN KEY (asiakasid) REFERENCES asiakas(asiakasid),
@@ -92,8 +93,8 @@ INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Jorma', 'Jo
 INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Matti', 'Jokinen', 'Eerontie 2, 33400 Ylojarvi', '0508326134', 'matti.jokinen@luukku.fi');
 INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Natalia', 'Moilanen', 'Linnankatu 89, 02380 Espoo', '0403526284', 'natalia.moilanen@gmail.com');
 
-INSERT INTO tyokohde (asiakasid, tyyppi, osoite, eralkm) VALUES (1, 'tunti', 'Hameenkatu 45, 33200 Tampere', 1);
-INSERT INTO tyokohde (asiakasid, tyyppi, osoite, eralkm) VALUES (3, 'urakka', 'Linnankatu 89, 02380 Espoo', 2);
+INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (1, 'tunti', FALSE, 'Hameenkatu 45, 33200 Tampere', 1);
+INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (3, 'urakka', FALSE, 'Linnankatu 89, 02380 Espoo', 2);
 
 INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Vasara', 'kpl', 1, 9.95, 50, DEFAULT);
 INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('X-Naula', 'kpl', 40, 0.20, 45, DEFAULT);
