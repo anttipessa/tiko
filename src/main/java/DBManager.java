@@ -10,9 +10,9 @@ public class DBManager {
     private static final String PROTOKOLLA = "jdbc:postgresql:";
     private static final String PALVELIN = "localhost";
     private static final int PORTTI = 5432;
-    private static final String TIETOKANTA = "tiko_ht"; // t√§h√§n oma k√§ytt√§j√§tunnus
-    private static final String KAYTTAJA = "tiko"; // t√§h√§n oma k√§ytt√§j√§tunnus
-    private static final String SALASANA = "t1k0"; // t√§h√§n tietokannan salasana
+    private static final String TIETOKANTA = "tiko_ht";
+    private static final String KAYTTAJA = "tiko";
+    private static final String SALASANA = "t1k0";
 
     private Connection con;
 
@@ -343,7 +343,67 @@ public class DBManager {
     }
 
     /**
-     * Lis‰‰ tarvikkeen tietokantaan annettuilla parameterill‰.
+     * Hakee kaikki tyˆkohteet tietokannasta mist‰ ei ole viel‰ laskua.
+     *
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<String> haeKohteetIlmanLaskua() throws SQLException {
+
+        ArrayList<String> kohteet = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT tyokohde.kohdeid, osoite "
+                    + "FROM tyokohde FULL JOIN lasku ON tyokohde.kohdeid = lasku.kohdeid "
+                    + "WHERE laskuid IS NULL "
+                    + "ORDER BY kohdeid");
+            while (rs.next()) {
+                String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
+                kohteet.add(tyokohde);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return kohteet;
+    }
+
+    /**
+     * Hakee kaikki annettua osoitetta vastaavat tyˆkohteet tietokannasta mist‰
+     * ei ole viel‰ laskua.
+     *
+     * @param osoite
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<String> haeKohteetIlmanLaskua(String osoite) throws SQLException {
+
+        ArrayList<String> kohteet = new ArrayList<>();
+
+        try {
+            PreparedStatement pstmt = con.prepareStatement(
+                    "SELECT tyokohde.kohdeid, osoite "
+                    + "FROM tyokohde FULL JOIN lasku ON tyokohde.kohdeid = lasku.kohdeid "
+                    + "WHERE LOWER(osoite) LIKE ? AND laskuid IS NULL "
+                    + "ORDER BY kohdeid");
+            pstmt.setString(1, "%" + osoite + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
+                kohteet.add(tyokohde);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return kohteet;
+    }
+
+    /**
+     * Lis‰‰ tarvikkeen tietokantaan annetuilla parameterill‰.
      *
      * @param nimi
      * @param yksikko
@@ -367,7 +427,7 @@ public class DBManager {
 
     /**
      * Hakee tietokannasta kaikki tarvikkeet jotka ovat k‰ytˆss‰.
-     * 
+     *
      * @return tarvikkeet
      * @throws SQLException
      */
@@ -394,7 +454,8 @@ public class DBManager {
     }
 
     /**
-     * Hakee tietokannasta kaikki tarvikkeet jotka vastaavat parametrina annettua nime‰.
+     * Hakee tietokannasta kaikki k‰ytˆss‰ olevat tarvikkeet jotka vastaavat parametrina
+     * annettua nime‰.
      *
      * @param nimi
      * @return
