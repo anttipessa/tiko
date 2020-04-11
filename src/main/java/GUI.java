@@ -1001,15 +1001,26 @@ public class GUI extends javax.swing.JFrame {
         DefaultListModel dlmTarvike = new DefaultListModel();
 
         if (!etsittavaTarvike.getText().isBlank()) {
-            //??? tarvikkeet = dbmanager.get
-            //for kohde in kohteet {
-            dlmTarvike.addElement("0001 sementti, kilo");
-            //}
+            String nimi = etsittavaTarvike.getText().toLowerCase();
+            try {
+                ArrayList<String> tarvikkeet = dbmanager.haeTarvikkeet(nimi);
+                for (String tarvike : tarvikkeet) {
+                    dlmTarvike.addElement(tarvike);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }else{
+             try {
+                ArrayList<String> tarvikkeet = dbmanager.haeTarvikkeet();
+                for (String tarvike : tarvikkeet) {
+                    dlmTarvike.addElement(tarvike);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        /* else {
-            select * from tarvike
-        }
-         */
+
 
         tarvikeLista.setModel(dlmTarvike);
     }//GEN-LAST:event_haeTarvikeNimellaActionPerformed

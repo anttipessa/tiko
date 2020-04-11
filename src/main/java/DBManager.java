@@ -343,7 +343,7 @@ public class DBManager {
     }
 
     /**
-     *  Lisää tarvikkeen tietokantaan annettuilla parameterillä.
+     * Lisää tarvikkeen tietokantaan annettuilla parameterillä.
      *
      * @param nimi
      * @param yksikko
@@ -363,6 +363,65 @@ public class DBManager {
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
+    }
+
+    /**
+     * Hakee tietokannasta kaikki tarvikkeet jotka ovat käytössä.
+     * 
+     * @return tarvikkeet
+     * @throws SQLException
+     */
+    public ArrayList<String> haeTarvikkeet() throws SQLException {
+
+        ArrayList<String> tarvikkeet = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * "
+                    + "FROM tarvike "
+                    + "WHERE tila = 'kaytossa' "
+                    + "ORDER BY tarvikeid");
+            while (rs.next()) {
+                String tarvike = rs.getString("nimi") + " - " + rs.getDouble("ostohinta") + " €";
+                tarvikkeet.add(tarvike);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return tarvikkeet;
+    }
+
+    /**
+     * Hakee tietokannasta kaikki tarvikkeet jotka vastaavat parametrina annettua nimeä.
+     *
+     * @param nimi
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<String> haeTarvikkeet(String nimi) throws SQLException {
+
+        ArrayList<String> tarvikkeet = new ArrayList<>();
+
+        try {
+            PreparedStatement pstmt = con.prepareStatement(
+                    "SELECT * "
+                    + "FROM tarvike "
+                    + "WHERE LOWER(nimi) LIKE ? AND tila = 'kaytossa' "
+                    + "ORDER BY tarvikeid");
+            pstmt.setString(1, "%" + nimi + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String tarvike = rs.getString("nimi") + " - " + rs.getDouble("ostohinta") + " €";
+                tarvikkeet.add(tarvike);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return tarvikkeet;
     }
 
     public void update(File file) {
