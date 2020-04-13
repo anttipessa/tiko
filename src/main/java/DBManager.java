@@ -311,8 +311,8 @@ public class DBManager {
     }
 
     /**
-     * Hakee tietokannasta ne työkohteet, jotka ovat sopimusvaiheessa ja joiden
-     * osoite sisältää parametrina annetun hakusanan.
+     * Hakee tietokannasta ne tyï¿½kohteet, jotka ovat sopimusvaiheessa ja joiden
+     * osoite sisï¿½ltï¿½ï¿½ parametrina annetun hakusanan.
      *
      * @param osoite
      * @return
@@ -343,7 +343,7 @@ public class DBManager {
     }
 
     /**
-     * Hakee kaikki työkohteet tietokannasta mistä ei ole vielä laskua.
+     * Hakee kaikki tyï¿½kohteet tietokannasta mistï¿½ ei ole vielï¿½ laskua.
      *
      * @return
      * @throws SQLException
@@ -354,9 +354,10 @@ public class DBManager {
 
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT tyokohde.kohdeid, osoite "
-                    + "FROM tyokohde FULL JOIN lasku ON tyokohde.kohdeid = lasku.kohdeid "
-                    + "WHERE laskuid IS NULL "
+            ResultSet rs = stmt.executeQuery("SELECT kohdeid, osoite "
+                    + "FROM tyokohde "
+                    + "WHERE kohdeid NOT IN (SELECT kohdeid FROM lasku) "
+                    + "AND NOT tarjous "
                     + "ORDER BY kohdeid");
             while (rs.next()) {
                 String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
@@ -371,8 +372,8 @@ public class DBManager {
     }
 
     /**
-     * Hakee kaikki annettua osoitetta vastaavat työkohteet tietokannasta mistä
-     * ei ole vielä laskua.
+     * Hakee kaikki annettua osoitetta vastaavat tyï¿½kohteet tietokannasta mistï¿½
+     * ei ole vielï¿½ laskua.
      *
      * @param osoite
      * @return
@@ -384,9 +385,11 @@ public class DBManager {
 
         try {
             PreparedStatement pstmt = con.prepareStatement(
-                    "SELECT tyokohde.kohdeid, osoite "
-                    + "FROM tyokohde FULL JOIN lasku ON tyokohde.kohdeid = lasku.kohdeid "
-                    + "WHERE LOWER(osoite) LIKE ? AND laskuid IS NULL "
+                    "SELECT kohdeid, osoite "
+                    + "FROM tyokohde "
+                    + "WHERE LOWER(osoite) LIKE ? "
+                    + "AND kohdeid NOT IN (SELECT kohdeid FROM lasku) "
+                    + "AND NOT tarjous "
                     + "ORDER BY kohdeid");
             pstmt.setString(1, "%" + osoite + "%");
             ResultSet rs = pstmt.executeQuery();
@@ -403,7 +406,7 @@ public class DBManager {
     }
 
     /**
-     * Lisää tarvikkeen tietokantaan annetuilla parameterillä.
+     * Lisï¿½ï¿½ tarvikkeen tietokantaan annetuilla parameterillï¿½.
      *
      * @param nimi
      * @param yksikko
@@ -426,7 +429,7 @@ public class DBManager {
     }
 
     /**
-     * Hakee tietokannasta kaikki tarvikkeet jotka ovat käytössä.
+     * Hakee tietokannasta kaikki tarvikkeet jotka ovat kï¿½ytï¿½ssï¿½.
      *
      * @return tarvikkeet
      * @throws SQLException
@@ -442,7 +445,7 @@ public class DBManager {
                     + "WHERE tila = 'kaytossa' "
                     + "ORDER BY tarvikeid");
             while (rs.next()) {
-                String tarvike = rs.getString("nimi") + " - " + rs.getDouble("ostohinta") + " €";
+                String tarvike = rs.getString("nimi") + " - " + rs.getDouble("ostohinta") + " ï¿½";
                 tarvikkeet.add(tarvike);
             }
             rs.close();
@@ -454,8 +457,8 @@ public class DBManager {
     }
 
     /**
-     * Hakee tietokannasta kaikki käytössä olevat tarvikkeet jotka vastaavat parametrina
-     * annettua nimeä.
+     * Hakee tietokannasta kaikki kï¿½ytï¿½ssï¿½ olevat tarvikkeet jotka vastaavat
+     * parametrina annettua nimeï¿½.
      *
      * @param nimi
      * @return
@@ -474,7 +477,7 @@ public class DBManager {
             pstmt.setString(1, "%" + nimi + "%");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String tarvike = rs.getString("nimi") + " - " + rs.getDouble("ostohinta") + " €";
+                String tarvike = rs.getString("nimi") + " - " + rs.getDouble("ostohinta") + " ï¿½";
                 tarvikkeet.add(tarvike);
             }
             rs.close();
@@ -483,6 +486,91 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
         return tarvikkeet;
+    }
+
+    public ArrayList<String> haeKohteenTunnit(String id) throws SQLException {
+        ArrayList<String> tunnit = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            String query = "SELECT tt.nimi, te.lkm "
+                    + "FROM tyokohde t INNER JOIN tehdaan te ON t.kohdeid = te.kohdeid "
+                    + "INNER JOIN tuntityyppi tt ON te.ttid = tt.ttid "
+                    + "WHERE t.kohdeid = %s";
+            ResultSet rs = stmt.executeQuery(String.format(query, id));
+            while (rs.next()) {
+                String tuntityyppi = rs.getString("nimi") + "::" + rs.getDouble("lkm");
+                tunnit.add(tuntityyppi);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+
+        return tunnit;
+    }
+
+    public ArrayList<String> haeKohteenTarvikkeet(String id) throws SQLException {
+        ArrayList<String> tarvikkeet = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            String query = "SELECT ta.nimi, ta.yksikko, s.lkm "
+                    + "FROM tyokohde t INNER JOIN sisaltaa s ON t.kohdeid = s.kohdeid "
+                    + "INNER JOIN tarvike ta ON s.tarvikeid = ta.tarvikeid "
+                    + "WHERE t.kohdeid = %s";
+            ResultSet rs = stmt.executeQuery(String.format(query, id));
+            while (rs.next()) {
+                String tarvike = rs.getString("nimi") + "::" + rs.getString("yksikko")
+                        + "::" + rs.getInt("lkm");
+                tarvikkeet.add(tarvike);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+
+        return tarvikkeet;
+    }
+
+    public void lisaaKohteeseen(boolean tarvike, String kohdeid, String nimi, String lkm)
+            throws SQLException {
+        try {
+            Statement stmt = con.createStatement();
+            String insert;
+
+            // LisÃ¤tÃ¤Ã¤n tuntityyppiÃ¤
+            if (!tarvike) {
+                ResultSet rs = stmt.executeQuery("SELECT ttid FROM tuntityyppi WHERE nimi = '" + nimi + "'");
+                if (rs.next()) {
+                    int ttid = rs.getInt("ttid");
+                    rs.close();
+                    insert = "INSERT INTO tehdaan (ttid, kohdeid, lkm) "
+                            + "VALUES (%s, %s, %s)";
+                    stmt.executeUpdate(String.format(insert, ttid, kohdeid, lkm));
+                    stmt.close();
+                } else {
+                    throw new SQLException("ttid not found!");
+                }
+            } // LisÃ¤tÃ¤Ã¤n tarviketta
+            else {
+                ResultSet rs = stmt.executeQuery("SELECT tarvikeid FROM tarvike WHERE nimi = '" + nimi + "'");
+                if (rs.next()) {
+                    int tarvikeid = rs.getInt("tarvikeid");
+                    rs.close();
+                    insert = "INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm) "
+                            + "VALUES (%s, %s, %s)";
+                    stmt.executeUpdate(String.format(insert, kohdeid, tarvikeid, lkm));
+                    stmt.close();
+                } else {
+                    throw new SQLException("tarvikeid not found!");
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
     }
 
     public void update(File file) {
