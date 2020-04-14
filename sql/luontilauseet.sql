@@ -44,8 +44,9 @@ CREATE TABLE tarvike (
   ostohinta NUMERIC(8,2) NOT NULL,
   kate NUMERIC(6,2) DEFAULT 40 NOT NULL,
   alv NUMERIC(4,2) DEFAULT 24 NOT NULL,
-  tila VARCHAR(20) DEFAULT 'kaytossa' NOT NULL,
-  CHECK (LOWER(tila) IN ('kaytossa', 'vanhentunut'))
+  tila VARCHAR(20) DEFAULT 'käytössä' NOT NULL,
+  CHECK (LOWER(tila) IN ('käytössä', 'vanhentunut')),
+  CHECK (varastotilanne >= 0)
 );
 
 CREATE TABLE sisaltaa (

@@ -206,7 +206,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(lisaaAsiakasOK)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Lisää asiakas", jPanel1);
@@ -533,8 +533,8 @@ public class GUI extends javax.swing.JFrame {
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -734,7 +734,7 @@ public class GUI extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 585, Short.MAX_VALUE)
+            .addGap(0, 529, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Luo karhukirjeet", jPanel5);
@@ -760,7 +760,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(232, 232, 232)
                 .addComponent(jButton1)
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Päivitä hinnasto", jPanel6);
@@ -846,7 +846,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(lisaaTarvike)
                 .addGap(48, 48, 48)
                 .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Lisää tarvike", jPanel8);
@@ -1045,11 +1045,10 @@ public class GUI extends javax.swing.JFrame {
                 String kohdeid = kohdeLista.getSelectedValue().split(" ")[0];
                 String nimi = tarvikeLista.getSelectedValue().split(" - ")[0];
                 String lkm = "" + maara;
-                System.out.println(nimi + " " + lkm);
-                System.out.println("kaikki luultavasti ok, update ...");
                 dbmanager.lisaaKohteeseen(true, kohdeid, nimi, lkm);
+                tarvikemaara.setText("");
+                tarvikeLista.setSelectedValue(null, false);
                 paivitaKohdeSisaltaaTaulukko(kohdeid);
-
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
@@ -1096,9 +1095,9 @@ public class GUI extends javax.swing.JFrame {
                 String lkm = "" + tunnit;
                 String kohdeid = kohdeLista.getSelectedValue().split(" ")[0];
                 String nimi = tuntityyppi.getSelectedItem().toString();
-                
-                System.out.println("kaikki luultavasti ok, update ...");
                 dbmanager.lisaaKohteeseen(false, kohdeid, nimi, lkm);
+                tuntityyppi.setSelectedIndex(0);
+                tuntimaara.setText("");
                 paivitaKohdeSisaltaaTaulukko(kohdeid);
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -1300,7 +1299,6 @@ public class GUI extends javax.swing.JFrame {
                 tunnit.addRow(new Object[]{nimike, maara});
             }
             for (String tarvike : kohteenTarvikkeet) {
-                System.out.println(tarvike);
                 String nimike = tarvike.split("::")[0];
                 String yksikko = tarvike.split("::")[1];
                 int maara = Integer.parseInt(tarvike.split("::")[2]);

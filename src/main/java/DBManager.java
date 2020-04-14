@@ -357,7 +357,6 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery("SELECT kohdeid, osoite "
                     + "FROM tyokohde "
                     + "WHERE kohdeid NOT IN (SELECT kohdeid FROM lasku) "
-                    + "AND NOT tarjous "
                     + "ORDER BY kohdeid");
             while (rs.next()) {
                 String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
@@ -389,7 +388,6 @@ public class DBManager {
                     + "FROM tyokohde "
                     + "WHERE LOWER(osoite) LIKE ? "
                     + "AND kohdeid NOT IN (SELECT kohdeid FROM lasku) "
-                    + "AND NOT tarjous "
                     + "ORDER BY kohdeid");
             pstmt.setString(1, "%" + osoite + "%");
             ResultSet rs = pstmt.executeQuery();
@@ -442,7 +440,7 @@ public class DBManager {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * "
                     + "FROM tarvike "
-                    + "WHERE tila = 'kaytossa' "
+                    + "WHERE tila = 'käytössä' "
                     + "ORDER BY tarvikeid");
             while (rs.next()) {
                 String tarvike = rs.getString("nimi") + " - " + rs.getDouble("ostohinta") + " �";
@@ -472,7 +470,7 @@ public class DBManager {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT * "
                     + "FROM tarvike "
-                    + "WHERE LOWER(nimi) LIKE ? AND tila = 'kaytossa' "
+                    + "WHERE LOWER(nimi) LIKE ? AND tila = 'käytössä' "
                     + "ORDER BY tarvikeid");
             pstmt.setString(1, "%" + nimi + "%");
             ResultSet rs = pstmt.executeQuery();
@@ -496,7 +494,8 @@ public class DBManager {
             String query = "SELECT tt.nimi, te.lkm "
                     + "FROM tyokohde t INNER JOIN tehdaan te ON t.kohdeid = te.kohdeid "
                     + "INNER JOIN tuntityyppi tt ON te.ttid = tt.ttid "
-                    + "WHERE t.kohdeid = %s";
+                    + "WHERE t.kohdeid = %s "
+                    + "ORDER BY tt.nimi";
             ResultSet rs = stmt.executeQuery(String.format(query, id));
             while (rs.next()) {
                 String tuntityyppi = rs.getString("nimi") + "::" + rs.getDouble("lkm");
@@ -519,7 +518,8 @@ public class DBManager {
             String query = "SELECT ta.nimi, ta.yksikko, s.lkm "
                     + "FROM tyokohde t INNER JOIN sisaltaa s ON t.kohdeid = s.kohdeid "
                     + "INNER JOIN tarvike ta ON s.tarvikeid = ta.tarvikeid "
-                    + "WHERE t.kohdeid = %s";
+                    + "WHERE t.kohdeid = %s "
+                    + "ORDER BY ta.nimi";
             ResultSet rs = stmt.executeQuery(String.format(query, id));
             while (rs.next()) {
                 String tarvike = rs.getString("nimi") + "::" + rs.getString("yksikko")
@@ -538,6 +538,7 @@ public class DBManager {
     public void lisaaKohteeseen(boolean tarvike, String kohdeid, String nimi, String lkm)
             throws SQLException {
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String insert;
 
@@ -547,11 +548,21 @@ public class DBManager {
                 if (rs.next()) {
                     int ttid = rs.getInt("ttid");
                     rs.close();
-                    insert = "INSERT INTO tehdaan (ttid, kohdeid, lkm) "
+                    rs = stmt.executeQuery("SELECT ttid FROM tehdaan WHERE ttid = " 
+                            + ttid + " AND kohdeid = " + kohdeid);
+                    if (rs.next()) {
+                        stmt.executeUpdate("UPDATE tehdaan SET lkm = lkm + " + lkm
+                                + " WHERE ttid = " + ttid + " AND kohdeid = " + kohdeid);
+                    } else {
+                        insert = "INSERT INTO tehdaan (ttid, kohdeid, lkm) "
                             + "VALUES (%s, %s, %s)";
-                    stmt.executeUpdate(String.format(insert, ttid, kohdeid, lkm));
+                        stmt.executeUpdate(String.format(insert, ttid, kohdeid, lkm));
+                    }
+                    rs.close();
+                    con.commit();
                     stmt.close();
                 } else {
+                    con.rollback();
                     throw new SQLException("ttid not found!");
                 }
             } // Lisätään tarviketta
@@ -560,16 +571,31 @@ public class DBManager {
                 if (rs.next()) {
                     int tarvikeid = rs.getInt("tarvikeid");
                     rs.close();
-                    insert = "INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm) "
+                    stmt.executeUpdate("UPDATE tarvike SET varastotilanne = varastotilanne - "
+                            + lkm + " WHERE tarvikeid = " + tarvikeid);
+                    rs = stmt.executeQuery("SELECT tarvikeid FROM sisaltaa WHERE tarvikeid = " 
+                            + tarvikeid + " AND kohdeid = " + kohdeid);
+                    if (rs.next()) {
+                        stmt.executeUpdate("UPDATE sisaltaa SET lkm = lkm + " + lkm
+                                + " WHERE tarvikeid = " + tarvikeid + " AND kohdeid = " + kohdeid);
+                    } else {
+                        insert = "INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm) "
                             + "VALUES (%s, %s, %s)";
-                    stmt.executeUpdate(String.format(insert, kohdeid, tarvikeid, lkm));
+                        stmt.executeUpdate(String.format(insert, kohdeid, tarvikeid, lkm));
+                    }
+                    rs.close();
+                    con.commit();
                     stmt.close();
                 } else {
+                    con.rollback();
                     throw new SQLException("tarvikeid not found!");
                 }
             }
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 

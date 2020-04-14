@@ -2,13 +2,13 @@
 
 -- Asiakas
 
-INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Jorma', 'Jormakka', 'Hameenkatu 45, 33200 Tampere', '0401234567', 'jorma.jormakka@suomi24.fi');
-INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Matti', 'Jokinen', 'Eerontie 2, 33400 Ylojarvi', '0508326134', 'matti.jokinen@luukku.fi');
+INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Jorma', 'Jormakka', 'Hämeenkatu 45, 33200 Tampere', '0401234567', 'jorma.jormakka@suomi24.fi');
+INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Matti', 'Jokinen', 'Eerontie 2, 33400 Ylöjarvi', '0508326134', 'matti.jokinen@luukku.fi');
 INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Natalia', 'Moilanen', 'Linnankatu 89, 02380 Espoo', '0403526284', 'natalia.moilanen@gmail.com');
 
 -- Tyokohde
 
-INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (1, 'tunti', FALSE, 'Hameenkatu 45, 33200 Tampere', 1);
+INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (1, 'tunti', FALSE, 'Hämeenkatu 45, 33200 Tampere', 1);
 INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (3, 'urakka', FALSE, 'Linnankatu 89, 02380 Espoo', 2);
 
 -- Tarvike
@@ -16,17 +16,17 @@ INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (3, 'ur
 INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Vasara', 'kpl', 1, 9.95, 50, DEFAULT);
 INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('X-Naula', 'kpl', 40, 0.20, 45, DEFAULT);
 INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, alv, tila) VALUES ('Opaskirja', 'kpl', 2, 10, 40, 10, DEFAULT);
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Sahkojohto','metri', 10, 5.76, 40, DEFAULT);
+INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Sähköjohto','metri', 10, 5.76, 40, DEFAULT);
 INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Pistorasia uppo 2-osainen maadoitettu', 'kpl', 5, 5.99, 40, 'vanhentunut');
 INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Pistotulppa valkoinen', 'kpl', 20, 1.99, 40, DEFAULT);
 INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Airam jatkojohto 3-osainen maadoitettu 3 m', 'kpl', 6, 5.99, 40, DEFAULT);
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('ElectroGEAR valonsaadin', 'kpl', 2, 59.90, 40, 'vanhentunut');
+INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('ElectroGEAR valonsäädin', 'kpl', 2, 59.90, 40, 'vanhentunut');
 
 -- Tuntityyppi
 
 INSERT INTO tuntityyppi (nimi, hinta) VALUES ('suunnittelu', 55);
-INSERT INTO tuntityyppi (nimi, hinta) VALUES ('tyo', 45);
-INSERT INTO tuntityyppi (nimi, hinta) VALUES ('aputyo', 35);
+INSERT INTO tuntityyppi (nimi, hinta) VALUES ('työ', 45);
+INSERT INTO tuntityyppi (nimi, hinta) VALUES ('aputyö', 35);
 INSERT INTO tuntityyppi (nimi, hinta) VALUES ('asennus', 40);
 
 -- Tehdaan
