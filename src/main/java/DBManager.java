@@ -507,14 +507,15 @@ public class DBManager {
 
         try {
             Statement stmt = con.createStatement();
-            String query = "SELECT tt.nimi, te.lkm "
+            String query = "SELECT tt.nimi, te.lkm, tt.hinta, te.ale "
                     + "FROM tyokohde t INNER JOIN tehdaan te ON t.kohdeid = te.kohdeid "
                     + "INNER JOIN tuntityyppi tt ON te.ttid = tt.ttid "
                     + "WHERE t.kohdeid = %s "
                     + "ORDER BY tt.nimi";
             ResultSet rs = stmt.executeQuery(String.format(query, id));
             while (rs.next()) {
-                String tuntityyppi = rs.getString("nimi") + "::" + rs.getDouble("lkm");
+                String tuntityyppi = rs.getString("nimi") + "::" + rs.getDouble("lkm")
+                        + "::" + rs.getDouble("hinta") + "::" + rs.getDouble("ale");
                 tunnit.add(tuntityyppi);
             }
             rs.close();
@@ -538,7 +539,7 @@ public class DBManager {
 
         try {
             Statement stmt = con.createStatement();
-            String query = "SELECT ta.nimi, ta.yksikko, s.lkm "
+            String query = "SELECT ta.nimi, ta.yksikko, s.lkm, ta.ostohinta, s.ale "
                     + "FROM tyokohde t INNER JOIN sisaltaa s ON t.kohdeid = s.kohdeid "
                     + "INNER JOIN tarvike ta ON s.tarvikeid = ta.tarvikeid "
                     + "WHERE t.kohdeid = %s "
@@ -546,7 +547,7 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery(String.format(query, id));
             while (rs.next()) {
                 String tarvike = rs.getString("nimi") + "::" + rs.getString("yksikko")
-                        + "::" + rs.getInt("lkm");
+                        + "::" + rs.getInt("lkm") + "::" + rs.getDouble("ostohinta") + "::" + rs.getDouble("ale");;
                 tarvikkeet.add(tarvike);
             }
             rs.close();
@@ -643,11 +644,11 @@ public class DBManager {
 
     /**
      * Poistaa työkohteesta lisättyjä tarvikkeita.
-     * 
+     *
      * @param kohdeid työkohteen kohdeid
      * @param tarvike tarvikkeen nimi
      * @param lkm työkohteessa olevien tarvikkeiden lukumäärä
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void poistaKohteestaTarvikkeita(String kohdeid, String tarvike, String lkm)
             throws SQLException {

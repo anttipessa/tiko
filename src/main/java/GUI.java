@@ -1187,6 +1187,7 @@ public class GUI extends javax.swing.JFrame {
         int col = kohteenSisaltoTaulukko.getEditingColumn();
         int row = kohteenSisaltoTaulukko.getEditingRow();
 
+      
         if (row >= 0 && col >= 0) {
             try {
                 // kokeillaan onko ale luku
@@ -1203,13 +1204,13 @@ public class GUI extends javax.swing.JFrame {
                 kohteenSisaltoTaulukko.setValueAt("0", row, col);
             }
         }
+   
     }//GEN-LAST:event_kohteenSisaltoTaulukkoPropertyChange
 
     private void paattyvaKohdeListaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_paattyvaKohdeListaValueChanged
         if (!evt.getValueIsAdjusting()) {
-            DefaultTableModel sisalto = (DefaultTableModel) kohteenSisaltoTaulukko.getModel();
-            sisalto.addRow(new Object[]{"Tuntityö", 60, 5.7, 0, 5.7 * 60});
-            sisalto.addRow(new Object[]{"Aputyö", 40, 4, 0, 4 * 40});
+           String kohdeid = paattyvaKohdeLista.getSelectedValue().split(" - ")[0];
+           paivitaKohdeTaulukko(kohdeid);
         }
     }//GEN-LAST:event_paattyvaKohdeListaValueChanged
 
@@ -1271,11 +1272,11 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_lisaaTarvikeActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DefaultTableModel dtmTunnit = (DefaultTableModel)kohdeSisaltaaTunnit.getModel();
+        DefaultTableModel dtmTunnit = (DefaultTableModel) kohdeSisaltaaTunnit.getModel();
         try {
             String kohdeid = kohdeLista.getSelectedValue().split(" ")[0];
             int rivit = kohdeSisaltaaTunnit.getSelectedRows().length;
-            for (int i = 0; i<rivit; i++) {
+            for (int i = 0; i < rivit; i++) {
                 int rivi = kohdeSisaltaaTunnit.getSelectedRow();
                 String tt = kohdeSisaltaaTunnit.getValueAt(rivi, 0).toString().toLowerCase();
                 dbmanager.poistaKohteestaTunteja(kohdeid, tt);
@@ -1284,17 +1285,17 @@ public class GUI extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } catch (Exception ex) {
-           // JOptionPane.showMessageDialog(null, ex);
-           System.out.println("Epäonnistui");
+            // JOptionPane.showMessageDialog(null, ex);
+            System.out.println("Epäonnistui");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        DefaultTableModel dtmTarvikkeet = (DefaultTableModel)kohdeSisaltaaTarvikkeet.getModel();
+        DefaultTableModel dtmTarvikkeet = (DefaultTableModel) kohdeSisaltaaTarvikkeet.getModel();
         try {
             String kohdeid = kohdeLista.getSelectedValue().split(" ")[0];
             int rivit = kohdeSisaltaaTarvikkeet.getSelectedRows().length;
-            for (int i = 0; i<rivit; i++) {
+            for (int i = 0; i < rivit; i++) {
                 int rivi = kohdeSisaltaaTarvikkeet.getSelectedRow();
                 String tarvike = kohdeSisaltaaTarvikkeet.getValueAt(rivi, 0).toString().toLowerCase();
                 String lkm = kohdeSisaltaaTarvikkeet.getValueAt(rivi, 1).toString();
@@ -1304,18 +1305,18 @@ public class GUI extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } catch (Exception ex) {
-           // JOptionPane.showMessageDialog(null, ex);
-           System.out.println("Epäonnistui");
+            // JOptionPane.showMessageDialog(null, ex);
+            System.out.println("Epäonnistui");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void initTaulukko() {
         kohdeSisaltaaTunnit.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {}, new String [] {"Nimike", "Tunnit"}) {
-            boolean[] canEdit = new boolean [] {false, false};
-            
+                new Object[][]{}, new String[]{"Nimike", "Tunnit"}) {
+            boolean[] canEdit = new boolean[]{false, false};
+
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane6.setViewportView(kohdeSisaltaaTunnit);
@@ -1323,11 +1324,11 @@ public class GUI extends javax.swing.JFrame {
             kohdeSisaltaaTunnit.getColumnModel().getColumn(0).setMinWidth(130);
         }
         kohdeSisaltaaTarvikkeet.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {}, new String [] {"Nimike", "Määrä", "Yksikkö"}) {
-            boolean[] canEdit = new boolean [] {false, false, false};
+                new Object[][]{}, new String[]{"Nimike", "Määrä", "Yksikkö"}) {
+            boolean[] canEdit = new boolean[]{false, false, false};
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane8.setViewportView(kohdeSisaltaaTarvikkeet);
@@ -1335,7 +1336,7 @@ public class GUI extends javax.swing.JFrame {
             kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(0).setMinWidth(130);
         }
     }
-    
+
     private void paivitaKohdeSisaltaaTaulukko(String id) {
         initTaulukko();
         DefaultTableModel tunnit = (DefaultTableModel) kohdeSisaltaaTunnit.getModel();
@@ -1356,6 +1357,38 @@ public class GUI extends javax.swing.JFrame {
                 String yksikko = tarvike.split("::")[1];
                 int maara = Integer.parseInt(tarvike.split("::")[2]);
                 tarvikkeet.addRow(new Object[]{nimike, maara, yksikko});
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void paivitaKohdeTaulukko(String id) {
+        
+        DefaultTableModel sisalto = (DefaultTableModel) kohteenSisaltoTaulukko.getModel();
+        sisalto.setRowCount(0);
+
+        try {
+            ArrayList<String> kohteenTunnit = dbmanager.haeKohteenTunnit(id);
+            ArrayList<String> kohteenTarvikkeet = dbmanager.haeKohteenTarvikkeet(id);
+            for (String tuntityyppi : kohteenTunnit) {
+                String nimike = tuntityyppi.split("::")[0];
+                double maara = Double.parseDouble(tuntityyppi.split("::")[1]);
+                double hinta = Double.parseDouble(tuntityyppi.split("::")[2]);
+                double ale = Double.parseDouble(tuntityyppi.split("::")[3]);
+                double summa = hinta * maara * ((100 - ale) / 100);
+                nimike = nimike.substring(0, 1).toUpperCase() + nimike.substring(1);
+                sisalto.addRow(new Object[]{nimike, hinta, maara, ale, summa});
+            }
+            for (String tarvike : kohteenTarvikkeet) {
+                String nimike = tarvike.split("::")[0];
+                int maara = Integer.parseInt(tarvike.split("::")[2]);
+                double hinta = Double.parseDouble(tarvike.split("::")[3]);
+                double ale = Double.parseDouble(tarvike.split("::")[4]);
+                double summa = hinta * maara * ((100 - ale) / 100);
+                sisalto.addRow(new Object[]{nimike, hinta, maara, ale, summa});
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
