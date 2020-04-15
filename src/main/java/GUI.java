@@ -1187,13 +1187,11 @@ public class GUI extends javax.swing.JFrame {
         int col = kohteenSisaltoTaulukko.getEditingColumn();
         int row = kohteenSisaltoTaulukko.getEditingRow();
 
-      
         if (row >= 0 && col >= 0) {
             try {
                 // kokeillaan onko ale luku
                 float ale = Float.parseFloat(kohteenSisaltoTaulukko.getValueAt(
                         row, col).toString());
-
                 kohteenSisaltoTaulukko.setValueAt(
                         Float.parseFloat(kohteenSisaltoTaulukko.getValueAt(row, 1).toString())
                         * Float.parseFloat(kohteenSisaltoTaulukko.getValueAt(row, 2).toString())
@@ -1204,13 +1202,13 @@ public class GUI extends javax.swing.JFrame {
                 kohteenSisaltoTaulukko.setValueAt("0", row, col);
             }
         }
-   
+
     }//GEN-LAST:event_kohteenSisaltoTaulukkoPropertyChange
 
     private void paattyvaKohdeListaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_paattyvaKohdeListaValueChanged
         if (!evt.getValueIsAdjusting()) {
-           String kohdeid = paattyvaKohdeLista.getSelectedValue().split(" - ")[0];
-           paivitaKohdeTaulukko(kohdeid);
+            String kohdeid = paattyvaKohdeLista.getSelectedValue().split(" - ")[0];
+            paivitaKohdeTaulukko(kohdeid);
         }
     }//GEN-LAST:event_paattyvaKohdeListaValueChanged
 
@@ -1366,7 +1364,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     private void paivitaKohdeTaulukko(String id) {
-        
+
         DefaultTableModel sisalto = (DefaultTableModel) kohteenSisaltoTaulukko.getModel();
         sisalto.setRowCount(0);
 

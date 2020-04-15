@@ -669,6 +669,32 @@ public class DBManager {
         }
     }
 
+    public void lisaaTarvikeAlennus(String tarvike, String kohde, String ale) throws SQLException {
+        try {
+            Statement stmt = con.createStatement();
+            String query = "UPDATE sisaltaa SET ale = %s  "
+                    + "WHERE kohdeid = %s AND tarvikeid = %s";
+            stmt.executeUpdate(String.format(query, ale, kohde, tarvike));
+            System.out.println("Päivitys ok.");
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
+    
+    
+    public void lisaaTuntiAlennus(String tunti, String kohde, String ale) throws SQLException {
+        try {
+            Statement stmt = con.createStatement();
+            String query = "UPDATE tehdaan SET ale = %s  "
+                    + "WHERE kohdeid = %s AND ttid = %s";
+            stmt.executeUpdate(String.format(query, ale, kohde, tunti));
+            System.out.println("Päivitys ok.");
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
+    
+
     public void update(File file) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
