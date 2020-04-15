@@ -13,14 +13,14 @@ INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (3, 'ur
 
 -- Tarvike
 
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Vasara', 'kpl', 1, 9.95, 50, DEFAULT);
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('X-Naula', 'kpl', 40, 0.20, 45, DEFAULT);
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, alv, tila) VALUES ('Opaskirja', 'kpl', 2, 10, 40, 10, DEFAULT);
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Sähköjohto','metri', 10, 5.76, 40, DEFAULT);
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Pistorasia uppo 2-osainen maadoitettu', 'kpl', 5, 5.99, 40, 'vanhentunut');
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Pistotulppa valkoinen', 'kpl', 20, 1.99, 40, DEFAULT);
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('Airam jatkojohto 3-osainen maadoitettu 3 m', 'kpl', 6, 5.99, 40, DEFAULT);
-INSERT INTO tarvike (nimi, yksikko, varastotilanne, ostohinta, kate, tila) VALUES ('ElectroGEAR valonsäädin', 'kpl', 2, 59.90, 40, 'vanhentunut');
+INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('Vasara', 'kpl', 9.95, 50, DEFAULT);
+INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('X-Naula', 'kpl', 0.20, 45, DEFAULT);
+INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, alv, tila) VALUES ('Opaskirja', 'kpl', 10, 40, 10, DEFAULT);
+INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('Sähköjohto','metri', 5.76, 40, DEFAULT);
+INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('Pistorasia uppo 2-osainen maadoitettu', 'kpl', 5.99, 40, 'vanhentunut');
+INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('Pistotulppa valkoinen', 'kpl', 1.99, 40, DEFAULT);
+INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('Airam jatkojohto 3-osainen maadoitettu 3 m', 'kpl', 5.99, 40, DEFAULT);
+INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('ElectroGEAR valonsäädin', 'kpl', 59.90, 40, 'vanhentunut');
 
 -- Tuntityyppi
 

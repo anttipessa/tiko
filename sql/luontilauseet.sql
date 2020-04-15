@@ -40,13 +40,11 @@ CREATE TABLE tarvike (
   tarvikeid SERIAL PRIMARY KEY,
   nimi VARCHAR(60) NOT NULL,
   yksikko VARCHAR(20) NOT NULL,
-  varastotilanne INTEGER NOT NULL,
   ostohinta NUMERIC(8,2) NOT NULL,
   kate NUMERIC(6,2) DEFAULT 40 NOT NULL,
   alv NUMERIC(4,2) DEFAULT 24 NOT NULL,
   tila VARCHAR(20) DEFAULT 'käytössä' NOT NULL,
-  CHECK (LOWER(tila) IN ('käytössä', 'vanhentunut')),
-  CHECK (varastotilanne >= 0)
+  CHECK (LOWER(tila) IN ('käytössä', 'vanhentunut'))
 );
 
 CREATE TABLE sisaltaa (
