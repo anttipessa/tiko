@@ -692,6 +692,27 @@ public class DBManager {
         }
     }
     
+    public ArrayList<String>  haeKaikkiLaskut() throws SQLException{
+        ArrayList<String> laskut = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * "
+                    + "FROM lasku "
+                    + "ORDER BY laskuid");
+            while (rs.next()) {
+                String lasku = rs.getInt("laskuid") + "::" + rs.getInt("asiakasid") + "::"
+                 + rs.getInt("kohdeid")  + "::" + rs.getDate("luontipvm") + "::" 
+                 + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::" + rs.getDouble("perintakulu");
+                laskut.add(lasku);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return laskut;
+    }
 
     public void update(File file) {
         try {

@@ -111,6 +111,9 @@ public class GUI extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         laskuYht = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        laskuTaulukko = new javax.swing.JTable();
+        laskuDropDown = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
@@ -791,18 +794,56 @@ public class GUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Päätä kohde ja laskuta", jPanel4);
 
+        laskuTaulukko.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "LaskuId", "AsiakasId", "KohdeId", "Luontipvm", "Eräpvm", "Maksupvm", "Perintäkulu"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane10.setViewportView(laskuTaulukko);
+
+        laskuDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kaikki", "Maksamatta", "Muistutus", "Karhu", "Maksetut" }));
+        laskuDropDown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                laskuDropDownActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 778, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(laskuDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(122, Short.MAX_VALUE))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 529, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(laskuDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Luo karhukirjeet", jPanel5);
+        jTabbedPane1.addTab("Laskujen hallinta", jPanel5);
 
         jButton1.setText("Selaa..");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -1356,6 +1397,35 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_kohteenSisaltoTarvikkeetPropertyChange
 
     /**
+     * Laskun hallinta näkymän dropdown tapahtuma. Muuttaa listan näkymää
+     * riippuen asetuksesta.
+     *
+     * @param evt
+     */
+    private void laskuDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laskuDropDownActionPerformed
+        DefaultTableModel laskuSisalto = (DefaultTableModel) laskuTaulukko.getModel();
+        laskuSisalto.setRowCount(0);
+        if (laskuDropDown.getSelectedItem().toString() == "Kaikki") {
+            try {
+                ArrayList<String> laskut = dbmanager.haeKaikkiLaskut();
+                for (String lasku : laskut) {
+                    int laskuid = Integer.parseInt(lasku.split("::")[0]);
+                    int asiakasid = Integer.parseInt(lasku.split("::")[1]);
+                    int kohdeid = Integer.parseInt(lasku.split("::")[2]);
+                    String luontipvm = lasku.split("::")[3];
+                    String erapvm = lasku.split("::")[4];
+                    String maksupvm = lasku.split("::")[5];
+                    double perintakulu = Double.parseDouble(lasku.split("::")[6]);
+                    laskuSisalto.addRow(new Object[]{laskuid, asiakasid, kohdeid, luontipvm, erapvm, maksupvm, perintakulu});
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+    }//GEN-LAST:event_laskuDropDownActionPerformed
+
+    /**
      * Alusta kohdeSisaltaaTunnit- ja kohdeSisaltaaTarvikkeet-taulukot tyhjiksi
      * ennen uusien rivien lisäämistä.
      */
@@ -1425,7 +1495,7 @@ public class GUI extends javax.swing.JFrame {
         DefaultTableModel tarvikkeetSisalto = (DefaultTableModel) kohteenSisaltoTarvikkeet.getModel();
         tunnitSisalto.setRowCount(0);
         tarvikkeetSisalto.setRowCount(0);
-        
+
         double yhteensa = 0;
 
         try {
@@ -1514,6 +1584,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1534,6 +1605,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTable kohteenSisaltoTarvikkeet;
     private javax.swing.JTable kohteenSisaltoTunnit;
     private javax.swing.JComboBox<String> kohteenTyyppi;
+    private javax.swing.JComboBox<String> laskuDropDown;
+    private javax.swing.JTable laskuTaulukko;
     private javax.swing.JLabel laskuYht;
     private javax.swing.JButton lisaaAsiakasOK;
     private javax.swing.JButton lisaaKohdeOK;
