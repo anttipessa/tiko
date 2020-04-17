@@ -303,9 +303,11 @@ public class DBManager {
 
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT kohdeid, osoite "
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT kohdeid, osoite "
                     + "FROM tyokohde "
-                    + "WHERE tarjous = false "
+                    + "WHERE kohdeid NOT IN (SELECT kohdeid FROM lasku) "
+                    + "AND tarjous = false "
                     + "ORDER BY kohdeid");
             while (rs.next()) {
                 String tyokohde = rs.getInt("kohdeid") + " - " + rs.getString("osoite");
@@ -335,7 +337,8 @@ public class DBManager {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT kohdeid, osoite "
                     + "FROM tyokohde "
-                    + "WHERE LOWER(osoite) LIKE ? AND tarjous = false "
+                    + "WHERE LOWER(osoite) LIKE ? "
+                    + "AND kohdeid NOT IN (SELECT kohdeid FROM lasku) AND tarjous = false "
                     + "ORDER BY kohdeid");
             pstmt.setString(1, "%" + osoite + "%");
             ResultSet rs = pstmt.executeQuery();
