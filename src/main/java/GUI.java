@@ -93,21 +93,23 @@ public class GUI extends javax.swing.JFrame {
         kohdeSisaltaaTarvikkeet = new javax.swing.JTable();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        poistaTuntirivit = new javax.swing.JButton();
+        poistaTarvikerivit = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
         paattyvaEtsittavaOsoite = new javax.swing.JTextField();
-        paattyvaEtsittavaAsiakas = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         paattyvaKohdeLista = new javax.swing.JList<>();
         jSeparator3 = new javax.swing.JSeparator();
         jScrollPane7 = new javax.swing.JScrollPane();
-        kohteenSisaltoTaulukko = new javax.swing.JTable();
+        kohteenSisaltoTunnit = new javax.swing.JTable();
         haePaattyvaKohdeOsoite = new javax.swing.JButton();
-        haePaattyvaKohdeAsiakas = new javax.swing.JButton();
         luoLaskuOK = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        kohteenSisaltoTarvikkeet = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
+        laskuYht = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -451,12 +453,19 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nimike", "Tunnit"
+                "Nimike", "Tunnit", "ID"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -465,6 +474,8 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane6.setViewportView(kohdeSisaltaaTunnit);
         if (kohdeSisaltaaTunnit.getColumnModel().getColumnCount() > 0) {
             kohdeSisaltaaTunnit.getColumnModel().getColumn(0).setMinWidth(130);
+            kohdeSisaltaaTunnit.getColumnModel().getColumn(2).setMinWidth(0);
+            kohdeSisaltaaTunnit.getColumnModel().getColumn(2).setMaxWidth(0);
         }
 
         jLabel14.setText("Tuntien määrä");
@@ -474,11 +485,11 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nimike", "Määrä", "Yksikkö"
+                "Nimike", "Määrä", "Yksikkö", "ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -488,23 +499,25 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane8.setViewportView(kohdeSisaltaaTarvikkeet);
         if (kohdeSisaltaaTarvikkeet.getColumnModel().getColumnCount() > 0) {
             kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(0).setMinWidth(130);
+            kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(3).setMinWidth(0);
+            kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(3).setMaxWidth(0);
         }
 
         jLabel27.setText("Tunnit");
 
         jLabel28.setText("Tarvikkeet");
 
-        jButton2.setText("Poista valitut rivit");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        poistaTuntirivit.setText("Poista valitut rivit");
+        poistaTuntirivit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                poistaTuntirivitActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Poista valitut rivit");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        poistaTarvikerivit.setText("Poista valitut rivit");
+        poistaTarvikerivit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                poistaTarvikerivitActionPerformed(evt);
             }
         });
 
@@ -554,11 +567,11 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2)
+                            .addComponent(poistaTuntirivit)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton3)))
+                            .addComponent(poistaTarvikerivit)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(120, 120, 120)
                         .addComponent(jLabel27))
@@ -585,7 +598,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tuntityyppi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11)
-                            .addComponent(jButton2)))
+                            .addComponent(poistaTuntirivit)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
                         .addComponent(jLabel27)
@@ -618,7 +631,7 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
+                        .addComponent(poistaTarvikerivit)
                         .addGap(60, 60, 60))))
         );
 
@@ -628,8 +641,6 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel15.setText("Kohteen osoite");
 
-        jLabel16.setText("Asiakkaan nimi");
-
         paattyvaKohdeLista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 paattyvaKohdeListaValueChanged(evt);
@@ -637,19 +648,19 @@ public class GUI extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(paattyvaKohdeLista);
 
-        kohteenSisaltoTaulukko.setModel(new javax.swing.table.DefaultTableModel(
+        kohteenSisaltoTunnit.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nimike", "Kappalehinta", "Määrä", "Alennus %", "Yhteensä"
+                "Nimike", "Kappalehinta €", "Tunnit", "Alennus %", "Yhteensä €", "ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -660,24 +671,21 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        kohteenSisaltoTaulukko.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        kohteenSisaltoTunnit.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                kohteenSisaltoTaulukkoPropertyChange(evt);
+                kohteenSisaltoTunnitPropertyChange(evt);
             }
         });
-        jScrollPane7.setViewportView(kohteenSisaltoTaulukko);
+        jScrollPane7.setViewportView(kohteenSisaltoTunnit);
+        if (kohteenSisaltoTunnit.getColumnModel().getColumnCount() > 0) {
+            kohteenSisaltoTunnit.getColumnModel().getColumn(5).setMinWidth(0);
+            kohteenSisaltoTunnit.getColumnModel().getColumn(5).setMaxWidth(0);
+        }
 
         haePaattyvaKohdeOsoite.setText("Hae");
         haePaattyvaKohdeOsoite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 haePaattyvaKohdeOsoiteActionPerformed(evt);
-            }
-        });
-
-        haePaattyvaKohdeAsiakas.setText("Hae");
-        haePaattyvaKohdeAsiakas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                haePaattyvaKohdeAsiakasActionPerformed(evt);
             }
         });
 
@@ -688,60 +696,97 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel20.setText("Anna rivialennus muokkaamalla Alennus % -saraketta ja paina lopuksi Enter.");
+
+        kohteenSisaltoTarvikkeet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tarvikkeen nimi", "Kappalehinta €", "Määrä", "Alennus %", "Yhteensä €", "ID"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        kohteenSisaltoTarvikkeet.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                kohteenSisaltoTarvikkeetPropertyChange(evt);
+            }
+        });
+        jScrollPane9.setViewportView(kohteenSisaltoTarvikkeet);
+        if (kohteenSisaltoTarvikkeet.getColumnModel().getColumnCount() > 0) {
+            kohteenSisaltoTarvikkeet.getColumnModel().getColumn(5).setMinWidth(0);
+            kohteenSisaltoTarvikkeet.getColumnModel().getColumn(5).setMaxWidth(0);
+        }
+
+        jLabel16.setText("Yhteensä:");
+
+        laskuYht.setText(" ");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(luoLaskuOK)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(78, 78, 78)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane9)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(laskuYht)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(luoLaskuOK))
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGap(78, 78, 78)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGap(75, 75, 75)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel16)
-                                        .addComponent(jLabel15))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(paattyvaEtsittavaAsiakas, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(paattyvaEtsittavaOsoite))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(haePaattyvaKohdeOsoite)
-                                                .addComponent(haePaattyvaKohdeAsiakas)))))))))
+                            .addComponent(jLabel15)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(paattyvaEtsittavaOsoite, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(haePaattyvaKohdeOsoite)))
+                    .addComponent(jScrollPane7))
                 .addContainerGap(181, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(paattyvaEtsittavaOsoite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(haePaattyvaKohdeOsoite))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(paattyvaEtsittavaAsiakas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(haePaattyvaKohdeAsiakas))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(luoLaskuOK)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(luoLaskuOK)
+                    .addComponent(jLabel16)
+                    .addComponent(laskuYht))
+                .addGap(18, 18, 18))
         );
 
         jTabbedPane1.addTab("Päätä kohde ja laskuta", jPanel4);
@@ -1182,52 +1227,35 @@ public class GUI extends javax.swing.JFrame {
         paattyvaKohdeLista.setModel(dlmPaattyvaKohde);
     }//GEN-LAST:event_haePaattyvaKohdeOsoiteActionPerformed
 
-    private void kohteenSisaltoTaulukkoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_kohteenSisaltoTaulukkoPropertyChange
+    private void kohteenSisaltoTunnitPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_kohteenSisaltoTunnitPropertyChange
 
-        int col = kohteenSisaltoTaulukko.getEditingColumn();
-        int row = kohteenSisaltoTaulukko.getEditingRow();
+        int col = kohteenSisaltoTunnit.getEditingColumn();
+        int row = kohteenSisaltoTunnit.getEditingRow();
 
         if (row >= 0 && col >= 0) {
             try {
+                System.out.println(kohteenSisaltoTunnit.getValueAt(row, 5));
+                String ttid = kohteenSisaltoTunnit.getValueAt(row, 5).toString();
+                String kohdeid = paattyvaKohdeLista.getSelectedValue().split(" - ")[0];
                 // kokeillaan onko ale luku
-                float ale = Float.parseFloat(kohteenSisaltoTaulukko.getValueAt(
+                float ale = Float.parseFloat(kohteenSisaltoTunnit.getValueAt(
                         row, col).toString());
-                kohteenSisaltoTaulukko.setValueAt(
-                        Float.parseFloat(kohteenSisaltoTaulukko.getValueAt(row, 1).toString())
-                        * Float.parseFloat(kohteenSisaltoTaulukko.getValueAt(row, 2).toString())
-                        * (100 - ale) / 100, row, 4);
-                System.out.println("testi " + row + " " + col + " " + ale);
+                dbmanager.lisaaTuntiAlennus(ttid, kohdeid, String.valueOf(ale));
+                paivitaKohdeTaulukko(kohdeid);
             } catch (Exception e) {
                 // jos ale ei ole luku asetetaan arvoksi 0
-                kohteenSisaltoTaulukko.setValueAt("0", row, col);
+                kohteenSisaltoTunnit.setValueAt("0", row, col);
             }
         }
 
-    }//GEN-LAST:event_kohteenSisaltoTaulukkoPropertyChange
+    }//GEN-LAST:event_kohteenSisaltoTunnitPropertyChange
 
     private void paattyvaKohdeListaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_paattyvaKohdeListaValueChanged
-        if (!evt.getValueIsAdjusting()) {
+        if (!evt.getValueIsAdjusting() && paattyvaKohdeLista.getSelectedValue() != null) {
             String kohdeid = paattyvaKohdeLista.getSelectedValue().split(" - ")[0];
             paivitaKohdeTaulukko(kohdeid);
         }
     }//GEN-LAST:event_paattyvaKohdeListaValueChanged
-
-    private void haePaattyvaKohdeAsiakasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_haePaattyvaKohdeAsiakasActionPerformed
-        DefaultListModel dlmPaattyvaKohde = new DefaultListModel();
-
-        if (!paattyvaEtsittavaAsiakas.getText().isBlank()) {
-
-            //??? kohteet = dbmanager.get
-            //for kohde in kohteet {
-            dlmPaattyvaKohde.addElement("0001 Kanslerinrinne 1, 33100 Tampere");
-            //}
-        }
-        /* else {
-            select * from tyokohde where tarjous = false
-         */
-
-        paattyvaKohdeLista.setModel(dlmPaattyvaKohde);
-    }//GEN-LAST:event_haePaattyvaKohdeAsiakasActionPerformed
 
     private void luoLaskuOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_luoLaskuOKActionPerformed
         // TODO add your handling code here:
@@ -1269,15 +1297,15 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lisaaTarvikeActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void poistaTuntirivitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poistaTuntirivitActionPerformed
         DefaultTableModel dtmTunnit = (DefaultTableModel) kohdeSisaltaaTunnit.getModel();
         try {
             String kohdeid = kohdeLista.getSelectedValue().split(" ")[0];
             int rivit = kohdeSisaltaaTunnit.getSelectedRows().length;
             for (int i = 0; i < rivit; i++) {
                 int rivi = kohdeSisaltaaTunnit.getSelectedRow();
-                String tt = kohdeSisaltaaTunnit.getValueAt(rivi, 0).toString().toLowerCase();
-                dbmanager.poistaKohteestaTunteja(kohdeid, tt);
+                String ttid = kohdeSisaltaaTunnit.getValueAt(rivi, 2).toString().toLowerCase();
+                dbmanager.poistaKohteestaTunteja(kohdeid, ttid);
                 dtmTunnit.removeRow(rivi);
             }
         } catch (SQLException e) {
@@ -1286,18 +1314,17 @@ public class GUI extends javax.swing.JFrame {
             // JOptionPane.showMessageDialog(null, ex);
             System.out.println("Epäonnistui");
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_poistaTuntirivitActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void poistaTarvikerivitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poistaTarvikerivitActionPerformed
         DefaultTableModel dtmTarvikkeet = (DefaultTableModel) kohdeSisaltaaTarvikkeet.getModel();
         try {
             String kohdeid = kohdeLista.getSelectedValue().split(" ")[0];
             int rivit = kohdeSisaltaaTarvikkeet.getSelectedRows().length;
             for (int i = 0; i < rivit; i++) {
                 int rivi = kohdeSisaltaaTarvikkeet.getSelectedRow();
-                String tarvike = kohdeSisaltaaTarvikkeet.getValueAt(rivi, 0).toString().toLowerCase();
-                String lkm = kohdeSisaltaaTarvikkeet.getValueAt(rivi, 1).toString();
-                dbmanager.poistaKohteestaTarvikkeita(kohdeid, tarvike, lkm);
+                String tarvikeid = kohdeSisaltaaTarvikkeet.getValueAt(rivi, 3).toString();
+                dbmanager.poistaKohteestaTarvikkeita(kohdeid, tarvikeid);
                 dtmTarvikkeet.removeRow(rivi);
             }
         } catch (SQLException e) {
@@ -1306,12 +1333,36 @@ public class GUI extends javax.swing.JFrame {
             // JOptionPane.showMessageDialog(null, ex);
             System.out.println("Epäonnistui");
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_poistaTarvikerivitActionPerformed
 
+    private void kohteenSisaltoTarvikkeetPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_kohteenSisaltoTarvikkeetPropertyChange
+        int col = kohteenSisaltoTarvikkeet.getEditingColumn();
+        int row = kohteenSisaltoTarvikkeet.getEditingRow();
+
+        if (row >= 0 && col >= 0) {
+            try {
+                String tarvikeid = kohteenSisaltoTarvikkeet.getValueAt(row, 5).toString();
+                // kokeillaan onko ale luku
+                String kohdeid = paattyvaKohdeLista.getSelectedValue().split(" - ")[0];
+                float ale = Float.parseFloat(kohteenSisaltoTarvikkeet.getValueAt(
+                        row, col).toString());
+                dbmanager.lisaaTarvikeAlennus(tarvikeid, kohdeid, String.valueOf(ale));
+                paivitaKohdeTaulukko(kohdeid);
+            } catch (Exception e) {
+                // jos ale ei ole luku asetetaan arvoksi 0
+                kohteenSisaltoTarvikkeet.setValueAt("0", row, col);
+            }
+        }
+    }//GEN-LAST:event_kohteenSisaltoTarvikkeetPropertyChange
+
+    /**
+     * Alusta kohdeSisaltaaTunnit- ja kohdeSisaltaaTarvikkeet-taulukot tyhjiksi
+     * ennen uusien rivien lisäämistä.
+     */
     private void initTaulukko() {
         kohdeSisaltaaTunnit.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, new String[]{"Nimike", "Tunnit"}) {
-            boolean[] canEdit = new boolean[]{false, false};
+                new Object[][]{}, new String[]{"Nimike", "Tunnit", "ID"}) {
+            boolean[] canEdit = new boolean[]{false, false, false};
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit[columnIndex];
@@ -1320,10 +1371,12 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane6.setViewportView(kohdeSisaltaaTunnit);
         if (kohdeSisaltaaTunnit.getColumnModel().getColumnCount() > 0) {
             kohdeSisaltaaTunnit.getColumnModel().getColumn(0).setMinWidth(130);
+            kohdeSisaltaaTunnit.getColumnModel().getColumn(2).setMinWidth(0);
+            kohdeSisaltaaTunnit.getColumnModel().getColumn(2).setMaxWidth(0);
         }
         kohdeSisaltaaTarvikkeet.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, new String[]{"Nimike", "Määrä", "Yksikkö"}) {
-            boolean[] canEdit = new boolean[]{false, false, false};
+                new Object[][]{}, new String[]{"Nimike", "Määrä", "Yksikkö", "ID"}) {
+            boolean[] canEdit = new boolean[]{false, false, false, false};
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit[columnIndex];
@@ -1332,6 +1385,8 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane8.setViewportView(kohdeSisaltaaTarvikkeet);
         if (kohdeSisaltaaTarvikkeet.getColumnModel().getColumnCount() > 0) {
             kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(0).setMinWidth(130);
+            kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(3).setMinWidth(0);
+            kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(3).setMaxWidth(0);
         }
     }
 
@@ -1346,15 +1401,16 @@ public class GUI extends javax.swing.JFrame {
             for (String tuntityyppi : kohteenTunnit) {
                 String nimike = tuntityyppi.split("::")[0];
                 double maara = Double.parseDouble(tuntityyppi.split("::")[1]);
+                int ttid = Integer.parseInt(tuntityyppi.split("::")[4]);
                 nimike = nimike.substring(0, 1).toUpperCase() + nimike.substring(1);
-                // System.out.println(nimike.replace('o', 'ö'));
-                tunnit.addRow(new Object[]{nimike, maara});
+                tunnit.addRow(new Object[]{nimike, maara, ttid});
             }
             for (String tarvike : kohteenTarvikkeet) {
                 String nimike = tarvike.split("::")[0];
                 String yksikko = tarvike.split("::")[1];
                 int maara = Integer.parseInt(tarvike.split("::")[2]);
-                tarvikkeet.addRow(new Object[]{nimike, maara, yksikko});
+                int tarvikeid = Integer.parseInt(tarvike.split("::")[5]);
+                tarvikkeet.addRow(new Object[]{nimike, maara, yksikko, tarvikeid});
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -1365,29 +1421,38 @@ public class GUI extends javax.swing.JFrame {
 
     private void paivitaKohdeTaulukko(String id) {
 
-        DefaultTableModel sisalto = (DefaultTableModel) kohteenSisaltoTaulukko.getModel();
-        sisalto.setRowCount(0);
+        DefaultTableModel tunnitSisalto = (DefaultTableModel) kohteenSisaltoTunnit.getModel();
+        DefaultTableModel tarvikkeetSisalto = (DefaultTableModel) kohteenSisaltoTarvikkeet.getModel();
+        tunnitSisalto.setRowCount(0);
+        tarvikkeetSisalto.setRowCount(0);
+        
+        double yhteensa = 0;
 
         try {
             ArrayList<String> kohteenTunnit = dbmanager.haeKohteenTunnit(id);
-            ArrayList<String> kohteenTarvikkeet = dbmanager.haeKohteenTarvikkeet(id);
             for (String tuntityyppi : kohteenTunnit) {
                 String nimike = tuntityyppi.split("::")[0];
                 double maara = Double.parseDouble(tuntityyppi.split("::")[1]);
                 double hinta = Double.parseDouble(tuntityyppi.split("::")[2]);
                 double ale = Double.parseDouble(tuntityyppi.split("::")[3]);
                 double summa = hinta * maara * ((100 - ale) / 100);
+                int ttid = Integer.parseInt(tuntityyppi.split("::")[4]);
                 nimike = nimike.substring(0, 1).toUpperCase() + nimike.substring(1);
-                sisalto.addRow(new Object[]{nimike, hinta, maara, ale, summa});
+                yhteensa += summa;
+                tunnitSisalto.addRow(new Object[]{nimike, hinta, maara, ale, summa, ttid});
             }
+            ArrayList<String> kohteenTarvikkeet = dbmanager.haeKohteenTarvikkeet(id);
             for (String tarvike : kohteenTarvikkeet) {
                 String nimike = tarvike.split("::")[0];
                 int maara = Integer.parseInt(tarvike.split("::")[2]);
                 double hinta = Double.parseDouble(tarvike.split("::")[3]);
                 double ale = Double.parseDouble(tarvike.split("::")[4]);
                 double summa = hinta * maara * ((100 - ale) / 100);
-                sisalto.addRow(new Object[]{nimike, hinta, maara, ale, summa});
+                int tarvikeid = Integer.parseInt(tarvike.split("::")[5]);
+                yhteensa += summa;
+                tarvikkeetSisalto.addRow(new Object[]{nimike, hinta, maara, ale, summa, tarvikeid});
             }
+            laskuYht.setText(String.format("%.2f", yhteensa));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
@@ -1408,13 +1473,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField etsittavaTarvike;
     private javax.swing.JButton haeAsiakkaat;
     private javax.swing.JButton haeKohdeOsoitteella;
-    private javax.swing.JButton haePaattyvaKohdeAsiakas;
     private javax.swing.JButton haePaattyvaKohdeOsoite;
     private javax.swing.JButton haeTarjouksista;
     private javax.swing.JButton haeTarvikeNimella;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1427,6 +1489,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -1458,6 +1521,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -1467,8 +1531,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTable kohdeSisaltaaTunnit;
     private javax.swing.JTextField kohteenOsoite;
     private javax.swing.JLabel kohteenOsoiteLabel;
-    private javax.swing.JTable kohteenSisaltoTaulukko;
+    private javax.swing.JTable kohteenSisaltoTarvikkeet;
+    private javax.swing.JTable kohteenSisaltoTunnit;
     private javax.swing.JComboBox<String> kohteenTyyppi;
+    private javax.swing.JLabel laskuYht;
     private javax.swing.JButton lisaaAsiakasOK;
     private javax.swing.JButton lisaaKohdeOK;
     private javax.swing.JButton lisaaTarvike;
@@ -1477,10 +1543,11 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton luoLaskuOK;
     private javax.swing.JCheckBox onTarjous;
     private javax.swing.JLabel osoiteLabel;
-    private javax.swing.JTextField paattyvaEtsittavaAsiakas;
     private javax.swing.JTextField paattyvaEtsittavaOsoite;
     private javax.swing.JList<String> paattyvaKohdeLista;
     private javax.swing.JButton poistaTarjousStatus;
+    private javax.swing.JButton poistaTarvikerivit;
+    private javax.swing.JButton poistaTuntirivit;
     private javax.swing.JLabel puhelinLabel;
     private javax.swing.JList<String> tarjousLista;
     private javax.swing.JList<String> tarvikeLista;

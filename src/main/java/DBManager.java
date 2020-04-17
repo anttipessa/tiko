@@ -507,7 +507,7 @@ public class DBManager {
 
         try {
             Statement stmt = con.createStatement();
-            String query = "SELECT tt.nimi, te.lkm, tt.hinta, te.ale "
+            String query = "SELECT tt.ttid, tt.nimi, te.lkm, tt.hinta, te.ale "
                     + "FROM tyokohde t INNER JOIN tehdaan te ON t.kohdeid = te.kohdeid "
                     + "INNER JOIN tuntityyppi tt ON te.ttid = tt.ttid "
                     + "WHERE t.kohdeid = %s "
@@ -515,7 +515,8 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery(String.format(query, id));
             while (rs.next()) {
                 String tuntityyppi = rs.getString("nimi") + "::" + rs.getDouble("lkm")
-                        + "::" + rs.getDouble("hinta") + "::" + rs.getDouble("ale");
+                        + "::" + rs.getDouble("hinta") + "::" + rs.getDouble("ale") 
+                        + "::" + rs.getInt("ttid");
                 tunnit.add(tuntityyppi);
             }
             rs.close();
@@ -539,7 +540,7 @@ public class DBManager {
 
         try {
             Statement stmt = con.createStatement();
-            String query = "SELECT ta.nimi, ta.yksikko, s.lkm, ta.ostohinta, s.ale "
+            String query = "SELECT ta.tarvikeid, ta.nimi, ta.yksikko, s.lkm, ta.ostohinta, s.ale "
                     + "FROM tyokohde t INNER JOIN sisaltaa s ON t.kohdeid = s.kohdeid "
                     + "INNER JOIN tarvike ta ON s.tarvikeid = ta.tarvikeid "
                     + "WHERE t.kohdeid = %s "
@@ -547,7 +548,8 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery(String.format(query, id));
             while (rs.next()) {
                 String tarvike = rs.getString("nimi") + "::" + rs.getString("yksikko")
-                        + "::" + rs.getInt("lkm") + "::" + rs.getDouble("ostohinta") + "::" + rs.getDouble("ale");;
+                        + "::" + rs.getInt("lkm") + "::" + rs.getDouble("ostohinta")
+                        + "::" + rs.getDouble("ale") + "::" + rs.getInt("tarvikeid");
                 tarvikkeet.add(tarvike);
             }
             rs.close();
@@ -626,16 +628,11 @@ public class DBManager {
      * @param tt tuntityypin nimi
      * @throws SQLException
      */
-    public void poistaKohteestaTunteja(String kohdeid, String tt) throws SQLException {
+    public void poistaKohteestaTunteja(String kohdeid, String ttid) throws SQLException {
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT ttid FROM tuntityyppi WHERE LOWER(nimi) = '" + tt + "'");
-            if (rs.next()) {
-                int ttid = rs.getInt("ttid");
-                rs.close();
-                String delete = "DELETE FROM tehdaan WHERE kohdeid = %s AND ttid = %s";
-                stmt.executeUpdate(String.format(delete, kohdeid, ttid));
-            }
+            String delete = "DELETE FROM tehdaan WHERE kohdeid = %s AND ttid = %s";
+            stmt.executeUpdate(String.format(delete, kohdeid, ttid));
             stmt.close();
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
@@ -650,45 +647,43 @@ public class DBManager {
      * @param lkm työkohteessa olevien tarvikkeiden lukumäärä
      * @throws SQLException
      */
-    public void poistaKohteestaTarvikkeita(String kohdeid, String tarvike, String lkm)
+    public void poistaKohteestaTarvikkeita(String kohdeid, String tarvikeid)
             throws SQLException {
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT t.tarvikeid FROM tarvike t INNER JOIN "
-                    + "sisaltaa s ON t.tarvikeid = s.tarvikeid WHERE LOWER(t.nimi) = '"
-                    + tarvike + "' AND s.lkm = " + lkm + " AND s.kohdeid = " + kohdeid);
-            if (rs.next()) {
-                int tarvikeid = rs.getInt("tarvikeid");
-                rs.close();
-                String delete = "DELETE FROM sisaltaa WHERE kohdeid = %s AND tarvikeid = %s";
-                stmt.executeUpdate(String.format(delete, kohdeid, tarvikeid));
-            }
+            
+            String delete = "DELETE FROM sisaltaa WHERE kohdeid = %s AND tarvikeid = %s";
+            stmt.executeUpdate(String.format(delete, kohdeid, tarvikeid));
             stmt.close();
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
     }
 
-    public void lisaaTarvikeAlennus(String tarvike, String kohde, String ale) throws SQLException {
+    public void lisaaTarvikeAlennus(String tarvikeid, String kohdeid, String ale) throws SQLException {
         try {
             Statement stmt = con.createStatement();
             String query = "UPDATE sisaltaa SET ale = %s  "
                     + "WHERE kohdeid = %s AND tarvikeid = %s";
-            stmt.executeUpdate(String.format(query, ale, kohde, tarvike));
-            System.out.println("Päivitys ok.");
+            stmt.executeUpdate(String.format(query, ale, kohdeid, tarvikeid));
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
     }
     
-    
-    public void lisaaTuntiAlennus(String tunti, String kohde, String ale) throws SQLException {
+    /**
+     * Päivittää tehdaan-taulun ale-sarakkeen arvon.
+     * @param ttid
+     * @param kohdeid
+     * @param ale
+     * @throws SQLException 
+     */
+    public void lisaaTuntiAlennus(String ttid, String kohdeid, String ale) throws SQLException {
         try {
             Statement stmt = con.createStatement();
             String query = "UPDATE tehdaan SET ale = %s  "
                     + "WHERE kohdeid = %s AND ttid = %s";
-            stmt.executeUpdate(String.format(query, ale, kohde, tunti));
-            System.out.println("Päivitys ok.");
+            stmt.executeUpdate(String.format(query, ale, kohdeid, ttid));
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
