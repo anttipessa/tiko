@@ -692,18 +692,22 @@ public class DBManager {
         }
     }
     
-    public ArrayList<String>  haeKaikkiLaskut() throws SQLException{
+    public ArrayList<String> haeKaikkiLaskut() throws SQLException{
         ArrayList<String> laskut = new ArrayList<>();
 
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * "
-                    + "FROM lasku "
-                    + "ORDER BY laskuid");
+            String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
+                    + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
+                    + "ORDER BY laskuid";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String lasku = rs.getInt("laskuid") + "::" + rs.getInt("asiakasid") + "::"
-                 + rs.getInt("kohdeid")  + "::" + rs.getDate("luontipvm") + "::" 
-                 + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::" + rs.getDouble("perintakulu");
+                String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
+                 + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
+                 + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
+                 + rs.getDouble("perintakulu");
                 laskut.add(lasku);
             }
             rs.close();

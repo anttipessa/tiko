@@ -114,6 +114,7 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane10 = new javax.swing.JScrollPane();
         laskuTaulukko = new javax.swing.JTable();
         laskuDropDown = new javax.swing.JComboBox<>();
+        jLabel29 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
@@ -799,18 +800,39 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "LaskuId", "AsiakasId", "KohdeId", "Luontipvm", "Eräpvm", "Maksupvm", "Perintäkulu"
+                "LaskuID", "Asiakas", "Kohde", "Luontipvm", "Eräpvm", "Maksupvm", "Perintäkulu"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane10.setViewportView(laskuTaulukko);
+        if (laskuTaulukko.getColumnModel().getColumnCount() > 0) {
+            laskuTaulukko.getColumnModel().getColumn(0).setMinWidth(50);
+            laskuTaulukko.getColumnModel().getColumn(0).setMaxWidth(50);
+            laskuTaulukko.getColumnModel().getColumn(1).setMinWidth(120);
+            laskuTaulukko.getColumnModel().getColumn(1).setMaxWidth(180);
+            laskuTaulukko.getColumnModel().getColumn(3).setMinWidth(88);
+            laskuTaulukko.getColumnModel().getColumn(3).setMaxWidth(88);
+            laskuTaulukko.getColumnModel().getColumn(4).setMinWidth(88);
+            laskuTaulukko.getColumnModel().getColumn(4).setMaxWidth(88);
+            laskuTaulukko.getColumnModel().getColumn(5).setMinWidth(88);
+            laskuTaulukko.getColumnModel().getColumn(5).setMaxWidth(88);
+            laskuTaulukko.getColumnModel().getColumn(6).setMinWidth(70);
+            laskuTaulukko.getColumnModel().getColumn(6).setMaxWidth(70);
+        }
 
         laskuDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kaikki", "Maksamatta", "Muistutus", "Karhu", "Maksetut" }));
         laskuDropDown.addActionListener(new java.awt.event.ActionListener() {
@@ -819,28 +841,32 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel29.setText("Hae laskuista");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(laskuDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(122, Short.MAX_VALUE))))
+                        .addComponent(jLabel29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(laskuDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(laskuDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(laskuDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel29))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Laskujen hallinta", jPanel5);
@@ -1410,13 +1436,13 @@ public class GUI extends javax.swing.JFrame {
                 ArrayList<String> laskut = dbmanager.haeKaikkiLaskut();
                 for (String lasku : laskut) {
                     int laskuid = Integer.parseInt(lasku.split("::")[0]);
-                    int asiakasid = Integer.parseInt(lasku.split("::")[1]);
-                    int kohdeid = Integer.parseInt(lasku.split("::")[2]);
+                    String asiakas = lasku.split("::")[1];
+                    String kohde = lasku.split("::")[2];
                     String luontipvm = lasku.split("::")[3];
                     String erapvm = lasku.split("::")[4];
                     String maksupvm = lasku.split("::")[5];
                     double perintakulu = Double.parseDouble(lasku.split("::")[6]);
-                    laskuSisalto.addRow(new Object[]{laskuid, asiakasid, kohdeid, luontipvm, erapvm, maksupvm, perintakulu});
+                    laskuSisalto.addRow(new Object[]{laskuid, asiakas, kohde, luontipvm, erapvm, maksupvm, perintakulu});
                 }
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -1568,6 +1594,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
