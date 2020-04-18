@@ -1438,9 +1438,9 @@ public class GUI extends javax.swing.JFrame {
             } else if (laskuDropDown.getSelectedItem().toString().equals("Maksamatta")) {
                 laskut = dbmanager.haeMaksamattomatLaskut();
             } else if (laskuDropDown.getSelectedItem().toString().equals("Muistutus")) {
-                // laskut = dbmanager.haeMuistutuslaskut();
+                laskut = dbmanager.haeMuistutuslaskut();
             } else if (laskuDropDown.getSelectedItem().toString().equals("Karhu")) {
-                // laskut = dbmanager.haeKarhulaskut();
+                laskut = dbmanager.haeKarhulaskut();
             } else if (laskuDropDown.getSelectedItem().toString().equals("Maksetut")) {
                 // laskut = dbmanager.haeMaksetutLaskut();
             }

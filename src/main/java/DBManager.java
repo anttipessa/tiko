@@ -725,7 +725,8 @@ public class DBManager {
     }
     
     /**
-     * Hakee tietokannasta kaikki laskut joita ei ole maksettu.
+     * Hakee tietokannasta kaikki laskut joita ei ole maksettu ja joista
+     * ei ole lähetetty muistutuslaskuja.
      * 
      * @return 
      */
@@ -739,6 +740,78 @@ public class DBManager {
                     + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
                     + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
                     + "WHERE tila = 'kesken' "
+                    + "ORDER BY laskuid";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
+                 + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
+                 + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
+                 + rs.getDouble("perintakulu");
+                laskut.add(lasku);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return laskut;
+    }
+    
+    /**
+     * Hakee tietokannasta kaikki maksamattomat muistutuslaskut
+     * (eli laskut joita edeltää yksi aiempi lasku), joista ei ole lähetetty
+     * myöhempiä karhulaskuja.
+     * 
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<String> haeMuistutuslaskut() throws SQLException {
+        ArrayList<String> laskut = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
+                    + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
+                    + "WHERE tila = 'kesken' "
+                    + "AND edeltavaid NOT IN (SELECT laskuid FROM lasku WHERE edeltavaid IS NOT NULL) "
+                    + "ORDER BY laskuid";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
+                 + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
+                 + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
+                 + rs.getDouble("perintakulu");
+                laskut.add(lasku);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return laskut;
+    }
+    
+    /**
+     * Hakee tietokannasta kaikki maksamattomat karhulaskut
+     * (eli laskut joita edeltää vähintään kaksi aiempaa laskua), joista
+     * ei ole lähetetty myöhempiä karhulaskuja.
+     * 
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<String> haeKarhulaskut() throws SQLException {
+        ArrayList<String> laskut = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
+                    + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
+                    + "WHERE tila = 'kesken' "
+                    + "AND edeltavaid IN (SELECT laskuid FROM lasku WHERE edeltavaid IS NOT NULL) "
                     + "ORDER BY laskuid";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
