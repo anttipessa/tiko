@@ -1325,7 +1325,15 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_paattyvaKohdeListaValueChanged
 
     private void luoLaskuOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_luoLaskuOKActionPerformed
-        // TODO add your handling code here:
+        if (!paattyvaKohdeLista.isSelectionEmpty()) {
+            try {
+                String kohdeid = paattyvaKohdeLista.getSelectedValue().split(" - ")[0];
+                dbmanager.luoLasku(kohdeid);
+                paattyvaKohdeLista.setModel(new DefaultListModel());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }//GEN-LAST:event_luoLaskuOKActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

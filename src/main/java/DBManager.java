@@ -654,7 +654,6 @@ public class DBManager {
             throws SQLException {
         try {
             Statement stmt = con.createStatement();
-            
             String delete = "DELETE FROM sisaltaa WHERE kohdeid = %s AND tarvikeid = %s";
             stmt.executeUpdate(String.format(delete, kohdeid, tarvikeid));
             stmt.close();
@@ -854,6 +853,26 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
         return laskut;
+    }
+    
+    /**
+     * Luo kohteesta laskun tietokantaan.
+     *
+     * @param asiakasid
+     * @param kohdeid
+     * @throws SQLException
+     */
+    public void luoLasku(String kohdeid ) throws SQLException {
+         try {
+            Statement stmt = con.createStatement();
+            String update;
+            update = "INSERT INTO lasku VALUES (DEFAULT,"
+                    + "(SELECT a.asiakasid FROM asiakas as a LEFT JOIN "
+                    + "tyokohde as t ON a.asiakasid = t.asiakasid WHERE kohdeid = %s), %s)";
+            stmt.executeUpdate(String.format(update, kohdeid, kohdeid));
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
     }
 
     public void update(File file) {
