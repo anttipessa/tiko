@@ -828,6 +828,33 @@ public class DBManager {
         }
         return laskut;
     }
+    
+    public ArrayList<String> haeMaksetutLaskut() throws SQLException {
+        ArrayList<String> laskut = new ArrayList<>();
+
+        try {
+            Statement stmt = con.createStatement();
+            String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
+                    + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
+                    + "WHERE tila = 'valmis' "
+                    + "ORDER BY laskuid";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
+                 + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
+                 + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
+                 + rs.getDouble("perintakulu");
+                laskut.add(lasku);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return laskut;
+    }
 
     public void update(File file) {
         try {

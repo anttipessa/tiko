@@ -1442,7 +1442,7 @@ public class GUI extends javax.swing.JFrame {
             } else if (laskuDropDown.getSelectedItem().toString().equals("Karhu")) {
                 laskut = dbmanager.haeKarhulaskut();
             } else if (laskuDropDown.getSelectedItem().toString().equals("Maksetut")) {
-                // laskut = dbmanager.haeMaksetutLaskut();
+                laskut = dbmanager.haeMaksetutLaskut();
             }
             for (String lasku : laskut) {
                 int laskuid = Integer.parseInt(lasku.split("::")[0]);

@@ -118,5 +118,8 @@ INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm) VALUES (1, 2, 20);
 INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm, ale) VALUES (1, 3, 1, 10);
 INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm, ale) VALUES (2, 3, 1, 40);
 
-INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, tila) VALUES (1, 1, NULL, 'kesken');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, tila) VALUES (1, 1, NULL, 'siirtynyt');
 INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, perintakulu, tila) VALUES (1, 1, 1, 5, 'kesken');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, tila) VALUES (2, 2, NULL, 'siirtynyt');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, perintakulu, tila) VALUES (2, 2, 3, 5, 'siirtynyt');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, perintakulu, tila) VALUES (2, 2, 4, 10, 'kesken');
