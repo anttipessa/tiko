@@ -866,8 +866,8 @@ public class DBManager {
          try {
             Statement stmt = con.createStatement();
             String update;
-            update = "INSERT INTO lasku VALUES (DEFAULT,"
-                    + "(SELECT a.asiakasid FROM asiakas as a LEFT JOIN "
+            update = "INSERT INTO lasku (asiakasid, kohdeid) "
+                    + "VALUES ((SELECT a.asiakasid FROM asiakas as a LEFT JOIN "
                     + "tyokohde as t ON a.asiakasid = t.asiakasid WHERE kohdeid = %s), %s)";
             stmt.executeUpdate(String.format(update, kohdeid, kohdeid));
         } catch (SQLException e) {
