@@ -834,7 +834,7 @@ public class GUI extends javax.swing.JFrame {
             laskuTaulukko.getColumnModel().getColumn(6).setMaxWidth(70);
         }
 
-        laskuDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kaikki", "Maksamatta", "Muistutus", "Karhu", "Maksetut" }));
+        laskuDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Kaikki", "Maksamatta", "Muistutus", "Karhu", "Maksetut" }));
         laskuDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 laskuDropDownActionPerformed(evt);
@@ -1431,22 +1431,33 @@ public class GUI extends javax.swing.JFrame {
     private void laskuDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laskuDropDownActionPerformed
         DefaultTableModel laskuSisalto = (DefaultTableModel) laskuTaulukko.getModel();
         laskuSisalto.setRowCount(0);
-        if (laskuDropDown.getSelectedItem().toString() == "Kaikki") {
-            try {
-                ArrayList<String> laskut = dbmanager.haeKaikkiLaskut();
-                for (String lasku : laskut) {
-                    int laskuid = Integer.parseInt(lasku.split("::")[0]);
-                    String asiakas = lasku.split("::")[1];
-                    String kohde = lasku.split("::")[2];
-                    String luontipvm = lasku.split("::")[3];
-                    String erapvm = lasku.split("::")[4];
-                    String maksupvm = lasku.split("::")[5];
-                    double perintakulu = Double.parseDouble(lasku.split("::")[6]);
-                    laskuSisalto.addRow(new Object[]{laskuid, asiakas, kohde, luontipvm, erapvm, maksupvm, perintakulu});
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+        ArrayList<String> laskut = new ArrayList<>();
+        try {
+            if (laskuDropDown.getSelectedItem().toString().equals("Kaikki")) {
+                laskut = dbmanager.haeKaikkiLaskut();
+            } else if (laskuDropDown.getSelectedItem().toString().equals("Maksamatta")) {
+                laskut = dbmanager.haeMaksamattomatLaskut();
+            } else if (laskuDropDown.getSelectedItem().toString().equals("Muistutus")) {
+                // laskut = dbmanager.haeMuistutuslaskut();
+            } else if (laskuDropDown.getSelectedItem().toString().equals("Karhu")) {
+                // laskut = dbmanager.haeKarhulaskut();
+            } else if (laskuDropDown.getSelectedItem().toString().equals("Maksetut")) {
+                // laskut = dbmanager.haeMaksetutLaskut();
             }
+            for (String lasku : laskut) {
+                int laskuid = Integer.parseInt(lasku.split("::")[0]);
+                String asiakas = lasku.split("::")[1];
+                String kohde = lasku.split("::")[2];
+                String luontipvm = lasku.split("::")[3];
+                String erapvm = lasku.split("::")[4];
+                String maksupvm = lasku.split("::")[5];
+                double perintakulu = Double.parseDouble(lasku.split("::")[6]);
+                laskuSisalto.addRow(new Object[]{laskuid, asiakas, kohde, luontipvm, erapvm, maksupvm, perintakulu});
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
     }//GEN-LAST:event_laskuDropDownActionPerformed
