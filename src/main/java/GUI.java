@@ -1245,8 +1245,11 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_kohdeListaValueChanged
 
     private void haeKohdeOsoitteellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_haeKohdeOsoitteellaActionPerformed
-        initTaulukko();
         DefaultListModel dlmKohde = new DefaultListModel();
+        DefaultTableModel tunnit = (DefaultTableModel) kohdeSisaltaaTunnit.getModel();
+        DefaultTableModel tarvikkeet = (DefaultTableModel) kohdeSisaltaaTarvikkeet.getModel();
+        tunnit.setRowCount(0);
+        tarvikkeet.setRowCount(0);
 
         if (!etsittavaOsoite.getText().isBlank()) {
             String osoite = etsittavaOsoite.getText().toLowerCase();
