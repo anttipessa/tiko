@@ -1476,45 +1476,11 @@ public class GUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_laskuDropDownActionPerformed
 
-    /**
-     * Alusta kohdeSisaltaaTunnit- ja kohdeSisaltaaTarvikkeet-taulukot tyhjiksi
-     * ennen uusien rivien lisäämistä.
-     */
-    private void initTaulukko() {
-        kohdeSisaltaaTunnit.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, new String[]{"Nimike", "Tunnit", "ID"}) {
-            boolean[] canEdit = new boolean[]{false, false, false};
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
-            }
-        });
-        jScrollPane6.setViewportView(kohdeSisaltaaTunnit);
-        if (kohdeSisaltaaTunnit.getColumnModel().getColumnCount() > 0) {
-            kohdeSisaltaaTunnit.getColumnModel().getColumn(0).setMinWidth(130);
-            kohdeSisaltaaTunnit.getColumnModel().getColumn(2).setMinWidth(0);
-            kohdeSisaltaaTunnit.getColumnModel().getColumn(2).setMaxWidth(0);
-        }
-        kohdeSisaltaaTarvikkeet.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, new String[]{"Nimike", "Määrä", "Yksikkö", "ID"}) {
-            boolean[] canEdit = new boolean[]{false, false, false, false};
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
-            }
-        });
-        jScrollPane8.setViewportView(kohdeSisaltaaTarvikkeet);
-        if (kohdeSisaltaaTarvikkeet.getColumnModel().getColumnCount() > 0) {
-            kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(0).setMinWidth(130);
-            kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(3).setMinWidth(0);
-            kohdeSisaltaaTarvikkeet.getColumnModel().getColumn(3).setMaxWidth(0);
-        }
-    }
-
     private void paivitaKohdeSisaltaaTaulukko(String id) {
-        initTaulukko();
         DefaultTableModel tunnit = (DefaultTableModel) kohdeSisaltaaTunnit.getModel();
         DefaultTableModel tarvikkeet = (DefaultTableModel) kohdeSisaltaaTarvikkeet.getModel();
+        tunnit.setRowCount(0);
+        tarvikkeet.setRowCount(0);
 
         try {
             ArrayList<String> kohteenTunnit = dbmanager.haeKohteenTunnit(id);
