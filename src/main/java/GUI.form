@@ -3,6 +3,9 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JFrame" name="popupIkkuna">
+      <Events>
+        <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="popupIkkunaWindowClosing"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -455,15 +458,9 @@
             <Component class="javax.swing.JComboBox" name="erienLKM">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="8">
+                  <StringArray count="2">
                     <StringItem index="0" value="1"/>
                     <StringItem index="1" value="2"/>
-                    <StringItem index="2" value="3"/>
-                    <StringItem index="3" value="4"/>
-                    <StringItem index="4" value="5"/>
-                    <StringItem index="5" value="6"/>
-                    <StringItem index="6" value="7"/>
-                    <StringItem index="7" value="8"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -1356,7 +1353,7 @@
                         <Column editable="false" title="Luontipvm" type="java.lang.Object"/>
                         <Column editable="false" title="Er&#xe4;pvm" type="java.lang.Object"/>
                         <Column editable="false" title="Maksupvm" type="java.lang.Object"/>
-                        <Column editable="false" title="Perint&#xe4;kulu" type="java.lang.Object"/>
+                        <Column editable="false" title="Tila" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -1391,7 +1388,7 @@
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="70" minWidth="70" prefWidth="-1" resizable="true">
+                        <Column maxWidth="55" minWidth="55" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -1408,13 +1405,14 @@
             <Component class="javax.swing.JComboBox" name="laskuDropDown">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="6">
+                  <StringArray count="7">
                     <StringItem index="0" value=" "/>
                     <StringItem index="1" value="Kaikki"/>
-                    <StringItem index="2" value="Maksamatta"/>
-                    <StringItem index="3" value="Muistutus"/>
-                    <StringItem index="4" value="Karhu"/>
-                    <StringItem index="5" value="Maksetut"/>
+                    <StringItem index="2" value="Er&#xe4;p&#xe4;iv&#xe4; umpeutunut"/>
+                    <StringItem index="3" value="Maksamatta"/>
+                    <StringItem index="4" value="Muistutus"/>
+                    <StringItem index="5" value="Karhu"/>
+                    <StringItem index="6" value="Maksetut"/>
                   </StringArray>
                 </Property>
               </Properties>

@@ -140,6 +140,12 @@ public class GUI extends javax.swing.JFrame {
         lisaaTarvike = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
 
+        popupIkkuna.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                popupIkkunaWindowClosing(evt);
+            }
+        });
+
         popupok.setText("Ok");
         popupok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,7 +329,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel7.setText("Maksuerien lukumäärä");
 
-        erienLKM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" }));
+        erienLKM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2" }));
 
         lisaaKohdeOK.setText("Luo kohde");
         lisaaKohdeOK.addActionListener(new java.awt.event.ActionListener() {
@@ -898,7 +904,7 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "LaskuID", "Asiakas", "Kohde", "Luontipvm", "Eräpvm", "Maksupvm", "Perintäkulu"
+                "LaskuID", "Asiakas", "Kohde", "Luontipvm", "Eräpvm", "Maksupvm", "Tila"
             }
         ) {
             Class[] types = new Class [] {
@@ -928,11 +934,11 @@ public class GUI extends javax.swing.JFrame {
             laskuTaulukko.getColumnModel().getColumn(4).setMaxWidth(88);
             laskuTaulukko.getColumnModel().getColumn(5).setMinWidth(88);
             laskuTaulukko.getColumnModel().getColumn(5).setMaxWidth(88);
-            laskuTaulukko.getColumnModel().getColumn(6).setMinWidth(70);
-            laskuTaulukko.getColumnModel().getColumn(6).setMaxWidth(70);
+            laskuTaulukko.getColumnModel().getColumn(6).setMinWidth(55);
+            laskuTaulukko.getColumnModel().getColumn(6).setMaxWidth(55);
         }
 
-        laskuDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Kaikki", "Maksamatta", "Muistutus", "Karhu", "Maksetut" }));
+        laskuDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Kaikki", "Eräpäivä umpeutunut", "Maksamatta", "Muistutus", "Karhu", "Maksetut" }));
         laskuDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 laskuDropDownActionPerformed(evt);
@@ -1560,6 +1566,8 @@ public class GUI extends javax.swing.JFrame {
         try {
             if (laskuDropDown.getSelectedItem().toString().equals("Kaikki")) {
                 laskut = dbmanager.haeKaikkiLaskut();
+            } else if (laskuDropDown.getSelectedItem().toString().equals("Eräpäivä umpeutunut")) {
+                laskut = dbmanager.haeLaskutErapvmUmpeutunut();
             } else if (laskuDropDown.getSelectedItem().toString().equals("Maksamatta")) {
                 laskut = dbmanager.haeMaksamattomatLaskut();
             } else if (laskuDropDown.getSelectedItem().toString().equals("Muistutus")) {
@@ -1576,8 +1584,9 @@ public class GUI extends javax.swing.JFrame {
                 String luontipvm = lasku.split("::")[3];
                 String erapvm = lasku.split("::")[4];
                 String maksupvm = lasku.split("::")[5];
-                double perintakulu = Double.parseDouble(lasku.split("::")[6]);
-                laskuSisalto.addRow(new Object[]{laskuid, asiakas, kohde, luontipvm, erapvm, maksupvm, perintakulu});
+                if (maksupvm.equals("null")) maksupvm = "-";
+                String tila = lasku.split("::")[7];
+                laskuSisalto.addRow(new Object[]{laskuid, asiakas, kohde, luontipvm, erapvm, maksupvm, tila});
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -1611,7 +1620,12 @@ public class GUI extends javax.swing.JFrame {
     private void popupokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupokActionPerformed
         // TODO add your handling code here:
         popupIkkuna.setVisible(false);
+        tarjousLista.clearSelection();
     }//GEN-LAST:event_popupokActionPerformed
+
+    private void popupIkkunaWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_popupIkkunaWindowClosing
+        tarjousLista.clearSelection();
+    }//GEN-LAST:event_popupIkkunaWindowClosing
 
     private void paivitaKohdeSisaltaaTaulukko(String id, DefaultTableModel tunnit,
             DefaultTableModel tarvikkeet) {
