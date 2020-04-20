@@ -13,7 +13,11 @@ public class DBManager {
     private static final String TIETOKANTA = "tiko_ht";
     private static final String KAYTTAJA = "tiko";
     private static final String SALASANA = "t1k0";
-
+    
+    //private static final String TIETOKANTA = "postgres";
+    //private static final String KAYTTAJA = "postgres";
+    //private static final String SALASANA = "salasana";
+    
     private Connection con;
 
     /**
