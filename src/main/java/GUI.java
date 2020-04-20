@@ -1518,7 +1518,9 @@ public class GUI extends javax.swing.JFrame {
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
                 jLabel23.setText("Tarvikkeen lisäys epäonnistui.");
-            }
+            } catch (NumberFormatException e) {
+                System.out.println("Error! "+ e.getMessage());
+        }
         }
     }//GEN-LAST:event_lisaaTarvikeActionPerformed
 
