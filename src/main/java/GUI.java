@@ -128,6 +128,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         laskuMaksettu = new javax.swing.JButton();
         lahetaMuistutuslaskut = new javax.swing.JButton();
+        laskuViestit = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
@@ -959,6 +960,8 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        laskuViestit.setText(" ");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -977,7 +980,10 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addComponent(laskuMaksettu)
                         .addGap(18, 18, 18)
-                        .addComponent(lahetaMuistutuslaskut)))
+                        .addComponent(lahetaMuistutuslaskut))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(laskuViestit, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -993,7 +999,9 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(laskuMaksettu)
                     .addComponent(lahetaMuistutuslaskut))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(laskuViestit)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Laskujen hallinta", jPanel5);
@@ -1586,6 +1594,7 @@ public class GUI extends javax.swing.JFrame {
         DefaultTableModel laskuSisalto = (DefaultTableModel) laskuTaulukko.getModel();
         laskuSisalto.setRowCount(0);
         ArrayList<String> laskut = new ArrayList<>();
+        laskuViestit.setText("");
         try {
             if (laskuDropDown.getSelectedItem().toString().equals("Kaikki")) {
                 laskut = dbmanager.haeKaikkiLaskut();
@@ -1661,8 +1670,28 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_popupokActionPerformed
 
     private void laskuMaksettuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laskuMaksettuActionPerformed
-        // TODO add your handling code here:
-        System.out.println("Maksettu!");
+        DefaultTableModel dtmLaskut = (DefaultTableModel) laskuTaulukko.getModel();
+        int valitutLaskut = laskuTaulukko.getSelectedRows().length;
+        try {
+            if (valitutLaskut <= 0) {
+                laskuViestit.setText("Valitse vähintään yksi lasku hyväksyttäväksi!");
+            } else {
+                for (int i = 0; i < valitutLaskut; i++) {
+                    int rivi = laskuTaulukko.getSelectedRow();
+                    String laskuid = laskuTaulukko.getValueAt(rivi, 0).toString();
+                    String updated = dbmanager.laskuMaksettu(laskuid);
+                    String maksupvm = updated.split("::")[0];
+                    String tila = updated.split("::")[1];
+                    dtmLaskut.setValueAt(maksupvm, rivi, 5);
+                    dtmLaskut.setValueAt(tila, rivi, 6);
+                }
+                if (valitutLaskut > 1) laskuViestit.setText("Laskut merkitty maksetuiksi.");
+                else laskuViestit.setText("Lasku merkitty maksetuksi.");
+            }
+            
+        } catch (SQLException e) {
+            laskuViestit.setText("Laskun hyväksyminen epäonnistui...");
+        }
     }//GEN-LAST:event_laskuMaksettuActionPerformed
 
     private void lahetaMuistutuslaskutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lahetaMuistutuslaskutActionPerformed
@@ -1705,7 +1734,7 @@ public class GUI extends javax.swing.JFrame {
         DefaultTableModel tarvikkeetSisalto = (DefaultTableModel) kohteenSisaltoTarvikkeet.getModel();
         tunnitSisalto.setRowCount(0);
         tarvikkeetSisalto.setRowCount(0);
-
+        laskuLuontiIlmo.setText("");
         double yhteensa = 0;
 
         try {
@@ -1823,6 +1852,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel laskuLuontiIlmo;
     private javax.swing.JButton laskuMaksettu;
     private javax.swing.JTable laskuTaulukko;
+    private javax.swing.JLabel laskuViestit;
     private javax.swing.JLabel laskuYht;
     private javax.swing.JButton lisaaAsiakasOK;
     private javax.swing.JButton lisaaKohdeOK;

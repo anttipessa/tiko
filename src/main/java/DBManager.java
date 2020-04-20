@@ -693,7 +693,6 @@ public class DBManager {
     
     public ArrayList<String> haeLaskutErapvmUmpeutunut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
-        System.out.println("Umpeutunut");
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
@@ -895,7 +894,7 @@ public class DBManager {
      * @param kohdeid
      * @throws SQLException
      */
-    public void luoLasku(String kohdeid ) throws SQLException {
+    public void luoLasku(String kohdeid) throws SQLException {
          try {
             Statement stmt = con.createStatement();
             String update;
@@ -903,6 +902,25 @@ public class DBManager {
                     + "VALUES ((SELECT a.asiakasid FROM asiakas as a LEFT JOIN "
                     + "tyokohde as t ON a.asiakasid = t.asiakasid WHERE kohdeid = %s), %s)";
             stmt.executeUpdate(String.format(update, kohdeid, kohdeid));
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
+    
+    public String laskuMaksettu(String laskuid) throws SQLException {
+        try {
+            String laskuTiedot = "";
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("UPDATE lasku SET maksupvm = CURRENT_DATE, tila = 'valmis' " 
+                    + "WHERE laskuid = " + laskuid);
+            ResultSet rs = stmt.executeQuery("SELECT maksupvm, tila FROM lasku WHERE laskuid = " + laskuid);
+            if (rs.next()) {
+                laskuTiedot = rs.getString("maksupvm") + "::" + rs.getString("tila");
+            }
+            rs.close();
+            stmt.close();
+            return laskuTiedot;
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
