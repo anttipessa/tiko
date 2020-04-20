@@ -510,7 +510,7 @@ public class DBManager {
 
         try {
             Statement stmt = con.createStatement();
-            String query = "SELECT tt.ttid, tt.nimi, te.lkm, tt.hinta, te.ale "
+            String query = "SELECT tt.ttid, tt.nimi, te.lkm, tt.hinta, te.ale, tt.alv "
                     + "FROM tyokohde t INNER JOIN tehdaan te ON t.kohdeid = te.kohdeid "
                     + "INNER JOIN tuntityyppi tt ON te.ttid = tt.ttid "
                     + "WHERE t.kohdeid = %s "
@@ -519,7 +519,7 @@ public class DBManager {
             while (rs.next()) {
                 String tuntityyppi = rs.getString("nimi") + "::" + rs.getDouble("lkm")
                         + "::" + rs.getDouble("hinta") + "::" + rs.getDouble("ale") 
-                        + "::" + rs.getInt("ttid");
+                        + "::" + rs.getInt("ttid") + "::" + rs.getDouble("alv");
                 tunnit.add(tuntityyppi);
             }
             rs.close();
@@ -543,7 +543,8 @@ public class DBManager {
 
         try {
             Statement stmt = con.createStatement();
-            String query = "SELECT ta.tarvikeid, ta.nimi, ta.yksikko, s.lkm, ta.ostohinta, s.ale "
+            String query = "SELECT ta.tarvikeid, ta.nimi, ta.yksikko, s.lkm, ta.ostohinta, "
+                    + "s.ale, ta.kate, ta.alv "
                     + "FROM tyokohde t INNER JOIN sisaltaa s ON t.kohdeid = s.kohdeid "
                     + "INNER JOIN tarvike ta ON s.tarvikeid = ta.tarvikeid "
                     + "WHERE t.kohdeid = %s "
@@ -552,7 +553,8 @@ public class DBManager {
             while (rs.next()) {
                 String tarvike = rs.getString("nimi") + "::" + rs.getString("yksikko")
                         + "::" + rs.getInt("lkm") + "::" + rs.getDouble("ostohinta")
-                        + "::" + rs.getDouble("ale") + "::" + rs.getInt("tarvikeid");
+                        + "::" + rs.getDouble("ale") + "::" + rs.getInt("tarvikeid")
+                        + "::" + rs.getDouble("kate") + "::" + rs.getDouble("alv");
                 tarvikkeet.add(tarvike);
             }
             rs.close();
@@ -950,6 +952,33 @@ public class DBManager {
         } finally {
             con.setAutoCommit(true);
         }
+    }
+    
+    public ArrayList<String> haeLaskuErittely(String laskuid) throws SQLException {
+        ArrayList<String> eriteltavat = new ArrayList<>();
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT a.enimi || ' ' || a.snimi AS nimi, " 
+                    + "l.kohdeid, l.luontipvm, l.erapvm, l.perintakulu, t.tyyppi, t.osoite "
+                    + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
+                    + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
+                    + "WHERE laskuid = " + laskuid);
+            if (rs.next()) {
+                eriteltavat.add(String.valueOf(rs.getInt("kohdeid")));
+                eriteltavat.add(rs.getString("nimi"));
+                eriteltavat.add(rs.getString("tyyppi"));
+                eriteltavat.add(rs.getString("osoite"));
+                eriteltavat.add(rs.getString("luontipvm"));
+                eriteltavat.add(rs.getString("erapvm"));
+                eriteltavat.add(String.valueOf(rs.getDouble("perintakulu")));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        
+        return eriteltavat;
     }
 
     public void update(File file) {
