@@ -18,6 +18,8 @@ public class GUI extends javax.swing.JFrame {
         this.dbmanager = dbm;
         
         popupIkkuna.pack();
+        lahetaMuistutuslaskut.setEnabled(false);
+        laskuMaksettu.setEnabled(false);
     }
 
     /**
@@ -124,6 +126,8 @@ public class GUI extends javax.swing.JFrame {
         laskuTaulukko = new javax.swing.JTable();
         laskuDropDown = new javax.swing.JComboBox<>();
         jLabel29 = new javax.swing.JLabel();
+        laskuMaksettu = new javax.swing.JButton();
+        lahetaMuistutuslaskut = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
@@ -323,7 +327,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel7.setText("Maksuerien lukumäärä");
 
-        erienLKM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" }));
+        erienLKM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2" }));
 
         lisaaKohdeOK.setText("Luo kohde");
         lisaaKohdeOK.addActionListener(new java.awt.event.ActionListener() {
@@ -898,7 +902,7 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "LaskuID", "Asiakas", "Kohde", "Luontipvm", "Eräpvm", "Maksupvm", "Perintäkulu"
+                "LaskuID", "Asiakas", "Kohde", "Luontipvm", "Eräpvm", "Maksupvm", "Tila"
             }
         ) {
             Class[] types = new Class [] {
@@ -928,11 +932,11 @@ public class GUI extends javax.swing.JFrame {
             laskuTaulukko.getColumnModel().getColumn(4).setMaxWidth(88);
             laskuTaulukko.getColumnModel().getColumn(5).setMinWidth(88);
             laskuTaulukko.getColumnModel().getColumn(5).setMaxWidth(88);
-            laskuTaulukko.getColumnModel().getColumn(6).setMinWidth(70);
-            laskuTaulukko.getColumnModel().getColumn(6).setMaxWidth(70);
+            laskuTaulukko.getColumnModel().getColumn(6).setMinWidth(55);
+            laskuTaulukko.getColumnModel().getColumn(6).setMaxWidth(55);
         }
 
-        laskuDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Kaikki", "Maksamatta", "Muistutus", "Karhu", "Maksetut" }));
+        laskuDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Kaikki", "Eräpäivä umpeutunut", "Maksamatta", "Muistutus", "Karhu", "Maksetut" }));
         laskuDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 laskuDropDownActionPerformed(evt);
@@ -941,19 +945,40 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel29.setText("Hae laskuista");
 
+        laskuMaksettu.setText("Lasku maksettu");
+        laskuMaksettu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                laskuMaksettuActionPerformed(evt);
+            }
+        });
+
+        lahetaMuistutuslaskut.setText("Lähetä muistutuslaskut");
+        lahetaMuistutuslaskut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lahetaMuistutuslaskutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel29)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(laskuDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel29)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(laskuDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(laskuMaksettu)
+                        .addGap(18, 18, 18)
+                        .addComponent(lahetaMuistutuslaskut)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -964,7 +989,11 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel29))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(laskuMaksettu)
+                    .addComponent(lahetaMuistutuslaskut))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Laskujen hallinta", jPanel5);
@@ -1560,14 +1589,31 @@ public class GUI extends javax.swing.JFrame {
         try {
             if (laskuDropDown.getSelectedItem().toString().equals("Kaikki")) {
                 laskut = dbmanager.haeKaikkiLaskut();
+                laskuMaksettu.setEnabled(true);
+                lahetaMuistutuslaskut.setEnabled(false);
+            } else if (laskuDropDown.getSelectedItem().toString().equals("Eräpäivä umpeutunut")) {
+                laskut = dbmanager.haeLaskutErapvmUmpeutunut();
+                laskuMaksettu.setEnabled(true);
+                lahetaMuistutuslaskut.setEnabled(true);
             } else if (laskuDropDown.getSelectedItem().toString().equals("Maksamatta")) {
                 laskut = dbmanager.haeMaksamattomatLaskut();
+                laskuMaksettu.setEnabled(true);
+                lahetaMuistutuslaskut.setEnabled(false);
             } else if (laskuDropDown.getSelectedItem().toString().equals("Muistutus")) {
                 laskut = dbmanager.haeMuistutuslaskut();
+                laskuMaksettu.setEnabled(true);
+                lahetaMuistutuslaskut.setEnabled(false);
             } else if (laskuDropDown.getSelectedItem().toString().equals("Karhu")) {
                 laskut = dbmanager.haeKarhulaskut();
+                laskuMaksettu.setEnabled(true);
+                lahetaMuistutuslaskut.setEnabled(false);
             } else if (laskuDropDown.getSelectedItem().toString().equals("Maksetut")) {
                 laskut = dbmanager.haeMaksetutLaskut();
+                laskuMaksettu.setEnabled(false);
+                lahetaMuistutuslaskut.setEnabled(false);
+            } else {
+                laskuMaksettu.setEnabled(false);
+                lahetaMuistutuslaskut.setEnabled(false);
             }
             for (String lasku : laskut) {
                 int laskuid = Integer.parseInt(lasku.split("::")[0]);
@@ -1576,8 +1622,9 @@ public class GUI extends javax.swing.JFrame {
                 String luontipvm = lasku.split("::")[3];
                 String erapvm = lasku.split("::")[4];
                 String maksupvm = lasku.split("::")[5];
-                double perintakulu = Double.parseDouble(lasku.split("::")[6]);
-                laskuSisalto.addRow(new Object[]{laskuid, asiakas, kohde, luontipvm, erapvm, maksupvm, perintakulu});
+                if (maksupvm.equals("null")) maksupvm = "-";
+                String tila = lasku.split("::")[7];
+                laskuSisalto.addRow(new Object[]{laskuid, asiakas, kohde, luontipvm, erapvm, maksupvm, tila});
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -1612,6 +1659,16 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         popupIkkuna.setVisible(false);
     }//GEN-LAST:event_popupokActionPerformed
+
+    private void laskuMaksettuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laskuMaksettuActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Maksettu!");
+    }//GEN-LAST:event_laskuMaksettuActionPerformed
+
+    private void lahetaMuistutuslaskutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lahetaMuistutuslaskutActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Lähetetään muistutuslaskut..");
+    }//GEN-LAST:event_lahetaMuistutuslaskutActionPerformed
 
     private void paivitaKohdeSisaltaaTaulukko(String id, DefaultTableModel tunnit,
             DefaultTableModel tarvikkeet) {
@@ -1761,8 +1818,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTable kohteenSisaltoTarvikkeet;
     private javax.swing.JTable kohteenSisaltoTunnit;
     private javax.swing.JComboBox<String> kohteenTyyppi;
+    private javax.swing.JButton lahetaMuistutuslaskut;
     private javax.swing.JComboBox<String> laskuDropDown;
     private javax.swing.JLabel laskuLuontiIlmo;
+    private javax.swing.JButton laskuMaksettu;
     private javax.swing.JTable laskuTaulukko;
     private javax.swing.JLabel laskuYht;
     private javax.swing.JButton lisaaAsiakasOK;

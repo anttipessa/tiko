@@ -691,6 +691,33 @@ public class DBManager {
         }
     }
     
+    public ArrayList<String> haeLaskutErapvmUmpeutunut() throws SQLException {
+        ArrayList<String> laskut = new ArrayList<>();
+        System.out.println("Umpeutunut");
+        try {
+            Statement stmt = con.createStatement();
+            String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu, tila " 
+                    + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
+                    + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
+                    + "WHERE erapvm < CURRENT_DATE AND tila = 'kesken' "
+                    + "ORDER BY laskuid";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
+                 + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
+                 + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
+                 + rs.getDouble("perintakulu") + "::" + rs.getString("tila");
+                laskut.add(lasku);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        return laskut;
+    }
+    
     /**
      * Hakee tietokannasta kaikki laskut.
      * 
@@ -703,7 +730,7 @@ public class DBManager {
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
-                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu, tila " 
                     + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
                     + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
                     + "ORDER BY laskuid";
@@ -712,7 +739,7 @@ public class DBManager {
                 String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
                  + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
                  + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
-                 + rs.getDouble("perintakulu");
+                 + rs.getDouble("perintakulu") + "::" + rs.getString("tila");
                 laskut.add(lasku);
             }
             rs.close();
@@ -735,7 +762,7 @@ public class DBManager {
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
-                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu, tila " 
                     + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
                     + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
                     + "WHERE tila = 'kesken' "
@@ -745,7 +772,7 @@ public class DBManager {
                 String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
                  + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
                  + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
-                 + rs.getDouble("perintakulu");
+                 + rs.getDouble("perintakulu") + "::" + rs.getString("tila");
                 laskut.add(lasku);
             }
             rs.close();
@@ -770,7 +797,7 @@ public class DBManager {
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
-                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu, tila " 
                     + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
                     + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
                     + "WHERE tila = 'kesken' "
@@ -781,7 +808,7 @@ public class DBManager {
                 String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
                  + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
                  + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
-                 + rs.getDouble("perintakulu");
+                 + rs.getDouble("perintakulu") + "::" + rs.getString("tila");
                 laskut.add(lasku);
             }
             rs.close();
@@ -806,7 +833,7 @@ public class DBManager {
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
-                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu, tila " 
                     + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
                     + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
                     + "WHERE tila = 'kesken' "
@@ -817,7 +844,7 @@ public class DBManager {
                 String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
                  + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
                  + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
-                 + rs.getDouble("perintakulu");
+                 + rs.getDouble("perintakulu") + "::" + rs.getString("tila");
                 laskut.add(lasku);
             }
             rs.close();
@@ -828,13 +855,19 @@ public class DBManager {
         return laskut;
     }
     
+    /**
+     * Hakee tietokannasta kaikki laskut, jotka on maksettu.
+     * 
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<String> haeMaksetutLaskut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
 
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, " 
-                    + "luontipvm, erapvm, maksupvm, perintakulu " 
+                    + "luontipvm, erapvm, maksupvm, perintakulu, tila " 
                     + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
                     + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
                     + "WHERE tila = 'valmis' "
@@ -844,7 +877,7 @@ public class DBManager {
                 String lasku = rs.getInt("laskuid") + "::" + rs.getString("nimi") + "::"
                  + rs.getString("osoite")  + "::" + rs.getDate("luontipvm") + "::" 
                  + rs.getDate("erapvm") + "::" + rs.getDate("maksupvm") + "::"
-                 + rs.getDouble("perintakulu");
+                 + rs.getDouble("perintakulu") + "::" + rs.getString("tila");
                 laskut.add(lasku);
             }
             rs.close();
