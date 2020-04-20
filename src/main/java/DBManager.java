@@ -925,6 +925,32 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
+    
+    public void lahetaMuistutuslasku(String laskuid) throws SQLException {
+        try {
+            con.setAutoCommit(false);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT asiakasid, kohdeid, COALESCE(perintakulu, 0) "
+                    + "AS perintakulu FROM lasku WHERE laskuid = " + laskuid);
+            if (rs.next()) {
+                int asiakasid = rs.getInt("asiakasid");
+                int kohdeid = rs.getInt("kohdeid");
+                double lisamaksu = rs.getDouble("perintakulu");
+                rs.close();
+                String insert = "INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, perintakulu, tila) "
+                        + "VALUES (%s, %s, %s, %s + 5, 'kesken')";
+                stmt.executeUpdate(String.format(insert, asiakasid, kohdeid, laskuid, lisamaksu));
+                stmt.executeUpdate("UPDATE lasku SET tila = 'siirtynyt' WHERE laskuid = "
+                            + laskuid);
+                con.commit();
+            }
+        } catch (SQLException e) {
+            con.rollback();
+            throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
+        }
+    }
 
     public void update(File file) {
         try {

@@ -1671,7 +1671,6 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_tarjousListaValueChanged
 
     private void popupokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupokActionPerformed
-        // TODO add your handling code here:
         popupIkkuna.setVisible(false);
     }//GEN-LAST:event_popupokActionPerformed
 
@@ -1701,8 +1700,20 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_laskuMaksettuActionPerformed
 
     private void lahetaMuistutuslaskutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lahetaMuistutuslaskutActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel dtmLaskut = (DefaultTableModel) laskuTaulukko.getModel();
         System.out.println("Lähetetään muistutuslaskut..");
+        try {
+            int rivit = laskuTaulukko.getRowCount();
+            System.out.println(rivit);
+            for (int i = 0; i < rivit; i++) {
+                String laskuid = laskuTaulukko.getValueAt(i, 0).toString();
+                dbmanager.lahetaMuistutuslasku(laskuid);
+                dtmLaskut.removeRow(i);
+            }
+            laskuViestit.setText("Muistutuslaskut lähetetty.");
+        } catch (Exception e) {
+            laskuViestit.setText("Jotain meni vituiks");
+        }
     }//GEN-LAST:event_lahetaMuistutuslaskutActionPerformed
 
     private void paivitaKohdeSisaltaaTaulukko(String id, DefaultTableModel tunnit,

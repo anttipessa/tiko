@@ -97,8 +97,9 @@ INSERT INTO asiakas (enimi, snimi, osoite, puhelin, sposti) VALUES ('Tanja', 'Jo
 
 INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (1, 'tunti', FALSE, 'Hämeenkatu 45, 33200 Tampere', 1);
 INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (3, 'urakka', FALSE, 'Linnankatu 89, 02380 Espoo', 2);
-INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (4, 'urakka', TRUE, 'Satamakatu 5, 40100 Jyväskylä', 4);
+INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (4, 'urakka', TRUE, 'Satamakatu 5, 40100 Jyväskylä', 2);
 INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (4, 'urakka', FALSE, 'Runebergin Esplanadi 2, 00130 Helsinki', 2);
+INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm) VALUES (5, 'urakka', FALSE, 'Vironkatu 8, 00170 Helsinki', 2);
 
 INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('Vasara', 'kpl', 9.95, 50, DEFAULT);
 INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, tila) VALUES ('X-Naula', 'kpl', 0.20, 45, DEFAULT);
@@ -141,9 +142,21 @@ INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm, ale) VALUES (2, 3, 1, 40);
 INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm) VALUES (3, 7, 1);
 INSERT INTO sisaltaa (kohdeid, tarvikeid, lkm) VALUES (3, 10, 20);
 
-INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, tila) VALUES (1, 1, NULL, '2019-12-31', '2020-01-27', 'siirtynyt');
-INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, perintakulu, tila) VALUES (1, 1, 1, '2020-01-28', '2020-02-25', 5, 'siirtynyt');
-INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, maksupvm, perintakulu, tila) VALUES (1, 1, 1, '2020-02-26', '2020-03-25', '2020-03-20', 10, 'valmis');
-INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, tila) VALUES (2, 2, NULL, '2020-02-20', '2020-03-19', 'siirtynyt');
-INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, perintakulu, tila) VALUES (2, 2, 4, '2020-03-20', '2020-04-18', 5, 'siirtynyt');
-INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, perintakulu, tila) VALUES (2, 2, 4, '2020-04-19', '2020-05-17', 10, 'kesken');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, tila)
+  VALUES (1, 1, NULL, '2019-12-31', '2020-01-27', 'siirtynyt');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, perintakulu, tila)
+  VALUES (1, 1, 1, '2020-01-28', '2020-02-25', 5, 'siirtynyt');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, maksupvm, perintakulu, tila)
+  VALUES (1, 1, 2, '2020-02-26', '2020-03-25', '2020-03-20', 10, 'valmis');
+
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, tila)
+  VALUES (2, 2, NULL, '2020-02-20', '2020-03-19', 'siirtynyt');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, perintakulu, tila)
+  VALUES (2, 2, 4, '2020-03-20', '2020-04-18', 5, 'siirtynyt');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, perintakulu, tila)
+  VALUES (2, 2, 5, '2020-04-19', '2020-05-17', 10, 'kesken');
+
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, tila)
+  VALUES (5, 5, NULL, '2020-02-15', '2020-03-13', 'siirtynyt');
+INSERT INTO lasku (asiakasid, kohdeid, edeltavaid, luontipvm, erapvm, perintakulu, tila)
+  VALUES (5, 5, 7, '2020-03-14', '2020-04-11', 5, 'kesken');
