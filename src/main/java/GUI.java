@@ -16,6 +16,8 @@ public class GUI extends javax.swing.JFrame {
     public GUI(DBManager dbm) {
         initComponents();
         this.dbmanager = dbm;
+        
+        popupIkkuna.pack();
     }
 
     /**
@@ -27,6 +29,12 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupIkkuna = new javax.swing.JFrame();
+        popupok = new javax.swing.JButton();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        yhteenvetoTunnit = new javax.swing.JTable();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        yhteenvetoTarvikkeet = new javax.swing.JTable();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         uusiEtunimi = new javax.swing.JTextField();
@@ -131,6 +139,84 @@ public class GUI extends javax.swing.JFrame {
         uusiAlv = new javax.swing.JTextField();
         lisaaTarvike = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
+
+        popupok.setText("Ok");
+        popupok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popupokActionPerformed(evt);
+            }
+        });
+
+        yhteenvetoTunnit.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nimike", "Tunnit", "ID"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane12.setViewportView(yhteenvetoTunnit);
+
+        yhteenvetoTarvikkeet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nimike", "Määrä", "Yksikkö", "ID"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane11.setViewportView(yhteenvetoTarvikkeet);
+
+        javax.swing.GroupLayout popupIkkunaLayout = new javax.swing.GroupLayout(popupIkkuna.getContentPane());
+        popupIkkuna.getContentPane().setLayout(popupIkkunaLayout);
+        popupIkkunaLayout.setHorizontalGroup(
+            popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(popupIkkunaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(popupIkkunaLayout.createSequentialGroup()
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(popupok)))
+                .addContainerGap())
+        );
+        popupIkkunaLayout.setVerticalGroup(
+            popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(popupok)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -348,6 +434,11 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        tarjousLista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                tarjousListaValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(tarjousLista);
 
         poistaTarjousStatus.setText("Tarjous hyväksytty");
@@ -1182,7 +1273,10 @@ public class GUI extends javax.swing.JFrame {
                 dbmanager.lisaaKohteeseen(true, kohdeid, tarvikeid, lkm);
                 tarvikemaara.setText("");
                 tarvikeLista.setSelectedValue(null, false);
-                paivitaKohdeSisaltaaTaulukko(kohdeid);
+                
+                paivitaKohdeSisaltaaTaulukko(kohdeid,
+                        (DefaultTableModel)kohdeSisaltaaTunnit.getModel(),
+                        (DefaultTableModel)kohdeSisaltaaTarvikkeet.getModel());
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
@@ -1232,7 +1326,12 @@ public class GUI extends javax.swing.JFrame {
                 dbmanager.lisaaKohteeseen(false, kohdeid, nimi, lkm);
                 tuntityyppi.setSelectedIndex(0);
                 tuntimaara.setText("");
-                paivitaKohdeSisaltaaTaulukko(kohdeid);
+                
+                kohdeSisaltaaTunnit.getModel();
+                kohdeSisaltaaTarvikkeet.getModel();
+                paivitaKohdeSisaltaaTaulukko(kohdeid,
+                        (DefaultTableModel)kohdeSisaltaaTunnit.getModel(),
+                        (DefaultTableModel)kohdeSisaltaaTarvikkeet.getModel());
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
@@ -1243,7 +1342,9 @@ public class GUI extends javax.swing.JFrame {
 
     private void kohdeListaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_kohdeListaValueChanged
         if (!evt.getValueIsAdjusting() && kohdeLista.getSelectedValue() != null) {
-            paivitaKohdeSisaltaaTaulukko(kohdeLista.getSelectedValue().split(" ")[0]);
+            paivitaKohdeSisaltaaTaulukko(kohdeLista.getSelectedValue().split(" ")[0], 
+                    (DefaultTableModel)kohdeSisaltaaTunnit.getModel(),
+                    (DefaultTableModel)kohdeSisaltaaTarvikkeet.getModel());
         }
     }//GEN-LAST:event_kohdeListaValueChanged
 
@@ -1485,10 +1586,36 @@ public class GUI extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_laskuDropDownActionPerformed
+/**
+ * Avaa pop up ikkunan, missä tarjouksen sisältö, kun kohde valitaan listalta.
+ * @param evt 
+ */
+    private void tarjousListaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_tarjousListaValueChanged
+        // TODO add your handling code here:
+        if (!evt.getValueIsAdjusting() && tarjousLista.getSelectedValue() != null) {
 
-    private void paivitaKohdeSisaltaaTaulukko(String id) {
-        DefaultTableModel tunnit = (DefaultTableModel) kohdeSisaltaaTunnit.getModel();
-        DefaultTableModel tarvikkeet = (DefaultTableModel) kohdeSisaltaaTarvikkeet.getModel();
+            System.out.println(tarjousLista.getSelectedValue().split(" ")[0]);
+            
+            DefaultTableModel tunnit = (DefaultTableModel) yhteenvetoTunnit.getModel();
+            DefaultTableModel tarvikkeet = (DefaultTableModel) yhteenvetoTarvikkeet.getModel();
+            
+            String id = tarjousLista.getSelectedValue().split(" ")[0];
+            paivitaKohdeSisaltaaTaulukko(id,
+                    (DefaultTableModel)yhteenvetoTunnit.getModel(),
+                    (DefaultTableModel)yhteenvetoTarvikkeet.getModel());
+
+            popupIkkuna.setVisible(true);
+        }
+    }//GEN-LAST:event_tarjousListaValueChanged
+
+    private void popupokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupokActionPerformed
+        // TODO add your handling code here:
+        popupIkkuna.setVisible(false);
+    }//GEN-LAST:event_popupokActionPerformed
+
+    private void paivitaKohdeSisaltaaTaulukko(String id, DefaultTableModel tunnit,
+            DefaultTableModel tarvikkeet) {
+
         tunnit.setRowCount(0);
         tarvikkeet.setRowCount(0);
 
@@ -1612,6 +1739,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1649,6 +1778,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton poistaTarjousStatus;
     private javax.swing.JButton poistaTarvikerivit;
     private javax.swing.JButton poistaTuntirivit;
+    private javax.swing.JFrame popupIkkuna;
+    private javax.swing.JButton popupok;
     private javax.swing.JLabel puhelinLabel;
     private javax.swing.JList<String> tarjousLista;
     private javax.swing.JList<String> tarvikeLista;
@@ -1665,5 +1796,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField uusiSukunimi;
     private javax.swing.JTextField uusiTarvikeNimi;
     private javax.swing.JTextField uusiYksikko;
+    private javax.swing.JTable yhteenvetoTarvikkeet;
+    private javax.swing.JTable yhteenvetoTunnit;
     // End of variables declaration//GEN-END:variables
 }
