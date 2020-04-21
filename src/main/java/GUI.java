@@ -20,6 +20,7 @@ public class GUI extends javax.swing.JFrame {
         
         popupIkkuna.pack();
         laskuErittelyIkkuna.pack();
+        urakkaErittelyIkkuna.pack();
         lahetaMuistutuslaskut.setEnabled(false);
         laskuMaksettu.setEnabled(false);
     }
@@ -39,6 +40,8 @@ public class GUI extends javax.swing.JFrame {
         yhteenvetoTunnit = new javax.swing.JTable();
         jScrollPane11 = new javax.swing.JScrollPane();
         yhteenvetoTarvikkeet = new javax.swing.JTable();
+        jLabel56 = new javax.swing.JLabel();
+        jLabel57 = new javax.swing.JLabel();
         laskuErittelyIkkuna = new javax.swing.JFrame();
         jLabel31 = new javax.swing.JLabel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -80,6 +83,43 @@ public class GUI extends javax.swing.JFrame {
         jLabel53 = new javax.swing.JLabel();
         jLabel54 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
+        urakkaErittelyIkkuna = new javax.swing.JFrame();
+        jLabel58 = new javax.swing.JLabel();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jLabel59 = new javax.swing.JLabel();
+        jLabel60 = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        jLabel62 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
+        jLabel65 = new javax.swing.JLabel();
+        jLabel66 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        jLabel68 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        jLabel73 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        jLabel75 = new javax.swing.JLabel();
+        jLabel76 = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        jSeparator7 = new javax.swing.JSeparator();
+        jLabel77 = new javax.swing.JLabel();
+        jLabel78 = new javax.swing.JLabel();
+        jLabel79 = new javax.swing.JLabel();
+        jLabel80 = new javax.swing.JLabel();
+        jLabel81 = new javax.swing.JLabel();
+        jLabel82 = new javax.swing.JLabel();
+        jLabel83 = new javax.swing.JLabel();
+        jLabel84 = new javax.swing.JLabel();
+        jLabel85 = new javax.swing.JLabel();
+        jLabel86 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         uusiEtunimi = new javax.swing.JTextField();
@@ -220,13 +260,19 @@ public class GUI extends javax.swing.JFrame {
             }
         });
         jScrollPane12.setViewportView(yhteenvetoTunnit);
+        if (yhteenvetoTunnit.getColumnModel().getColumnCount() > 0) {
+            yhteenvetoTunnit.getColumnModel().getColumn(0).setMinWidth(80);
+            yhteenvetoTunnit.getColumnModel().getColumn(1).setMinWidth(60);
+            yhteenvetoTunnit.getColumnModel().getColumn(2).setMinWidth(0);
+            yhteenvetoTunnit.getColumnModel().getColumn(2).setMaxWidth(0);
+        }
 
         yhteenvetoTarvikkeet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nimike", "Määrä", "Yksikkö", "ID"
+                "Nimike", "Lukumäärä", "Yksikkö", "ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -238,6 +284,19 @@ public class GUI extends javax.swing.JFrame {
             }
         });
         jScrollPane11.setViewportView(yhteenvetoTarvikkeet);
+        if (yhteenvetoTarvikkeet.getColumnModel().getColumnCount() > 0) {
+            yhteenvetoTarvikkeet.getColumnModel().getColumn(0).setMinWidth(180);
+            yhteenvetoTarvikkeet.getColumnModel().getColumn(1).setMinWidth(70);
+            yhteenvetoTarvikkeet.getColumnModel().getColumn(2).setMinWidth(50);
+            yhteenvetoTarvikkeet.getColumnModel().getColumn(3).setMinWidth(0);
+            yhteenvetoTarvikkeet.getColumnModel().getColumn(3).setMaxWidth(0);
+        }
+
+        jLabel56.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel56.setText("Tunnit");
+
+        jLabel57.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel57.setText("Tarvikkeet");
 
         javax.swing.GroupLayout popupIkkunaLayout = new javax.swing.GroupLayout(popupIkkuna.getContentPane());
         popupIkkuna.getContentPane().setLayout(popupIkkunaLayout);
@@ -246,23 +305,31 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(popupIkkunaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(popupIkkunaLayout.createSequentialGroup()
-                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(popupok)))
+                        .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(popupok, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(popupIkkunaLayout.createSequentialGroup()
+                        .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel56)
+                            .addComponent(jLabel57))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         popupIkkunaLayout.setVerticalGroup(
             popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addComponent(jLabel56)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
+                .addComponent(jLabel57)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(popupok)
                 .addContainerGap())
         );
@@ -342,14 +409,17 @@ public class GUI extends javax.swing.JFrame {
             laskuErittelyTarvikkeet.getColumnModel().getColumn(0).setMinWidth(0);
             laskuErittelyTarvikkeet.getColumnModel().getColumn(0).setMaxWidth(0);
             laskuErittelyTarvikkeet.getColumnModel().getColumn(1).setMinWidth(80);
-            laskuErittelyTarvikkeet.getColumnModel().getColumn(2).setMinWidth(60);
+            laskuErittelyTarvikkeet.getColumnModel().getColumn(2).setMinWidth(70);
             laskuErittelyTarvikkeet.getColumnModel().getColumn(3).setMinWidth(60);
             laskuErittelyTarvikkeet.getColumnModel().getColumn(3).setMaxWidth(60);
             laskuErittelyTarvikkeet.getColumnModel().getColumn(4).setMinWidth(80);
+            laskuErittelyTarvikkeet.getColumnModel().getColumn(4).setHeaderValue("Myyntihinta");
             laskuErittelyTarvikkeet.getColumnModel().getColumn(5).setMinWidth(70);
             laskuErittelyTarvikkeet.getColumnModel().getColumn(6).setMinWidth(70);
+            laskuErittelyTarvikkeet.getColumnModel().getColumn(6).setHeaderValue("Yhteensä €");
             laskuErittelyTarvikkeet.getColumnModel().getColumn(7).setMinWidth(60);
             laskuErittelyTarvikkeet.getColumnModel().getColumn(8).setMinWidth(120);
+            laskuErittelyTarvikkeet.getColumnModel().getColumn(8).setHeaderValue("Yhteensä (sis. alv) €");
         }
 
         laskuErittelyOk.setText("Ok");
@@ -484,11 +554,11 @@ public class GUI extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laskuErittelyIkkunaLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel37)
-                                .addGap(768, 768, 768))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laskuErittelyIkkunaLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(laskuErittelyOk))))
+                                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laskuErittelyIkkunaLayout.createSequentialGroup()
+                                        .addComponent(jLabel37)
+                                        .addGap(768, 768, 768))
+                                    .addComponent(laskuErittelyOk, javax.swing.GroupLayout.Alignment.TRAILING)))))
                     .addGroup(laskuErittelyIkkunaLayout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -588,6 +658,290 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(laskuErittelyOk)
                 .addContainerGap())
+        );
+
+        jLabel58.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel58.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel58.setText("Laskun erittely");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nimike", "Tunnit", "Alennus %", "Alv %"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane15.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(80);
+            jTable1.getColumnModel().getColumn(2).setMinWidth(60);
+            jTable1.getColumnModel().getColumn(3).setMinWidth(70);
+            jTable1.getColumnModel().getColumn(4).setMinWidth(60);
+        }
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nimike", "Lukumäärä", "Yksikkö", "Alennus %", "Alv %"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane16.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setMinWidth(0);
+            jTable2.getColumnModel().getColumn(0).setMaxWidth(0);
+            jTable2.getColumnModel().getColumn(1).setMinWidth(150);
+            jTable2.getColumnModel().getColumn(2).setMinWidth(70);
+            jTable2.getColumnModel().getColumn(3).setMinWidth(60);
+            jTable2.getColumnModel().getColumn(4).setMinWidth(70);
+            jTable2.getColumnModel().getColumn(5).setMinWidth(60);
+        }
+
+        jLabel59.setText("Lasku luotu:");
+
+        jLabel60.setText("jLabel60");
+
+        jLabel61.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel61.setText("Tunnit");
+
+        jLabel62.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel62.setText("Tarvikeluettelo");
+
+        jButton2.setText("Ok");
+
+        jLabel63.setText("Yhteissumma (sis. alv):");
+
+        jLabel64.setText("Alv 0:");
+
+        jLabel65.setText("Alv:");
+
+        jLabel66.setText("Summa:");
+
+        jLabel67.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel67.setText("jLabel67");
+
+        jLabel68.setText("jLabel68");
+
+        jLabel69.setText("jLabel69");
+
+        jLabel70.setText("Alv 0:");
+
+        jLabel71.setText("jLabel71");
+
+        jLabel72.setText("Alv:");
+
+        jLabel73.setText("jLabel73");
+
+        jLabel74.setText("Summa:");
+
+        jLabel75.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel75.setText("jLabel75");
+
+        jLabel76.setText("jLabel76");
+
+        jLabel77.setText("Asiakkaan nimi:");
+
+        jLabel78.setText("Laskun eräpäivä:");
+
+        jLabel79.setText("Laskutuslisä:");
+
+        jLabel80.setText("Viivästyskorko:");
+
+        jLabel81.setText("jLabel81");
+
+        jLabel82.setText("jLabel82");
+
+        jLabel83.setText("jLabel83");
+
+        jLabel84.setText("jLabel84");
+
+        jLabel85.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel85.setText("Työkohteen osoite");
+
+        jLabel86.setText("jLabel86");
+
+        javax.swing.GroupLayout urakkaErittelyIkkunaLayout = new javax.swing.GroupLayout(urakkaErittelyIkkuna.getContentPane());
+        urakkaErittelyIkkuna.getContentPane().setLayout(urakkaErittelyIkkunaLayout);
+        urakkaErittelyIkkunaLayout.setHorizontalGroup(
+            urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, urakkaErittelyIkkunaLayout.createSequentialGroup()
+                        .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, urakkaErittelyIkkunaLayout.createSequentialGroup()
+                                .addComponent(jLabel64)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(71, 71, 71)
+                                .addComponent(jLabel65)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel68, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel66, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(21, 21, 21))
+                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                        .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, urakkaErittelyIkkunaLayout.createSequentialGroup()
+                                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel77, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel78, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel79, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel81, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                                    .addComponent(jLabel82, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel83, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel84, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel86, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel62, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel61, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane16, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane15, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                                        .addComponent(jLabel63)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel76, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                                        .addComponent(jLabel70)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(73, 73, 73)
+                                        .addComponent(jLabel72)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel73, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(79, 79, 79)
+                                        .addComponent(jLabel74)))
+                                .addGap(6, 6, Short.MAX_VALUE)
+                                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel75, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(22, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, urakkaErittelyIkkunaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel85)
+                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                        .addComponent(jLabel59)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        urakkaErittelyIkkunaLayout.setVerticalGroup(
+            urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel58)
+                    .addComponent(jLabel59)
+                    .addComponent(jLabel60))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel77)
+                    .addComponent(jLabel81)
+                    .addComponent(jLabel85))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel78)
+                    .addComponent(jLabel82)
+                    .addComponent(jLabel86))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel79)
+                    .addComponent(jLabel83))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel80)
+                    .addComponent(jLabel84))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel61)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel64)
+                    .addComponent(jLabel65)
+                    .addComponent(jLabel66)
+                    .addComponent(jLabel68)
+                    .addComponent(jLabel69)
+                    .addComponent(jLabel67))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                        .addComponent(jLabel62)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel70)
+                            .addComponent(jLabel71)
+                            .addComponent(jLabel72)
+                            .addComponent(jLabel73)
+                            .addComponent(jLabel74)
+                            .addComponent(jLabel75))
+                        .addGap(36, 36, 36)
+                        .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel63)
+                            .addComponent(jLabel76))
+                        .addGap(11, 11, 11))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, urakkaErittelyIkkunaLayout.createSequentialGroup()
+                        .addGap(253, 253, 253)
+                        .addComponent(jButton2)
+                        .addContainerGap())))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -2072,7 +2426,6 @@ public class GUI extends javax.swing.JFrame {
 
     private void lahetaMuistutuslaskutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lahetaMuistutuslaskutActionPerformed
         DefaultTableModel dtmLaskut = (DefaultTableModel) laskuTaulukko.getModel();
-        System.out.println("Lähetetään muistutuslaskut..");
         try {
             int rivit = laskuTaulukko.getRowCount();
             System.out.println(rivit);
@@ -2120,31 +2473,31 @@ public class GUI extends javax.swing.JFrame {
                     int ttid = Integer.parseInt(tt.split("::")[4]);
                     double alv = Double.parseDouble(tt.split("::")[5]);
                     double alvsumma = valisumma * ((100 + alv) / 100);
-                    tunnitAlv += valisumma*(alv/100);
+                    tunnitAlv += valisumma * (alv/100);
                     nimike = nimike.substring(0, 1).toUpperCase() + nimike.substring(1);
                     //total += alvsumma;
                     if(kohteenTyyppi.equals("tunti")){
-                    tunnit.addRow(new Object[]{
-                        ttid,
-                        nimike,
-                        lkm,
-                        hinta,
-                        ale > 0 ? ale : null,
-                        String.format("%.2f", valisumma),
-                        alv,
-                        String.format("%.2f", alvsumma)
-                    });
+                        tunnit.addRow(new Object[]{
+                            ttid,
+                            nimike,
+                            lkm,
+                            hinta,
+                            ale > 0 ? ale : null,
+                            df.format(valisumma),
+                            alv,
+                            df.format(alvsumma)
+                        });
                     } else {
-                    tunnit.addRow(new Object[]{
-                        ttid,
-                        nimike,
-                        lkm,
-                        null,
-                        ale > 0 ? ale : null,
-                        null,
-                        alv,
-                        null
-                    });
+                        tunnit.addRow(new Object[]{
+                            ttid,
+                            nimike,
+                            lkm,
+                            null,
+                            ale > 0 ? ale : null,
+                            null,
+                            alv,
+                            null
+                        });
                     }
                 }
                 ArrayList<String> laskunTarvikkeet = dbmanager.haeKohteenTarvikkeet(kohdeid);
@@ -2164,29 +2517,29 @@ public class GUI extends javax.swing.JFrame {
                     tarvikkeetAlv += valisumma*(alv/100);
                     //total += alvsumma;
                     if(kohteenTyyppi.equals("tunti")){
-                    tarvikkeet.addRow(new Object[]{
-                        tarvikeid,
-                        nimike,
-                        lkm,
-                        yksikko,
-                        String.format("%.2f", myyntihinta),
-                        ale > 0 ? ale : null,
-                        String.format("%.2f", valisumma),
-                        alv,
-                        String.format("%.2f", alvsumma)
-                    });
+                        tarvikkeet.addRow(new Object[]{
+                            tarvikeid,
+                            nimike,
+                            lkm,
+                            yksikko,
+                            df.format(myyntihinta),
+                            ale > 0 ? ale : null,
+                            df.format(valisumma),
+                            alv,
+                            df.format(alvsumma)
+                        });
                     } else {
-                    tarvikkeet.addRow(new Object[]{
-                        tarvikeid,
-                        nimike,
-                        lkm,
-                        yksikko,
-                        null,
-                        ale > 0 ? ale : null,
-                        null,
-                        alv,
-                        null
-                    });
+                        tarvikkeet.addRow(new Object[]{
+                            tarvikeid,
+                            nimike,
+                            lkm,
+                            yksikko,
+                            null,
+                            ale > 0 ? ale : null,
+                            null,
+                            alv,
+                            null
+                        });
                     }
                 }
                 laskuAsiakas.setText(asiakas);
@@ -2218,7 +2571,7 @@ public class GUI extends javax.swing.JFrame {
                 total *= (100 + viivastyskorko) / 100;
                 
                 total += perintakulu; // perintäkulu lisätään viimeiseksi, koska sille ei tule korkoa
-                laskuTotal.setText(String.format("%.2f", total));
+                laskuTotal.setText("" + df.format(total));
                 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -2296,7 +2649,7 @@ public class GUI extends javax.swing.JFrame {
                 yhteensa += summa;
                 tarvikkeetSisalto.addRow(new Object[]{nimike, hinta, maara, ale, summa, tarvikeid});
             }
-            laskuYht.setText(String.format("%.2f", yhteensa));
+            laskuYht.setText("" + df.format(yhteensa));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
@@ -2321,6 +2674,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton haeTarjouksista;
     private javax.swing.JButton haeTarvikeNimella;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2372,9 +2726,40 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel76;
+    private javax.swing.JLabel jLabel77;
+    private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
+    private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -2390,6 +2775,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
+    private javax.swing.JScrollPane jScrollPane16;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2402,8 +2789,12 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JList<String> kohdeLista;
     private javax.swing.JTable kohdeSisaltaaTarvikkeet;
     private javax.swing.JTable kohdeSisaltaaTunnit;
@@ -2452,6 +2843,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> tuntityyppi;
     private javax.swing.JLabel tyokohdeOsoite;
     private javax.swing.JLabel tyokohdeTyyppi;
+    private javax.swing.JFrame urakkaErittelyIkkuna;
     private javax.swing.JTextField uusiAlv;
     private javax.swing.JTextField uusiEtunimi;
     private javax.swing.JTextField uusiKate;
