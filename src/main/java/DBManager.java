@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.*;
 
 public class DBManager {
-    
+
     private static final String PROTOKOLLA = "jdbc:postgresql:";
     private static final String PALVELIN = "localhost";
     private static final int PORTTI = 5432;
@@ -29,9 +29,9 @@ public class DBManager {
         try {
             con = DriverManager.getConnection(PROTOKOLLA + "//" + PALVELIN + ":"
                     + PORTTI + "/" + TIETOKANTA, KAYTTAJA, SALASANA);
-            
+
             System.out.println("Tietokantayhteys avattu!");
-            
+
         } catch (SQLException poikkeus) {
             System.out.println(con);
             System.out.println("Yhteyden avaaminen tietokantaan epäonnistui: "
@@ -40,12 +40,12 @@ public class DBManager {
             System.exit(0);
         }
     }
-    
+
     public void lisaaAsiakas(String enimi, String snimi, String osoite,
             String puhelin, String sahkoposti) throws SQLException {
         System.out.println("luodaan uusi asiakas: " + enimi + snimi + osoite
                 + puhelin + sahkoposti);
-        
+
         try {
             Statement stmt = con.createStatement();
             String update;
@@ -59,7 +59,7 @@ public class DBManager {
                 stmt.executeUpdate(String.format(update, enimi, snimi, osoite, puhelin, sahkoposti));
             }
             stmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
@@ -78,11 +78,11 @@ public class DBManager {
             String sahkoposti) throws SQLException {
         System.out.println("luodaan uusi asiakas ilman puhelinnumeroa: "
                 + enimi + snimi + osoite + sahkoposti);
-        
+
         try {
             Statement stmt = con.createStatement();
             String update;
-            
+
             if (sahkoposti.length() == 0) {
                 update = "INSERT INTO asiakas (enimi, snimi, osoite, sposti)"
                         + " VALUES ('%s', '%s', '%s', NULL)";
@@ -92,9 +92,9 @@ public class DBManager {
                         + " VALUES ('%s', '%s', '%s', '%s')";
                 stmt.executeUpdate(String.format(update, enimi, snimi, osoite, sahkoposti));
             }
-            
+
             stmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
@@ -109,7 +109,7 @@ public class DBManager {
      */
     public ArrayList<String> haeAsiakkaat(String nimi) throws SQLException {
         ArrayList<String> asiakkaat = new ArrayList<>();
-        
+
         try {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT asiakasid, enimi, snimi "
@@ -124,14 +124,14 @@ public class DBManager {
                         + " " + rs.getString("snimi");
                 asiakkaat.add(asiakas);
             }
-            
+
             rs.close();
             pstmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return asiakkaat;
     }
 
@@ -145,7 +145,7 @@ public class DBManager {
      */
     public ArrayList<String> haeAsiakkaat(String enimi, String snimi) throws SQLException {
         ArrayList<String> asiakkaat = new ArrayList<>();
-        
+
         try {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT asiakasid, enimi, snimi "
@@ -160,14 +160,14 @@ public class DBManager {
                         + " " + rs.getString("snimi");
                 asiakkaat.add(asiakas);
             }
-            
+
             rs.close();
             pstmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return asiakkaat;
     }
 
@@ -179,7 +179,7 @@ public class DBManager {
      */
     public ArrayList<String> haeAsiakkaat() throws SQLException {
         ArrayList<String> asiakkaat = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT asiakasid, enimi, snimi "
@@ -190,31 +190,31 @@ public class DBManager {
                         + " " + rs.getString("snimi");
                 asiakkaat.add(asiakas);
             }
-            
+
             rs.close();
             stmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return asiakkaat;
     }
-    
+
     public void lisaaKohde(String asiakasid, String tyyppi, String tarjous, String osoite, String eralkm)
             throws SQLException {
         System.out.println("luodaan uusi työkohde: " + asiakasid + tyyppi + osoite
                 + eralkm);
-        
+
         try {
             Statement stmt = con.createStatement();
-            
+
             String update = "INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm)"
                     + " VALUES (%s, '%s', %s, '%s', %s)";
             stmt.executeUpdate(String.format(update, asiakasid, tyyppi, tarjous, osoite, eralkm));
-            
+
             stmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
@@ -228,7 +228,7 @@ public class DBManager {
      */
     public ArrayList<String> haeTarjoukset() throws SQLException {
         ArrayList<String> tarjoukset = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT kohdeid, osoite "
@@ -241,11 +241,11 @@ public class DBManager {
             }
             rs.close();
             stmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return tarjoukset;
     }
 
@@ -259,7 +259,7 @@ public class DBManager {
      */
     public ArrayList<String> haeTarjoukset(String osoite) throws SQLException {
         ArrayList<String> tarjoukset = new ArrayList<>();
-        
+
         try {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT kohdeid, osoite "
@@ -274,14 +274,14 @@ public class DBManager {
             }
             rs.close();
             pstmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return tarjoukset;
     }
-    
+
     public void hyvaksyTarjous(String kohdeid) throws SQLException {
         try {
             Statement stmt = con.createStatement();
@@ -301,9 +301,9 @@ public class DBManager {
      * @throws SQLException
      */
     public ArrayList<String> haeKohteet() throws SQLException {
-        
+
         ArrayList<String> kohteet = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(
@@ -333,9 +333,9 @@ public class DBManager {
      * @throws SQLException
      */
     public ArrayList<String> haeKohteet(String osoite) throws SQLException {
-        
+
         ArrayList<String> kohteet = new ArrayList<>();
-        
+
         try {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT kohdeid, osoite "
@@ -364,9 +364,9 @@ public class DBManager {
      * @throws SQLException
      */
     public ArrayList<String> haeKohteetIlmanLaskua() throws SQLException {
-        
+
         ArrayList<String> kohteet = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT kohdeid, osoite "
@@ -394,9 +394,9 @@ public class DBManager {
      * @throws SQLException
      */
     public ArrayList<String> haeKohteetIlmanLaskua(String osoite) throws SQLException {
-        
+
         ArrayList<String> kohteet = new ArrayList<>();
-        
+
         try {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT kohdeid, osoite "
@@ -432,10 +432,20 @@ public class DBManager {
     public void lisaaTarvike(String nimi, String yksikko, double ostohinta, double kate, double alv) throws SQLException {
         try {
             Statement stmt = con.createStatement();
-            String update;
-            update = "INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, alv)"
-                    + " VALUES ('%s', '%s', %s, %s, %s)";
-            stmt.executeUpdate(String.format(update, nimi, yksikko, ostohinta, kate, alv));
+            String select;
+            select = "SELECT nimi, yksikko, ostohinta, kate, alv FROM tarvike"
+                    + " WHERE nimi = '%s' AND yksikko = '%s' AND ostohinta = '%s'"
+                    + " AND kate = '%s' AND alv = '%s'";
+            ResultSet rs = stmt.executeQuery(String.format(select, nimi, yksikko, ostohinta, kate, alv));
+            if (!rs.isBeforeFirst()) {
+                String update;
+                update = "INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, alv)"
+                        + " VALUES ('%s', '%s', %s, %s, %s)";
+                stmt.executeUpdate(String.format(update, nimi, yksikko, ostohinta, kate, alv));
+            }else{
+                System.out.println("This item already exists!!!");
+            }
+
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
@@ -448,9 +458,9 @@ public class DBManager {
      * @throws SQLException
      */
     public ArrayList<String> haeTarvikkeet() throws SQLException {
-        
+
         ArrayList<String> tarvikkeet = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * "
@@ -468,7 +478,7 @@ public class DBManager {
         }
         return tarvikkeet;
     }
-    
+
     /**
      * Hakee tietokannasta kaikki tarvikkeet.
      *
@@ -476,9 +486,9 @@ public class DBManager {
      * @throws SQLException
      */
     public ArrayList<String> haeKaikkiTarvikkeet() throws SQLException {
-        
+
         ArrayList<String> tarvikkeet = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(
@@ -488,7 +498,7 @@ public class DBManager {
                         + rs.getString("yksikko") + "::" + rs.getDouble("ostohinta")
                         + "::" + rs.getDouble("kate") + "::" + rs.getDouble("alv")
                         + "::" + rs.getString("tila");
-                
+
                 tarvikkeet.add(tarvike);
             }
             rs.close();
@@ -506,9 +516,9 @@ public class DBManager {
      * @throws SQLException
      */
     public ArrayList<String> haeKaytossaTarvikkeet() throws SQLException {
-        
+
         ArrayList<String> tarvikkeet = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(
@@ -518,7 +528,7 @@ public class DBManager {
                         + rs.getString("yksikko") + "::" + rs.getDouble("ostohinta")
                         + "::" + rs.getDouble("kate") + "::" + rs.getDouble("alv")
                         + "::" + rs.getString("tila");
-                
+
                 tarvikkeet.add(tarvike);
             }
             rs.close();
@@ -528,17 +538,17 @@ public class DBManager {
         }
         return tarvikkeet;
     }
-    
-        /**
+
+    /**
      * Hakee kaikki poistetut/päivitetyt tarvikkeet.
      *
      * @return
      * @throws SQLException
      */
     public ArrayList<String> haePoistetutTarvikkeet() throws SQLException {
-        
+
         ArrayList<String> tarvikkeet = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(
@@ -548,7 +558,7 @@ public class DBManager {
                         + rs.getString("yksikko") + "::" + rs.getDouble("ostohinta")
                         + "::" + rs.getDouble("kate") + "::" + rs.getDouble("alv")
                         + "::" + rs.getString("tila");
-                
+
                 tarvikkeet.add(tarvike);
             }
             rs.close();
@@ -558,7 +568,7 @@ public class DBManager {
         }
         return tarvikkeet;
     }
-    
+
     /**
      * Hakee tietokannasta kaikki käytössä olevat tarvikkeet jotka vastaavat
      * parametrina annettua nimeä.
@@ -568,9 +578,9 @@ public class DBManager {
      * @throws SQLException
      */
     public ArrayList<String> haeTarvikkeet(String nimi) throws SQLException {
-        
+
         ArrayList<String> tarvikkeet = new ArrayList<>();
-        
+
         try {
             PreparedStatement pstmt = con.prepareStatement(
                     "SELECT * "
@@ -600,7 +610,7 @@ public class DBManager {
      */
     public ArrayList<String> haeKohteenTunnit(String id) throws SQLException {
         ArrayList<String> tunnit = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT tt.ttid, tt.nimi, te.lkm, tt.hinta, te.ale, tt.alv "
@@ -620,7 +630,7 @@ public class DBManager {
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return tunnit;
     }
 
@@ -633,7 +643,7 @@ public class DBManager {
      */
     public ArrayList<String> haeKohteenTarvikkeet(String id) throws SQLException {
         ArrayList<String> tarvikkeet = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT ta.tarvikeid, ta.nimi, ta.yksikko, s.lkm, ta.ostohinta, "
@@ -655,7 +665,7 @@ public class DBManager {
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return tarvikkeet;
     }
 
@@ -756,7 +766,7 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-    
+
     public void lisaaTarvikeAlennus(String tarvikeid, String kohdeid, String ale) throws SQLException {
         try {
             Statement stmt = con.createStatement();
@@ -786,7 +796,7 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-    
+
     public ArrayList<String> haeLaskutErapvmUmpeutunut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
         try {
@@ -821,7 +831,7 @@ public class DBManager {
      */
     public ArrayList<String> haeKaikkiLaskut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, "
@@ -853,7 +863,7 @@ public class DBManager {
      */
     public ArrayList<String> haeMaksamattomatLaskut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, "
@@ -888,7 +898,7 @@ public class DBManager {
      */
     public ArrayList<String> haeMuistutuslaskut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, "
@@ -924,7 +934,7 @@ public class DBManager {
      */
     public ArrayList<String> haeKarhulaskut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, "
@@ -958,7 +968,7 @@ public class DBManager {
      */
     public ArrayList<String> haeMaksetutLaskut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
-        
+
         try {
             Statement stmt = con.createStatement();
             String query = "SELECT laskuid, a.enimi || ' ' || a.snimi AS nimi, t.osoite, "
@@ -1003,7 +1013,7 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-    
+
     public String laskuMaksettu(String laskuid) throws SQLException {
         try {
             String laskuTiedot = "";
@@ -1021,7 +1031,7 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-    
+
     public void lahetaMuistutuslasku(String laskuid) throws SQLException {
         try {
             con.setAutoCommit(false);
@@ -1047,7 +1057,7 @@ public class DBManager {
             con.setAutoCommit(true);
         }
     }
-    
+
     public ArrayList<String> haeLaskuErittely(String laskuid) throws SQLException {
         ArrayList<String> eriteltavat = new ArrayList<>();
         try {
@@ -1071,28 +1081,28 @@ public class DBManager {
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return eriteltavat;
     }
-    
-    public void update(File file){
+
+    public void update(File file) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = "";
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
-                String nimi=line.split(";")[0];
-                String yksikko= line.split(";")[1];
+                String nimi = line.split(";")[0];
+                String yksikko = line.split(";")[1];
                 double hinta = Double.parseDouble(line.split(";")[2]);
                 double kate = Double.parseDouble(line.split(";")[3]);
-                double alv = Double.parseDouble(line.split(";")[4]);               
-                lisaaTarvike(nimi,yksikko,hinta,kate,alv);
+                double alv = Double.parseDouble(line.split(";")[4]);
+                lisaaTarvike(nimi, yksikko, hinta, kate, alv);
             }
         } catch (Exception e) {
             System.out.println("Tarvikelistauksen päivitysoperaatio räjähti.");
         }
     }
-    
+
     public void close() {
         try {
             System.out.println("Suljetaan yhteydet..");
