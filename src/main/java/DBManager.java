@@ -417,6 +417,34 @@ public class DBManager {
         }
         return kohteet;
     }
+    
+    /**
+     * Hakee asiakkaan nimen ja työkohteen osoitteen, jotka liittyvät
+     * työkohteeseen jonka kohdeid vastaanotetaan parametrina.
+     * 
+     * @param kohdeid
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<String> haeTarjousTiedot(String kohdeid) throws SQLException {
+        ArrayList<String> tarjous = new ArrayList<>();
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT enimi || ' ' || snimi AS nimi, "
+                    + "t.osoite FROM asiakas a INNER JOIN tyokohde t "
+                    + "ON a.asiakasid = t.asiakasid WHERE t.kohdeid = " + kohdeid);
+            if (rs.next()) {
+                tarjous.add(rs.getString("nimi"));
+                tarjous.add(rs.getString("osoite"));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        
+        return tarjous;
+    }
 
     /**
      * Lisää tarvikkeen tietokantaan annetuilla parameterilla.
@@ -1013,7 +1041,15 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Päivitetään laskun tila muotoon 'valmis' eli lasku maksetuksi.
+     * Vastaanottaa parametrina päivitettävän laskun laskuid sarakkeen.
+     * 
+     * @param laskuid
+     * @return
+     * @throws SQLException 
+     */
     public String laskuMaksettu(String laskuid) throws SQLException {
         try {
             String laskuTiedot = "";
@@ -1031,7 +1067,18 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Lähettää muistutuslaskun. Haetaan ensin parametrina vastaanotettua
+     * laskuid:tä vastaavan laskun tiedot, jonka jälkeen luodaan uusi lasku
+     * jossa edeltavaid = parametrina saatu laskuid. Tämän jälkeen asetetaan
+     * vanhan laskun tilaksi 'siirtynyt'. Käytetään tapahtumanhallintaa, jotta
+     * muutokset menevät läpi loogisena kokonaisuutena, tai jos joku menee
+     * pieleen niin peruutetaan alkuperäiseen tilaan.
+     * 
+     * @param laskuid
+     * @throws SQLException 
+     */
     public void lahetaMuistutuslasku(String laskuid) throws SQLException {
         try {
             con.setAutoCommit(false);
@@ -1057,7 +1104,15 @@ public class DBManager {
             con.setAutoCommit(true);
         }
     }
-
+    
+    /**
+     * Hakee laskun erittelyyn tarvittavat tiedot tietokannasta.
+     * Lasku haetaan parametrina saatua laskuid arvoa käyttäen.
+     * 
+     * @param laskuid
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<String> haeLaskuErittely(String laskuid) throws SQLException {
         ArrayList<String> eriteltavat = new ArrayList<>();
         try {
