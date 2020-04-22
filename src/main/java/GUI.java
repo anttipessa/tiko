@@ -2281,6 +2281,8 @@ public class GUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser fc = new JFileChooser();
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        fc.setCurrentDirectory(workingDirectory);
         fc.setDialogTitle("Select a file");
         int returnVal = fc.showOpenDialog(this);
 
