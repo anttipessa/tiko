@@ -1130,12 +1130,18 @@ public class DBManager {
         return eriteltavat;
     }
     
-    public void update(File file) {
+    public void update(File file){
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = "";
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
+                String nimi=line.split(";")[0];
+                String yksikko= line.split(";")[1];
+                double hinta = Double.parseDouble(line.split(";")[2]);
+                double kate = Double.parseDouble(line.split(";")[3]);
+                double alv = Double.parseDouble(line.split(";")[4]);               
+                lisaaTarvike(nimi,yksikko,hinta,kate,alv);
             }
         } catch (Exception e) {
             System.out.println("Tarvikelistauksen päivitysoperaatio räjähti.");

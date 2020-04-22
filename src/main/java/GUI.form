@@ -872,7 +872,7 @@
                                           <Component id="jLabel74" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="11" pref="6" max="32767" attributes="0"/>
+                                  <EmptySpace min="11" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel75" max="32767" attributes="0"/>
                                       <Component id="jButton2" max="32767" attributes="0"/>
