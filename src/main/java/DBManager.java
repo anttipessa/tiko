@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 
 public class DBManager {
@@ -1020,6 +1021,28 @@ public class DBManager {
         }
         return laskut;
     }
+    
+    /**
+     * Palauttaa tiedon kuinka monessa erässä kohde laskutetaan.
+     * @param kohdeid
+     * @return
+     * @throws SQLException 
+     */
+    public int haeErat(String kohdeid) throws SQLException {
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT eralkm FROM tyokohde "
+                    + "where kohdeid = " + kohdeid);
+            int erat = 0;
+            if(rs.next()) {
+                erat =  Integer.parseInt(rs.getString("eralkm"));
+            } 
+            stmt.close();
+            return erat;
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
 
     /**
      * Luo kohteesta laskun tietokantaan.
@@ -1028,17 +1051,34 @@ public class DBManager {
      * @param kohdeid
      * @throws SQLException
      */
-    public void luoLasku(String kohdeid) throws SQLException {
+    public void luoLasku(String kohdeid, int eralkm) throws SQLException { //, IllegalArgumentException {
         try {
+            /*
+            if(eralkm != 1 || eralkm != 2) {
+                throw new IllegalArgumentException("väärä erälukumäärä syötetty");
+            }
+            */
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String update;
             update = "INSERT INTO lasku (asiakasid, kohdeid) "
                     + "VALUES ((SELECT a.asiakasid FROM asiakas as a LEFT JOIN "
                     + "tyokohde as t ON a.asiakasid = t.asiakasid WHERE kohdeid = %s), %s)";
             stmt.executeUpdate(String.format(update, kohdeid, kohdeid));
+            
+            if(eralkm == 2) {
+                int vuosi = LocalDate.now().plusYears(1).getYear();
+                update = "INSERT INTO lasku (asiakasid, kohdeid, luontipvm, erapvm) "
+                        + "VALUES ((SELECT a.asiakasid FROM asiakas as a LEFT JOIN "
+                        + "tyokohde as t ON a.asiakasid = t.asiakasid WHERE kohdeid = %s), %s,"
+                        + "'%d-01-01', '%d-01-28')";
+                stmt.executeUpdate(String.format(update, kohdeid, kohdeid, vuosi, vuosi));
+            }
             stmt.close();
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
     

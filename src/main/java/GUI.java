@@ -2376,7 +2376,13 @@ public class GUI extends javax.swing.JFrame {
         if (!paattyvaKohdeLista.isSelectionEmpty()) {
             try {
                 String kohdeid = paattyvaKohdeLista.getSelectedValue().split(" - ")[0];
-                dbmanager.luoLasku(kohdeid);
+                int erat = dbmanager.haeErat(kohdeid);
+                if(erat == 1 || erat == 2) {
+                    dbmanager.luoLasku(kohdeid, erat);
+                } else {
+                    System.out.println("erälukumäärä virheellinen");
+                }
+                
                 paattyvaKohdeLista.setModel(new DefaultListModel());
                 laskuLuontiIlmo.setText("Laskun luonti onnistui.");
                 paivitaKohdeTaulukko("0");
@@ -2760,6 +2766,8 @@ public class GUI extends javax.swing.JFrame {
             total += tunnitNollaAlv + tunnitAlv
                     + tarvikkeetNollaAlv + tarvikkeetAlv;
 
+            total /= dbmanager.haeErat(kohdeid);
+            
             total *= (100 + viivastyskorko) / 100;
 
             total += perintakulu; // perintäkulu lisätään viimeiseksi, koska sille ei tule korkoa
@@ -2875,6 +2883,8 @@ public class GUI extends javax.swing.JFrame {
             total += tunnitNollaAlv + tunnitAlv
                     + tarvikkeetNollaAlv + tarvikkeetAlv;
 
+            total /= dbmanager.haeErat(kohdeid);
+            
             total *= (100 + viivastyskorko) / 100;
 
             total += perintakulu; // perintäkulu lisätään viimeiseksi, koska sille ei tule korkoa
@@ -3022,9 +3032,9 @@ public class GUI extends javax.swing.JFrame {
             tarvikkeetVeroton.setText(df.format(sumTarvikkeetVeroton));
             tarvikkeetVerollinen.setText(df.format(sumTarvikkeetVerollinen));
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("paivitakohdesisaltaataulukko 1 " + e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("paivitakohdesisaltaataulukko 2 " + e.getMessage());
         }
     }
 
@@ -3062,9 +3072,9 @@ public class GUI extends javax.swing.JFrame {
             }
             laskuYht.setText("" + df.format(yhteensa));
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("paivitakohdetaulukko " + e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("paivitakohdetaulukko " + e.getMessage());
         }
     }
 
