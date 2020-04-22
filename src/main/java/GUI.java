@@ -932,7 +932,7 @@ public class GUI extends javax.swing.JFrame {
                                         .addComponent(jLabel73, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(79, 79, 79)
                                         .addComponent(jLabel74)))
-                                .addGap(6, 6, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel75, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -2551,19 +2551,30 @@ public class GUI extends javax.swing.JFrame {
             if (valitutLaskut <= 0) {
                 laskuViestit.setText("Valitse vähintään yksi lasku hyväksyttäväksi!");
             } else {
-                for (int i = 0; i < valitutLaskut; i++) {
-                    int rivi = laskuTaulukko.getSelectedRow();
+                int maksetut = 0;
+                int[] rivit = laskuTaulukko.getSelectedRows();
+                for (int rivi : rivit) {
                     String laskuid = laskuTaulukko.getValueAt(rivi, 0).toString();
-                    String updated = dbmanager.laskuMaksettu(laskuid);
-                    String maksupvm = updated.split("::")[0];
-                    String tila = updated.split("::")[1];
-                    dtmLaskut.setValueAt(maksupvm, rivi, 5);
-                    dtmLaskut.setValueAt(tila, rivi, 6);
+                    String updated = "";
+                    if(laskuTaulukko.getValueAt(rivi, 6).toString().equals("kesken")){
+                        updated = dbmanager.laskuMaksettu(laskuid);
+                    
+                        String maksupvm = updated.split("::")[0];
+                        String tila = updated.split("::")[1];
+                        dtmLaskut.setValueAt(maksupvm, rivi, 5);
+                        dtmLaskut.setValueAt(tila, rivi, 6);
+                        maksetut++;
+                    }
                 }
-                if (valitutLaskut > 1) {
-                    laskuViestit.setText("Laskut merkitty maksetuiksi.");
+                
+                String virhe = "";
+                if(maksetut < valitutLaskut) {
+                    virhe = ", " + (valitutLaskut - maksetut) + " epäonnistui.";
+                }
+                if (maksetut != 1) {
+                    laskuViestit.setText(maksetut + " laskua merkitty maksetuiksi" + virhe);
                 } else {
-                    laskuViestit.setText("Lasku merkitty maksetuksi.");
+                    laskuViestit.setText("Yksi lasku merkitty maksetuksi" + virhe);
                 }
             }
 
