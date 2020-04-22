@@ -87,9 +87,9 @@ public class GUI extends javax.swing.JFrame {
         urakkaErittelyIkkuna = new javax.swing.JFrame();
         jLabel58 = new javax.swing.JLabel();
         jScrollPane15 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        urakkaLaskuTunnit = new javax.swing.JTable();
         jScrollPane16 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        urakkaLaskuTarvikkeet = new javax.swing.JTable();
         jLabel59 = new javax.swing.JLabel();
         jLabel60 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
@@ -668,7 +668,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel58.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel58.setText("Laskun erittely");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        urakkaLaskuTunnit.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -694,17 +694,17 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane15.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(0);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
-            jTable1.getColumnModel().getColumn(1).setMinWidth(80);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(3).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(4).setMinWidth(60);
+        jScrollPane15.setViewportView(urakkaLaskuTunnit);
+        if (urakkaLaskuTunnit.getColumnModel().getColumnCount() > 0) {
+            urakkaLaskuTunnit.getColumnModel().getColumn(0).setMinWidth(0);
+            urakkaLaskuTunnit.getColumnModel().getColumn(0).setMaxWidth(0);
+            urakkaLaskuTunnit.getColumnModel().getColumn(1).setMinWidth(80);
+            urakkaLaskuTunnit.getColumnModel().getColumn(2).setMinWidth(60);
+            urakkaLaskuTunnit.getColumnModel().getColumn(3).setMinWidth(70);
+            urakkaLaskuTunnit.getColumnModel().getColumn(4).setMinWidth(60);
         }
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        urakkaLaskuTarvikkeet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -730,15 +730,15 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane16.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setMinWidth(0);
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(0);
-            jTable2.getColumnModel().getColumn(1).setMinWidth(150);
-            jTable2.getColumnModel().getColumn(2).setMinWidth(70);
-            jTable2.getColumnModel().getColumn(3).setMinWidth(60);
-            jTable2.getColumnModel().getColumn(4).setMinWidth(70);
-            jTable2.getColumnModel().getColumn(5).setMinWidth(60);
+        jScrollPane16.setViewportView(urakkaLaskuTarvikkeet);
+        if (urakkaLaskuTarvikkeet.getColumnModel().getColumnCount() > 0) {
+            urakkaLaskuTarvikkeet.getColumnModel().getColumn(0).setMinWidth(0);
+            urakkaLaskuTarvikkeet.getColumnModel().getColumn(0).setMaxWidth(0);
+            urakkaLaskuTarvikkeet.getColumnModel().getColumn(1).setMinWidth(150);
+            urakkaLaskuTarvikkeet.getColumnModel().getColumn(2).setMinWidth(70);
+            urakkaLaskuTarvikkeet.getColumnModel().getColumn(3).setMinWidth(60);
+            urakkaLaskuTarvikkeet.getColumnModel().getColumn(4).setMinWidth(70);
+            urakkaLaskuTarvikkeet.getColumnModel().getColumn(5).setMinWidth(60);
         }
 
         jLabel59.setText("Lasku luotu:");
@@ -752,6 +752,11 @@ public class GUI extends javax.swing.JFrame {
         jLabel62.setText("Tarvikeluettelo");
 
         jButton2.setText("Ok");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel63.setText("Yhteissumma (sis. alv):");
 
@@ -1741,7 +1746,7 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Nimi", "Yksikkö", "Hinta", "Kate", "Alv", "Tila"
+                "ID", "Nimi", "Yksikkö", "Hinta", "Kate", "Alv", "Tila"
             }
         ) {
             Class[] types = new Class [] {
@@ -1763,6 +1768,7 @@ public class GUI extends javax.swing.JFrame {
         if (tarvikeTaulukko.getColumnModel().getColumnCount() > 0) {
             tarvikeTaulukko.getColumnModel().getColumn(0).setMinWidth(50);
             tarvikeTaulukko.getColumnModel().getColumn(0).setMaxWidth(50);
+            tarvikeTaulukko.getColumnModel().getColumn(1).setMinWidth(120);
         }
 
         tarvikeDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Kaikki", "Käytössä", "Poistettu" }));
@@ -2485,13 +2491,17 @@ public class GUI extends javax.swing.JFrame {
         DefaultTableModel dtmLaskut = (DefaultTableModel) laskuTaulukko.getModel();
         try {
             int rivit = laskuTaulukko.getRowCount();
-            System.out.println(rivit);
-            for (int i = 0; i < rivit; i++) {
-                String laskuid = laskuTaulukko.getValueAt(i, 0).toString();
-                dbmanager.lahetaMuistutuslasku(laskuid);
-                dtmLaskut.removeRow(i);
+            if (rivit == 0) {
+                laskuViestit.setText("Myöhästyneitä laskuja ei ole.");
+            } else {
+                for (int i = 0; i < rivit; i++) {
+                    String laskuid = laskuTaulukko.getValueAt(i, 0).toString();
+                    dbmanager.lahetaMuistutuslasku(laskuid);
+                    dtmLaskut.removeRow(i);
+                }
+                laskuViestit.setText("Muistutuslaskut lähetetty.");
             }
-            laskuViestit.setText("Muistutuslaskut lähetetty.");
+
         } catch (Exception e) {
             laskuViestit.setText("Jotain meni vituiks");
         }
@@ -2499,146 +2509,248 @@ public class GUI extends javax.swing.JFrame {
 
     private void laskuTaulukkoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laskuTaulukkoMouseClicked
         if (laskuTaulukko.getSelectedRows().length == 1) {
-            DefaultTableModel tunnit = (DefaultTableModel) laskuErittelyTunnit.getModel();
-            DefaultTableModel tarvikkeet = (DefaultTableModel) laskuErittelyTarvikkeet.getModel();
-            tunnit.setRowCount(0);
-            tarvikkeet.setRowCount(0);
             try {
                 int taulukonRivi = laskuTaulukko.getSelectedRow();
                 String laskuid = laskuTaulukko.getValueAt(taulukonRivi, 0).toString();
                 ArrayList<String> erittely = dbmanager.haeLaskuErittely(laskuid);
-                String kohdeid = erittely.get(0);
-                String asiakas = erittely.get(1);
+
                 String kohteenTyyppi = erittely.get(2);
-                String kohteenOsoite = erittely.get(3);
-                String luontipvm = erittely.get(4);
-                String erapvm = erittely.get(5);
-                double perintakulu = Double.parseDouble(erittely.get(6));
-                double total = 0;
-                double tunnitNollaAlv = 0;
-                double tunnitAlv = 0;
-                double tarvikkeetNollaAlv = 0;
-                double tarvikkeetAlv = 0;
-                ArrayList<String> laskunTunnit = dbmanager.haeKohteenTunnit(kohdeid);
-                for (String tt : laskunTunnit) {
-                    String nimike = tt.split("::")[0];
-                    double lkm = Double.parseDouble(tt.split("::")[1]);
-                    double hinta = Double.parseDouble(tt.split("::")[2]);
-                    double ale = Double.parseDouble(tt.split("::")[3]);
-                    double valisumma = hinta * lkm * ((100 - ale) / 100);
-                    tunnitNollaAlv += valisumma;
-                    int ttid = Integer.parseInt(tt.split("::")[4]);
-                    double alv = Double.parseDouble(tt.split("::")[5]);
-                    double alvsumma = valisumma * ((100 + alv) / 100);
-                    tunnitAlv += valisumma * (alv / 100);
-                    nimike = nimike.substring(0, 1).toUpperCase() + nimike.substring(1);
-                    //total += alvsumma;
-                    if (kohteenTyyppi.equals("tunti")) {
-                        tunnit.addRow(new Object[]{
-                            ttid,
-                            nimike,
-                            lkm,
-                            hinta,
-                            ale > 0 ? ale : null,
-                            df.format(valisumma),
-                            alv,
-                            df.format(alvsumma)
-                        });
-                    } else {
-                        tunnit.addRow(new Object[]{
-                            ttid,
-                            nimike,
-                            lkm,
-                            null,
-                            ale > 0 ? ale : null,
-                            null,
-                            alv,
-                            null
-                        });
-                    }
+
+                if (kohteenTyyppi.equals("urakka")) {
+                    eritteleUrakkaLasku(erittely);
+                } else if (kohteenTyyppi.equals("tunti")) {
+                    eritteleTuntiLasku(erittely);
                 }
-                ArrayList<String> laskunTarvikkeet = dbmanager.haeKohteenTarvikkeet(kohdeid);
-                for (String tarvike : laskunTarvikkeet) {
-                    String nimike = tarvike.split("::")[0];
-                    String yksikko = tarvike.split("::")[1];
-                    int lkm = Integer.parseInt(tarvike.split("::")[2]);
-                    double hinta = Double.parseDouble(tarvike.split("::")[3]);
-                    double ale = Double.parseDouble(tarvike.split("::")[4]);
-                    double kate = Double.parseDouble(tarvike.split("::")[6]);
-                    double myyntihinta = hinta * ((100 + kate) / 100);
-                    double valisumma = myyntihinta * lkm * ((100 - ale) / 100);
-                    tarvikkeetNollaAlv += valisumma;
-                    int tarvikeid = Integer.parseInt(tarvike.split("::")[5]);
-                    double alv = Double.parseDouble(tarvike.split("::")[7]);
-                    double alvsumma = valisumma * ((100 + alv) / 100);
-                    tarvikkeetAlv += valisumma * (alv / 100);
-                    //total += alvsumma;
-                    if (kohteenTyyppi.equals("tunti")) {
-                        tarvikkeet.addRow(new Object[]{
-                            tarvikeid,
-                            nimike,
-                            lkm,
-                            yksikko,
-                            df.format(myyntihinta),
-                            ale > 0 ? ale : null,
-                            df.format(valisumma),
-                            alv,
-                            df.format(alvsumma)
-                        });
-                    } else {
-                        tarvikkeet.addRow(new Object[]{
-                            tarvikeid,
-                            nimike,
-                            lkm,
-                            yksikko,
-                            null,
-                            ale > 0 ? ale : null,
-                            null,
-                            alv,
-                            null
-                        });
-                    }
-                }
-                laskuAsiakas.setText(asiakas);
-                laskuErapvm.setText(erapvm);
-                laskuLuontipvm.setText(luontipvm);
-                laskuPerintakulu.setText(perintakulu + " €");
-                double viivastyskorko = 0;
-                for (int i = 10; i <= perintakulu; i += 5) {
-                    viivastyskorko += 16;
-                }
-                laskuViivastyskorko.setText(viivastyskorko + " %");
-                tyokohdeTyyppi.setText(kohteenTyyppi);
-                tyokohdeOsoite.setText(kohteenOsoite);
-
-                String tunnitTotal = df.format(tunnitNollaAlv + tunnitAlv);
-                String tarvikkeetTotal = df.format(tarvikkeetNollaAlv + tarvikkeetAlv);
-
-                jLabel50.setText("" + df.format(tunnitNollaAlv));
-                jLabel51.setText("" + df.format(tunnitAlv));
-                jLabel52.setText(tunnitTotal);
-
-                jLabel53.setText("" + df.format(tarvikkeetNollaAlv));
-                jLabel54.setText("" + df.format(tarvikkeetAlv));
-                jLabel55.setText(tarvikkeetTotal);
-
-                total += tunnitNollaAlv + tunnitAlv
-                        + tarvikkeetNollaAlv + tarvikkeetAlv;
-
-                total *= (100 + viivastyskorko) / 100;
-
-                total += perintakulu; // perintäkulu lisätään viimeiseksi, koska sille ei tule korkoa
-                laskuTotal.setText("" + df.format(total));
 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-
-            laskuErittelyIkkuna.setVisible(true);
         }
     }//GEN-LAST:event_laskuTaulukkoMouseClicked
+
+    private void eritteleUrakkaLasku(ArrayList<String> erittely) {
+        DefaultTableModel laskunTunnit = (DefaultTableModel) urakkaLaskuTunnit.getModel();
+        DefaultTableModel laskunTarvikkeet = (DefaultTableModel) urakkaLaskuTarvikkeet.getModel();
+        laskunTunnit.setRowCount(0);
+        laskunTarvikkeet.setRowCount(0);
+        try {
+            String kohdeid = erittely.get(0);
+            String asiakas = erittely.get(1);
+            String kohteenTyyppi = erittely.get(2);
+            String kohteenOsoite = erittely.get(3);
+            String luontipvm = erittely.get(4);
+            String erapvm = erittely.get(5);
+            double perintakulu = Double.parseDouble(erittely.get(6));
+            double total = 0;
+            double tunnitNollaAlv = 0;
+            double tunnitAlv = 0;
+            double tarvikkeetNollaAlv = 0;
+            double tarvikkeetAlv = 0;
+
+            ArrayList<String> tunnit = dbmanager.haeKohteenTunnit(kohdeid);
+
+            for (String tt : tunnit) {
+                String nimike = tt.split("::")[0];
+                double lkm = Double.parseDouble(tt.split("::")[1]);
+                double hinta = Double.parseDouble(tt.split("::")[2]);
+                double ale = Double.parseDouble(tt.split("::")[3]);
+                double valisumma = hinta * lkm * ((100 - ale) / 100);
+                tunnitNollaAlv += valisumma;
+                int ttid = Integer.parseInt(tt.split("::")[4]);
+                double alv = Double.parseDouble(tt.split("::")[5]);
+                double alvsumma = valisumma * ((100 + alv) / 100);
+                tunnitAlv += valisumma * (alv / 100);
+                nimike = nimike.substring(0, 1).toUpperCase() + nimike.substring(1);
+                //total += alvsumma;
+                laskunTunnit.addRow(new Object[]{
+                    ttid,
+                    nimike,
+                    lkm,
+                    ale > 0 ? ale : null,
+                    alv
+                });
+            }
+            ArrayList<String> tarvikkeet = dbmanager.haeKohteenTarvikkeet(kohdeid);
+            for (String tarvike : tarvikkeet) {
+                String nimike = tarvike.split("::")[0];
+                String yksikko = tarvike.split("::")[1];
+                int lkm = Integer.parseInt(tarvike.split("::")[2]);
+                double hinta = Double.parseDouble(tarvike.split("::")[3]);
+                double ale = Double.parseDouble(tarvike.split("::")[4]);
+                double kate = Double.parseDouble(tarvike.split("::")[6]);
+                double myyntihinta = hinta * ((100 + kate) / 100);
+                double valisumma = myyntihinta * lkm * ((100 - ale) / 100);
+                tarvikkeetNollaAlv += valisumma;
+                int tarvikeid = Integer.parseInt(tarvike.split("::")[5]);
+                double alv = Double.parseDouble(tarvike.split("::")[7]);
+                double alvsumma = valisumma * ((100 + alv) / 100);
+                tarvikkeetAlv += valisumma * (alv / 100);
+                //total += alvsumma;
+                laskunTarvikkeet.addRow(new Object[]{
+                    tarvikeid,
+                    nimike,
+                    lkm,
+                    yksikko,
+                    ale > 0 ? ale : null,
+                    alv
+                });
+            }
+
+            jLabel81.setText(asiakas);
+            jLabel82.setText(erapvm);
+            jLabel60.setText(luontipvm);
+            jLabel83.setText(perintakulu + " €");
+            double viivastyskorko = 0;
+            for (int i = 10; i <= perintakulu; i += 5) {
+                viivastyskorko += 16;
+            }
+            jLabel84.setText(viivastyskorko + " %");
+            jLabel86.setText(kohteenOsoite);
+
+            String tunnitTotal = df.format(tunnitNollaAlv + tunnitAlv);
+            String tarvikkeetTotal = df.format(tarvikkeetNollaAlv + tarvikkeetAlv);
+
+            jLabel69.setText("" + df.format(tunnitNollaAlv));
+            jLabel68.setText("" + df.format(tunnitAlv));
+            jLabel67.setText(tunnitTotal);
+
+            jLabel71.setText("" + df.format(tarvikkeetNollaAlv));
+            jLabel73.setText("" + df.format(tarvikkeetAlv));
+            jLabel75.setText(tarvikkeetTotal);
+
+            total += tunnitNollaAlv + tunnitAlv
+                    + tarvikkeetNollaAlv + tarvikkeetAlv;
+
+            total *= (100 + viivastyskorko) / 100;
+
+            total += perintakulu; // perintäkulu lisätään viimeiseksi, koska sille ei tule korkoa
+            jLabel76.setText("" + df.format(total));
+
+            urakkaErittelyIkkuna.setVisible(true);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Jotain meni pieleen?");
+        }
+
+    }
+
+    private void eritteleTuntiLasku(ArrayList<String> erittely) {
+        DefaultTableModel laskunTunnit = (DefaultTableModel) laskuErittelyTunnit.getModel();
+        DefaultTableModel laskunTarvikkeet = (DefaultTableModel) laskuErittelyTarvikkeet.getModel();
+        laskunTunnit.setRowCount(0);
+        laskunTarvikkeet.setRowCount(0);
+        try {
+            String kohdeid = erittely.get(0);
+            String asiakas = erittely.get(1);
+            String kohteenTyyppi = erittely.get(2);
+            String kohteenOsoite = erittely.get(3);
+            String luontipvm = erittely.get(4);
+            String erapvm = erittely.get(5);
+            double perintakulu = Double.parseDouble(erittely.get(6));
+            double total = 0;
+            double tunnitNollaAlv = 0;
+            double tunnitAlv = 0;
+            double tarvikkeetNollaAlv = 0;
+            double tarvikkeetAlv = 0;
+
+            ArrayList<String> tunnit = dbmanager.haeKohteenTunnit(kohdeid);
+
+            for (String tt : tunnit) {
+                String nimike = tt.split("::")[0];
+                double lkm = Double.parseDouble(tt.split("::")[1]);
+                double hinta = Double.parseDouble(tt.split("::")[2]);
+                double ale = Double.parseDouble(tt.split("::")[3]);
+                double valisumma = hinta * lkm * ((100 - ale) / 100);
+                tunnitNollaAlv += valisumma;
+                int ttid = Integer.parseInt(tt.split("::")[4]);
+                double alv = Double.parseDouble(tt.split("::")[5]);
+                double alvsumma = valisumma * ((100 + alv) / 100);
+                tunnitAlv += valisumma * (alv / 100);
+                nimike = nimike.substring(0, 1).toUpperCase() + nimike.substring(1);
+                //total += alvsumma;
+                laskunTunnit.addRow(new Object[]{
+                    ttid,
+                    nimike,
+                    lkm,
+                    hinta,
+                    ale > 0 ? ale : null,
+                    df.format(valisumma),
+                    alv,
+                    df.format(alvsumma)
+                });
+            }
+            ArrayList<String> tarvikkeet = dbmanager.haeKohteenTarvikkeet(kohdeid);
+            for (String tarvike : tarvikkeet) {
+                String nimike = tarvike.split("::")[0];
+                String yksikko = tarvike.split("::")[1];
+                int lkm = Integer.parseInt(tarvike.split("::")[2]);
+                double hinta = Double.parseDouble(tarvike.split("::")[3]);
+                double ale = Double.parseDouble(tarvike.split("::")[4]);
+                double kate = Double.parseDouble(tarvike.split("::")[6]);
+                double myyntihinta = hinta * ((100 + kate) / 100);
+                double valisumma = myyntihinta * lkm * ((100 - ale) / 100);
+                tarvikkeetNollaAlv += valisumma;
+                int tarvikeid = Integer.parseInt(tarvike.split("::")[5]);
+                double alv = Double.parseDouble(tarvike.split("::")[7]);
+                double alvsumma = valisumma * ((100 + alv) / 100);
+                tarvikkeetAlv += valisumma * (alv / 100);
+                //total += alvsumma;
+                laskunTarvikkeet.addRow(new Object[]{
+                    tarvikeid,
+                    nimike,
+                    lkm,
+                    yksikko,
+                    df.format(myyntihinta),
+                    ale > 0 ? ale : null,
+                    df.format(valisumma),
+                    alv,
+                    df.format(alvsumma)
+                });
+            }
+
+            laskuAsiakas.setText(asiakas);
+            laskuErapvm.setText(erapvm);
+            laskuLuontipvm.setText(luontipvm);
+            laskuPerintakulu.setText(perintakulu + " €");
+            double viivastyskorko = 0;
+            for (int i = 10; i <= perintakulu; i += 5) {
+                viivastyskorko += 16;
+            }
+            laskuViivastyskorko.setText(viivastyskorko + " %");
+            tyokohdeTyyppi.setText(kohteenTyyppi);
+            tyokohdeOsoite.setText(kohteenOsoite);
+
+            String tunnitTotal = df.format(tunnitNollaAlv + tunnitAlv);
+            String tarvikkeetTotal = df.format(tarvikkeetNollaAlv + tarvikkeetAlv);
+
+            jLabel50.setText("" + df.format(tunnitNollaAlv));
+            jLabel51.setText("" + df.format(tunnitAlv));
+            jLabel52.setText(tunnitTotal);
+
+            jLabel53.setText("" + df.format(tarvikkeetNollaAlv));
+            jLabel54.setText("" + df.format(tarvikkeetAlv));
+            jLabel55.setText(tarvikkeetTotal);
+
+            total += tunnitNollaAlv + tunnitAlv
+                    + tarvikkeetNollaAlv + tarvikkeetAlv;
+
+            total *= (100 + viivastyskorko) / 100;
+
+            total += perintakulu; // perintäkulu lisätään viimeiseksi, koska sille ei tule korkoa
+            laskuTotal.setText("" + df.format(total));
+
+            laskuErittelyIkkuna.setVisible(true);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Jotain meni pieleen?");
+        }
+    }
 
     private void laskuErittelyOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laskuErittelyOkActionPerformed
         laskuErittelyIkkuna.setVisible(false);
@@ -2674,6 +2786,10 @@ public class GUI extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_tarvikeDropDownActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        urakkaErittelyIkkuna.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void paivitaKohdeSisaltaaTaulukko(String id, DefaultTableModel tunnit,
             DefaultTableModel tarvikkeet) {
@@ -2882,8 +2998,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JList<String> kohdeLista;
     private javax.swing.JTable kohdeSisaltaaTarvikkeet;
     private javax.swing.JTable kohdeSisaltaaTunnit;
@@ -2935,6 +3049,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel tyokohdeOsoite;
     private javax.swing.JLabel tyokohdeTyyppi;
     private javax.swing.JFrame urakkaErittelyIkkuna;
+    private javax.swing.JTable urakkaLaskuTarvikkeet;
+    private javax.swing.JTable urakkaLaskuTunnit;
     private javax.swing.JTextField uusiAlv;
     private javax.swing.JTextField uusiEtunimi;
     private javax.swing.JTextField uusiKate;
