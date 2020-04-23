@@ -1074,8 +1074,10 @@ public class DBManager {
                         + "'%d-01-01', '%d-01-28')";
                 stmt.executeUpdate(String.format(update, kohdeid, kohdeid, vuosi, vuosi));
             }
+            con.commit();
             stmt.close();
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
         } finally {
             con.setAutoCommit(true);
