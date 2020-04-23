@@ -3027,10 +3027,10 @@ public class GUI extends javax.swing.JFrame {
                     ale, df.format(nollaAlv), df.format(alvillinen)});
             }
             
-            tunnitVeroton.setText(df.format(sumTunnitVeroton));
-            tunnitVerollinen.setText(df.format(sumTunnitVerollinen));
-            tarvikkeetVeroton.setText(df.format(sumTarvikkeetVeroton));
-            tarvikkeetVerollinen.setText(df.format(sumTarvikkeetVerollinen));
+            if(tunnitVeroton != null) tunnitVeroton.setText(df.format(sumTunnitVeroton));
+            if(tunnitVerollinen != null) tunnitVerollinen.setText(df.format(sumTunnitVerollinen));
+            if(tarvikkeetVeroton != null) tarvikkeetVeroton.setText(df.format(sumTarvikkeetVeroton));
+            if(tarvikkeetVeroton != null) tarvikkeetVerollinen.setText(df.format(sumTarvikkeetVerollinen));
         } catch (SQLException e) {
             System.out.println("paivitakohdesisaltaataulukko 1 " + e.getMessage());
         } catch (Exception e) {

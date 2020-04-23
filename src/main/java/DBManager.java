@@ -1054,7 +1054,7 @@ public class DBManager {
     public void luoLasku(String kohdeid, int eralkm) throws SQLException { //, IllegalArgumentException {
         try {
             /*
-            if(eralkm != 1 || eralkm != 2) {
+            if(eralkm != 1 && eralkm != 2) {
                 throw new IllegalArgumentException("väärä erälukumäärä syötetty");
             }
             */
