@@ -1,2 +1,3 @@
 Välikytkinjohto 2 + 0,5m, musta;kpl;2.99;40;24
-Peitekansi jakorasiaan;kpl;2.49;40;24
+Peitekansi jakorasiaan;kpl;2.69;40;24
+Vipuliitin 3-osainen;kpl;0.60;40;24

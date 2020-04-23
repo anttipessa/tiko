@@ -418,37 +418,43 @@ public class DBManager {
         }
         return kohteet;
     }
-    
+
     /**
      * Hakee asiakkaan nimen ja työkohteen osoitteen, jotka liittyvät
      * työkohteeseen jonka kohdeid vastaanotetaan parametrina.
-     * 
+     *
      * @param kohdeid
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<String> haeTarjousTiedot(String kohdeid) throws SQLException {
         ArrayList<String> tarjous = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT enimi || ' ' || snimi AS nimi, "
-                    + "t.osoite FROM asiakas a INNER JOIN tyokohde t "
+                    + "t.osoite, t.tyyppi, t.eralkm FROM asiakas a INNER JOIN tyokohde t "
                     + "ON a.asiakasid = t.asiakasid WHERE t.kohdeid = " + kohdeid);
             if (rs.next()) {
                 tarjous.add(rs.getString("nimi"));
                 tarjous.add(rs.getString("osoite"));
+                tarjous.add(rs.getString("tyyppi"));
+                tarjous.add(String.valueOf(rs.getInt("eralkm")));
             }
             rs.close();
             stmt.close();
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
         return tarjous;
     }
 
     /**
      * Lisää tarvikkeen tietokantaan annetuilla parameterilla.
+     * Jos annettua nimi-parametria vastaava tarvike, jossa tila = 'käytössä'
+     * löytyy jo tietokannasta, päivitetään sen tilaksi 'vanhentunut' ja lisätään
+     * sama tarvike päivitetyillä tiedoilla. Jos kaikki tiedot vastaavat jo
+     * olemassa olevaa riviä niin silloin päivitystä ei tehdä.
      *
      * @param nimi
      * @param yksikko
@@ -460,23 +466,44 @@ public class DBManager {
      */
     public void lisaaTarvike(String nimi, String yksikko, double ostohinta, double kate, double alv) throws SQLException {
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
-            String select;
-            select = "SELECT nimi, yksikko, ostohinta, kate, alv FROM tarvike"
-                    + " WHERE nimi = '%s' AND yksikko = '%s' AND ostohinta = '%s'"
-                    + " AND kate = '%s' AND alv = '%s'";
-            ResultSet rs = stmt.executeQuery(String.format(select, nimi, yksikko, ostohinta, kate, alv));
-            if (!rs.isBeforeFirst()) {
-                String update;
-                update = "INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, alv)"
-                        + " VALUES ('%s', '%s', %s, %s, %s)";
-                stmt.executeUpdate(String.format(update, nimi, yksikko, ostohinta, kate, alv));
-            }else{
-                System.out.println("This item already exists!!!");
+            String select, insert, update;
+            select = "SELECT tarvikeid, nimi, yksikko, ostohinta, kate, alv "
+                    + "FROM tarvike WHERE nimi = '%s' AND tila = 'käytössä'";
+            ResultSet rs = stmt.executeQuery(String.format(select, nimi));
+            if (rs.next()) {
+                int tarvikeid = rs.getInt("tarvikeid");
+                String n = rs.getString("nimi");
+                String y = rs.getString("yksikko");
+                double oh = rs.getDouble("ostohinta");
+                double k = rs.getDouble("kate");
+                double a = rs.getDouble("alv");
+                // Kaikki tiedot eivät vastaa uuden lisättävän tarvikkeen kanssa
+                if (!n.equals(nimi) || !y.equals(yksikko) || oh != ostohinta || k != kate || a != alv) {
+                    // Lisätään tarvike päivitetyillä tiedoilla
+                    insert = "INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, alv) "
+                            + "VALUES ('%s', '%s', %s, %s, %s)";
+                    stmt.executeUpdate(String.format(insert, nimi, yksikko, ostohinta, kate, alv));
+                    // Päivitetään vanhan tarvikkeen tila
+                    update = "UPDATE tarvike SET tila = 'vanhentunut' WHERE tarvikeid = " + tarvikeid;
+                    stmt.executeUpdate(update);
+                }
+            } else {
+                // Lisätään uusi tarvike
+                insert = "INSERT INTO tarvike (nimi, yksikko, ostohinta, kate, alv) "
+                        + "VALUES ('%s', '%s', %s, %s, %s)";
+                stmt.executeUpdate(String.format(insert, nimi, yksikko, ostohinta, kate, alv));
             }
+            con.commit();
+            rs.close();
+            stmt.close();
 
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -1021,12 +1048,13 @@ public class DBManager {
         }
         return laskut;
     }
-    
+
     /**
      * Palauttaa tiedon kuinka monessa erässä kohde laskutetaan.
+     *
      * @param kohdeid
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public int haeErat(String kohdeid) throws SQLException {
         try {
@@ -1034,9 +1062,9 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery("SELECT eralkm FROM tyokohde "
                     + "where kohdeid = " + kohdeid);
             int erat = 0;
-            if(rs.next()) {
-                erat =  Integer.parseInt(rs.getString("eralkm"));
-            } 
+            if (rs.next()) {
+                erat = Integer.parseInt(rs.getString("eralkm"));
+            }
             stmt.close();
             return erat;
         } catch (SQLException e) {
@@ -1057,7 +1085,7 @@ public class DBManager {
             if(eralkm != 1 && eralkm != 2) {
                 throw new IllegalArgumentException("väärä erälukumäärä syötetty");
             }
-            */
+             */
             con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String update;
@@ -1065,8 +1093,8 @@ public class DBManager {
                     + "VALUES ((SELECT a.asiakasid FROM asiakas as a LEFT JOIN "
                     + "tyokohde as t ON a.asiakasid = t.asiakasid WHERE kohdeid = %s), %s)";
             stmt.executeUpdate(String.format(update, kohdeid, kohdeid));
-            
-            if(eralkm == 2) {
+
+            if (eralkm == 2) {
                 int vuosi = LocalDate.now().plusYears(1).getYear();
                 update = "INSERT INTO lasku (asiakasid, kohdeid, luontipvm, erapvm) "
                         + "VALUES ((SELECT a.asiakasid FROM asiakas as a LEFT JOIN "
@@ -1083,14 +1111,14 @@ public class DBManager {
             con.setAutoCommit(true);
         }
     }
-    
+
     /**
      * Päivitetään laskun tila muotoon 'valmis' eli lasku maksetuksi.
      * Vastaanottaa parametrina päivitettävän laskun laskuid sarakkeen.
-     * 
+     *
      * @param laskuid
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public String laskuMaksettu(String laskuid) throws SQLException {
         try {
@@ -1109,7 +1137,7 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-    
+
     /**
      * Lähettää muistutuslaskun. Haetaan ensin parametrina vastaanotettua
      * laskuid:tä vastaavan laskun tiedot, jonka jälkeen luodaan uusi lasku
@@ -1117,9 +1145,9 @@ public class DBManager {
      * vanhan laskun tilaksi 'siirtynyt'. Käytetään tapahtumanhallintaa, jotta
      * muutokset menevät läpi loogisena kokonaisuutena, tai jos joku menee
      * pieleen niin peruutetaan alkuperäiseen tilaan.
-     * 
+     *
      * @param laskuid
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void lahetaMuistutuslasku(String laskuid) throws SQLException {
         try {
@@ -1146,21 +1174,21 @@ public class DBManager {
             con.setAutoCommit(true);
         }
     }
-    
+
     /**
-     * Hakee laskun erittelyyn tarvittavat tiedot tietokannasta.
-     * Lasku haetaan parametrina saatua laskuid arvoa käyttäen.
-     * 
+     * Hakee laskun erittelyyn tarvittavat tiedot tietokannasta. Lasku haetaan
+     * parametrina saatua laskuid arvoa käyttäen.
+     *
      * @param laskuid
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<String> haeLaskuErittely(String laskuid) throws SQLException {
         ArrayList<String> eriteltavat = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT a.enimi || ' ' || a.snimi AS nimi, "
-                    + "l.kohdeid, l.luontipvm, l.erapvm, l.perintakulu, t.tyyppi, t.osoite "
+                    + "l.kohdeid, l.luontipvm, l.erapvm, l.perintakulu, t.tyyppi, t.osoite, t.eralkm "
                     + "FROM lasku l INNER JOIN asiakas a ON l.asiakasid = a.asiakasid "
                     + "INNER JOIN tyokohde t ON l.kohdeid = t.kohdeid "
                     + "WHERE laskuid = " + laskuid);
@@ -1187,7 +1215,6 @@ public class DBManager {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = "";
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
                 String nimi = line.split(";")[0];
                 String yksikko = line.split(";")[1];
                 double hinta = Double.parseDouble(line.split(";")[2]);
