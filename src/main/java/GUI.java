@@ -105,8 +105,10 @@ public class GUI extends javax.swing.JFrame {
         jLabel53 = new javax.swing.JLabel();
         jLabel54 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
-        jLabel102 = new javax.swing.JLabel();
+        maksueraTuntilaskuOtsikko = new javax.swing.JLabel();
         laskuEralkm = new javax.swing.JLabel();
+        laskunNumeroTuntilasku = new javax.swing.JLabel();
+        tuntilaskuKorvaava = new javax.swing.JLabel();
         urakkaErittelyIkkuna = new javax.swing.JFrame();
         jLabel58 = new javax.swing.JLabel();
         jScrollPane15 = new javax.swing.JScrollPane();
@@ -144,6 +146,12 @@ public class GUI extends javax.swing.JFrame {
         jLabel84 = new javax.swing.JLabel();
         jLabel85 = new javax.swing.JLabel();
         jLabel86 = new javax.swing.JLabel();
+        urakkaLaskunumero = new javax.swing.JLabel();
+        jLabel102 = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        jLabel103 = new javax.swing.JLabel();
+        urakkaLaskuEralkm = new javax.swing.JLabel();
+        urakkaKorvaava = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         uusiEtunimi = new javax.swing.JTextField();
@@ -491,6 +499,8 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        laskuErittelyIkkuna.setResizable(false);
+
         jLabel31.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel31.setText("Laskun erittely");
@@ -658,9 +668,11 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel55.setText("jLabel55");
 
-        jLabel102.setText("Maksuerä:");
+        maksueraTuntilaskuOtsikko.setText("Maksuerä:");
 
         laskuEralkm.setText(" ");
+
+        tuntilaskuKorvaava.setText("jLabel104");
 
         javax.swing.GroupLayout laskuErittelyIkkunaLayout = new javax.swing.GroupLayout(laskuErittelyIkkuna.getContentPane());
         laskuErittelyIkkuna.getContentPane().setLayout(laskuErittelyIkkunaLayout);
@@ -672,18 +684,6 @@ public class GUI extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane14, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laskuErittelyIkkunaLayout.createSequentialGroup()
-                                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel42)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(laskuLuontipvm, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laskuErittelyIkkunaLayout.createSequentialGroup()
-                                .addGap(83, 83, 83)
-                                .addComponent(jLabel41)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel36)
-                                .addGap(181, 181, 181))
                             .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laskuErittelyIkkunaLayout.createSequentialGroup()
                                 .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -699,7 +699,7 @@ public class GUI extends javax.swing.JFrame {
                                         .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                                             .addComponent(jLabel35, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel102, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(maksueraTuntilaskuOtsikko, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(laskuErapvm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -727,7 +727,22 @@ public class GUI extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laskuErittelyIkkunaLayout.createSequentialGroup()
                                         .addComponent(jLabel37)
                                         .addGap(768, 768, 768))
-                                    .addComponent(laskuErittelyOk, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                    .addComponent(laskuErittelyOk, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laskuErittelyIkkunaLayout.createSequentialGroup()
+                                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(laskuErittelyIkkunaLayout.createSequentialGroup()
+                                        .addGap(83, 83, 83)
+                                        .addComponent(jLabel41))
+                                    .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(192, 192, 192)
+                                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(laskuErittelyIkkunaLayout.createSequentialGroup()
+                                        .addComponent(laskunNumeroTuntilasku, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel42)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(laskuLuontipvm, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel36)))))
                     .addGroup(laskuErittelyIkkunaLayout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -748,12 +763,13 @@ public class GUI extends javax.swing.JFrame {
                                 .addGap(22, 22, 22)
                                 .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel55)
-                                    .addComponent(jLabel47)
-                                    .addComponent(jLabel52)))
+                                    .addComponent(jLabel52)
+                                    .addComponent(jLabel47)))
                             .addGroup(laskuErittelyIkkunaLayout.createSequentialGroup()
                                 .addComponent(jLabel40)
                                 .addGap(18, 18, 18)
-                                .addComponent(laskuTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(laskuTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tuntilaskuKorvaava))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -761,10 +777,12 @@ public class GUI extends javax.swing.JFrame {
             laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(laskuErittelyIkkunaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
-                    .addComponent(jLabel42)
-                    .addComponent(laskuLuontipvm))
+                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel31)
+                        .addComponent(jLabel42)
+                        .addComponent(laskuLuontipvm))
+                    .addComponent(laskunNumeroTuntilasku, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel41)
@@ -785,7 +803,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(tyokohdeOsoite))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel102)
+                    .addComponent(maksueraTuntilaskuOtsikko)
                     .addComponent(laskuEralkm))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -825,13 +843,17 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel54)
                     .addComponent(jLabel55))
                 .addGap(18, 18, 18)
-                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel40)
-                    .addComponent(laskuTotal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(laskuErittelyOk)
+                .addComponent(tuntilaskuKorvaava)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(laskuErittelyOk)
+                    .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel40)
+                        .addComponent(laskuTotal)))
                 .addContainerGap())
         );
+
+        urakkaErittelyIkkuna.setResizable(false);
 
         jLabel58.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel58.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -961,7 +983,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel78.setText("Laskun eräpäivä:");
 
-        jLabel79.setText("Laskutuslisä:");
+        jLabel79.setText("Muistutusmaksu:");
 
         jLabel80.setText("Viivästyskorko:");
 
@@ -978,13 +1000,67 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel86.setText("jLabel86");
 
+        urakkaLaskunumero.setText("jLabel102");
+
+        jLabel102.setText("Työsuorituksen tyyppi: Urakka");
+
+        jLabel103.setText("Maksuerä:");
+
+        urakkaLaskuEralkm.setText("jLabel104");
+
+        urakkaKorvaava.setText("jLabel104");
+
         javax.swing.GroupLayout urakkaErittelyIkkunaLayout = new javax.swing.GroupLayout(urakkaErittelyIkkuna.getContentPane());
         urakkaErittelyIkkuna.getContentPane().setLayout(urakkaErittelyIkkunaLayout);
         urakkaErittelyIkkunaLayout.setHorizontalGroup(
             urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, urakkaErittelyIkkunaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(urakkaLaskunumero, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel59)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel77, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel78, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel79, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel103, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel81, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel82, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel83, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel84, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(urakkaLaskuEralkm))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel86, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel102)
+                                    .addComponent(jLabel85))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                        .addComponent(jSeparator10)
+                        .addGap(22, 22, 22))))
             .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
+                        .addComponent(urakkaKorvaava)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, urakkaErittelyIkkunaLayout.createSequentialGroup()
                         .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING)
@@ -1003,20 +1079,6 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(21, 21, 21))
                     .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
                         .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, urakkaErittelyIkkunaLayout.createSequentialGroup()
-                                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel77, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel78, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel79, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel81, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                                    .addComponent(jLabel82, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel83, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel84, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel86, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel62, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel61, javax.swing.GroupLayout.Alignment.LEADING)
@@ -1043,17 +1105,6 @@ public class GUI extends javax.swing.JFrame {
                                     .addComponent(jLabel75, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap(22, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, urakkaErittelyIkkunaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel85)
-                    .addGroup(urakkaErittelyIkkunaLayout.createSequentialGroup()
-                        .addComponent(jLabel59)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
         );
         urakkaErittelyIkkunaLayout.setVerticalGroup(
             urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1062,8 +1113,11 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel58)
                     .addComponent(jLabel59)
-                    .addComponent(jLabel60))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                    .addComponent(jLabel60)
+                    .addComponent(urakkaLaskunumero))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel77)
                     .addComponent(jLabel81)
@@ -1075,13 +1129,18 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel86))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel79)
-                    .addComponent(jLabel83))
+                    .addComponent(jLabel102)
+                    .addComponent(jLabel103)
+                    .addComponent(urakkaLaskuEralkm))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel83)
+                    .addComponent(jLabel79))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel80)
                     .addComponent(jLabel84))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel61)
@@ -1111,7 +1170,9 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jLabel73)
                             .addComponent(jLabel74)
                             .addComponent(jLabel75))
-                        .addGap(36, 36, 36)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(urakkaKorvaava)
+                        .addGap(11, 11, 11)
                         .addGroup(urakkaErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel63)
                             .addComponent(jLabel76))
@@ -2741,9 +2802,9 @@ public class GUI extends javax.swing.JFrame {
                 String kohteenTyyppi = erittely.get(2);
 
                 if (kohteenTyyppi.equals("urakka")) {
-                    eritteleUrakkaLasku(erittely);
+                    eritteleUrakkaLasku(erittely, laskuid);
                 } else if (kohteenTyyppi.equals("tunti")) {
-                    eritteleTuntiLasku(erittely);
+                    eritteleTuntiLasku(erittely, laskuid);
                 }
 
             } catch (SQLException e) {
@@ -2754,7 +2815,7 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_laskuTaulukkoMouseClicked
 
-    private void eritteleUrakkaLasku(ArrayList<String> erittely) {
+    private void eritteleUrakkaLasku(ArrayList<String> erittely, String laskuid) {
         DefaultTableModel laskunTunnit = (DefaultTableModel) urakkaLaskuTunnit.getModel();
         DefaultTableModel laskunTarvikkeet = (DefaultTableModel) urakkaLaskuTarvikkeet.getModel();
         laskunTunnit.setRowCount(0);
@@ -2831,6 +2892,15 @@ public class GUI extends javax.swing.JFrame {
             }
             jLabel84.setText(viivastyskorko + " %");
             jLabel86.setText(kohteenOsoite);
+            urakkaLaskunumero.setText("Laskun numero: " + laskuid);
+            if(perintakulu > 0) {
+                urakkaLaskuEralkm.setText("1/1");
+                urakkaKorvaava.setText("Tämä lasku korvaa laskun numero " 
+                        + dbmanager.haeAiempi(laskuid));
+            } else {
+                urakkaKorvaava.setText("");
+                urakkaLaskuEralkm.setText(dbmanager.haeEraluku(kohdeid, laskuid));
+            }
 
             String tunnitTotal = df.format(tunnitNollaAlv + tunnitAlv);
             String tarvikkeetTotal = df.format(tarvikkeetNollaAlv + tarvikkeetAlv);
@@ -2863,7 +2933,7 @@ public class GUI extends javax.swing.JFrame {
 
     }
 
-    private void eritteleTuntiLasku(ArrayList<String> erittely) {
+    private void eritteleTuntiLasku(ArrayList<String> erittely, String laskuid) {
         DefaultTableModel laskunTunnit = (DefaultTableModel) laskuErittelyTunnit.getModel();
         DefaultTableModel laskunTarvikkeet = (DefaultTableModel) laskuErittelyTarvikkeet.getModel();
         laskunTunnit.setRowCount(0);
@@ -2947,6 +3017,15 @@ public class GUI extends javax.swing.JFrame {
             laskuViivastyskorko.setText(viivastyskorko + " %");
             tyokohdeTyyppi.setText("Tuntityö");
             tyokohdeOsoite.setText(kohteenOsoite);
+            laskunNumeroTuntilasku.setText("Laskun numero: " + laskuid);
+            if(perintakulu > 0) {
+                laskuEralkm.setText("1/1");
+                tuntilaskuKorvaava.setText("Tämä lasku korvaa laskun numero "
+                        + dbmanager.haeAiempi(laskuid));
+            } else {
+                tuntilaskuKorvaava.setText("");
+                laskuEralkm.setText(dbmanager.haeEraluku(kohdeid, laskuid));
+            }
 
             String tunnitTotal = df.format(tunnitNollaAlv + tunnitAlv);
             String tarvikkeetTotal = df.format(tarvikkeetNollaAlv + tarvikkeetAlv);
@@ -3180,6 +3259,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel102;
+    private javax.swing.JLabel jLabel103;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -3303,6 +3383,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -3338,12 +3419,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel laskuViestit;
     private javax.swing.JLabel laskuViivastyskorko;
     private javax.swing.JLabel laskuYht;
+    private javax.swing.JLabel laskunNumeroTuntilasku;
     private javax.swing.JButton lisaaAsiakasOK;
     private javax.swing.JButton lisaaKohdeOK;
     private javax.swing.JButton lisaaTarvike;
     private javax.swing.JButton lisaaTarvikeOK;
     private javax.swing.JButton lisaaTuntejaOK;
     private javax.swing.JButton luoLaskuOK;
+    private javax.swing.JLabel maksueraTuntilaskuOtsikko;
     private javax.swing.JCheckBox onTarjous;
     private javax.swing.JLabel osoiteLabel;
     private javax.swing.JTextField paattyvaEtsittavaOsoite;
@@ -3363,13 +3446,17 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JList<String> tarvikeLista;
     private javax.swing.JTable tarvikeTaulukko;
     private javax.swing.JTextField tarvikemaara;
+    private javax.swing.JLabel tuntilaskuKorvaava;
     private javax.swing.JTextField tuntimaara;
     private javax.swing.JComboBox<String> tuntityyppi;
     private javax.swing.JLabel tyokohdeOsoite;
     private javax.swing.JLabel tyokohdeTyyppi;
     private javax.swing.JFrame urakkaErittelyIkkuna;
+    private javax.swing.JLabel urakkaKorvaava;
+    private javax.swing.JLabel urakkaLaskuEralkm;
     private javax.swing.JTable urakkaLaskuTarvikkeet;
     private javax.swing.JTable urakkaLaskuTunnit;
+    private javax.swing.JLabel urakkaLaskunumero;
     private javax.swing.JTextField uusiAlv;
     private javax.swing.JTextField uusiEtunimi;
     private javax.swing.JTextField uusiKate;
