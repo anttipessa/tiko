@@ -1209,6 +1209,24 @@ public class DBManager {
 
         return eriteltavat;
     }
+    
+    public boolean onkoEkaLasku(String kohdeid, String laskuid) throws SQLException {
+        try {
+            boolean response = false;
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT laskuid FROM lasku "
+                    + "where edeltavaid is null and kohdeid = " + kohdeid
+                    + "order by luontipvm asc LIMIT 1;");
+            while(rs.next()) {
+                response = String.valueOf(rs.getString("laskuid")).equals(laskuid);
+            }
+            rs.close();
+            stmt.close();
+            return response;
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
 
     public void update(File file) {
         try {
