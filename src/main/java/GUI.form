@@ -7,11 +7,11 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jSeparator9" max="32767" attributes="0"/>
-                      <Component id="jLabel90" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jSeparator9" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jLabel90" alignment="1" max="32767" attributes="0"/>
                       <Component id="jScrollPane11" alignment="1" pref="530" max="32767" attributes="0"/>
                       <Component id="jScrollPane12" alignment="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jLabel89" alignment="0" max="32767" attributes="0"/>
@@ -30,27 +30,32 @@
                               <Component id="tarjousAsiakas" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="popupok" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="popupok" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jLabel93" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                  <Component id="jLabel94" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Component id="jLabel98" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel93" min="-2" pref="92" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jLabel97" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel94" min="-2" pref="92" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabel100" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel95" min="-2" pref="92" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jLabel99" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel96" min="-2" pref="92" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jLabel95" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel96" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -79,10 +84,12 @@
                   <Component id="jLabel56" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jScrollPane12" min="-2" pref="87" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel93" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel94" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel93" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel94" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel97" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel98" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jSeparator9" min="-2" pref="10" max="-2" attributes="0"/>
@@ -90,12 +97,14 @@
                   <Component id="jLabel57" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jScrollPane11" min="-2" pref="184" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel95" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel96" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel99" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel100" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="18" max="32767" attributes="0"/>
                   <Component id="popupok" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -126,8 +135,8 @@
                     <Column editable="false" title="Tunnit" type="java.lang.Object"/>
                     <Column editable="false" title="ID" type="java.lang.Integer"/>
                     <Column editable="true" title="Alennus %" type="java.lang.Object"/>
-                    <Column editable="true" title="Yht. Alv 0" type="java.lang.Object"/>
-                    <Column editable="true" title="Yhteens&#xe4;" type="java.lang.Object"/>
+                    <Column editable="false" title="Hinta (Alv 0)" type="java.lang.Object"/>
+                    <Column editable="false" title="Yhteens&#xe4; &#x20ac;" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -152,12 +161,12 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="65" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="65" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -190,8 +199,8 @@
                     <Column editable="false" title="Yksikk&#xf6;" type="java.lang.Object"/>
                     <Column editable="false" title="ID" type="java.lang.Object"/>
                     <Column editable="true" title="Alennus %" type="java.lang.Object"/>
-                    <Column editable="false" title="Yth. Alv 0" type="java.lang.Object"/>
-                    <Column editable="false" title="Yhteens&#xe4;" type="java.lang.Object"/>
+                    <Column editable="false" title="Hinta (Alv 0)" type="java.lang.Object"/>
+                    <Column editable="false" title="Yhteens&#xe4; &#x20ac;" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -221,12 +230,12 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="70" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="65" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -326,6 +335,26 @@
         <Component class="javax.swing.JLabel" name="jLabel96">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel96"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel97">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Yhteens&#xe4;:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel98">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Alv 0:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel99">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Yhteens&#xe4;:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel100">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Alv 0:"/>
           </Properties>
         </Component>
       </SubComponents>

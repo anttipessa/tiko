@@ -57,6 +57,10 @@ public class GUI extends javax.swing.JFrame {
         jSeparator9 = new javax.swing.JSeparator();
         jLabel95 = new javax.swing.JLabel();
         jLabel96 = new javax.swing.JLabel();
+        jLabel97 = new javax.swing.JLabel();
+        jLabel98 = new javax.swing.JLabel();
+        jLabel99 = new javax.swing.JLabel();
+        jLabel100 = new javax.swing.JLabel();
         laskuErittelyIkkuna = new javax.swing.JFrame();
         jLabel31 = new javax.swing.JLabel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -260,14 +264,14 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nimike", "Tunnit", "ID", "Alennus %", "Yht. Alv 0", "Yhteensä"
+                "Nimike", "Tunnit", "ID", "Alennus %", "Hinta (Alv 0)", "Yhteensä €"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true, true
+                false, false, false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -290,6 +294,8 @@ public class GUI extends javax.swing.JFrame {
             yhteenvetoTunnit.getColumnModel().getColumn(2).setMinWidth(0);
             yhteenvetoTunnit.getColumnModel().getColumn(2).setMaxWidth(0);
             yhteenvetoTunnit.getColumnModel().getColumn(3).setMinWidth(65);
+            yhteenvetoTunnit.getColumnModel().getColumn(4).setMinWidth(65);
+            yhteenvetoTunnit.getColumnModel().getColumn(5).setMinWidth(65);
         }
 
         yhteenvetoTarvikkeet.setModel(new javax.swing.table.DefaultTableModel(
@@ -297,7 +303,7 @@ public class GUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nimike", "Lukumäärä", "Yksikkö", "ID", "Alennus %", "Yth. Alv 0", "Yhteensä"
+                "Nimike", "Lukumäärä", "Yksikkö", "ID", "Alennus %", "Hinta (Alv 0)", "Yhteensä €"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -321,6 +327,8 @@ public class GUI extends javax.swing.JFrame {
             yhteenvetoTarvikkeet.getColumnModel().getColumn(3).setMinWidth(0);
             yhteenvetoTarvikkeet.getColumnModel().getColumn(3).setMaxWidth(0);
             yhteenvetoTarvikkeet.getColumnModel().getColumn(4).setMinWidth(65);
+            yhteenvetoTarvikkeet.getColumnModel().getColumn(5).setMinWidth(70);
+            yhteenvetoTarvikkeet.getColumnModel().getColumn(6).setMinWidth(65);
         }
 
         jLabel56.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
@@ -355,21 +363,29 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel96.setText("jLabel96");
 
+        jLabel97.setText("Yhteensä:");
+
+        jLabel98.setText("Alv 0:");
+
+        jLabel99.setText("Yhteensä:");
+
+        jLabel100.setText("Alv 0:");
+
         javax.swing.GroupLayout popupIkkunaLayout = new javax.swing.GroupLayout(popupIkkuna.getContentPane());
         popupIkkuna.getContentPane().setLayout(popupIkkunaLayout);
         popupIkkunaLayout.setHorizontalGroup(
             popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
+            .addGroup(popupIkkunaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator9)
-                    .addComponent(jLabel90, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel89, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel88, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupIkkunaLayout.createSequentialGroup()
+                .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator9, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel90, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel89, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel88, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator8)
+                    .addGroup(popupIkkunaLayout.createSequentialGroup()
                         .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel57)
                             .addComponent(jLabel56)
@@ -379,22 +395,27 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tarjousKohdeosoite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(tarjousAsiakas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(popupIkkunaLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(popupok)
-                            .addGroup(popupIkkunaLayout.createSequentialGroup()
-                                .addComponent(jLabel93)
-                                .addGap(61, 61, 61)
-                                .addComponent(jLabel94)
-                                .addGap(48, 48, 48)))))
+                        .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(popupok, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
+                                .addComponent(jLabel98)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel97)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel94, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
+                                .addComponent(jLabel100)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel95, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel99)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel96, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupIkkunaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel95)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel96)
-                .addGap(26, 26, 26))
         );
         popupIkkunaLayout.setVerticalGroup(
             popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,21 +440,25 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jLabel56)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel93)
-                    .addComponent(jLabel94))
+                    .addComponent(jLabel94)
+                    .addComponent(jLabel97)
+                    .addComponent(jLabel98))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel57)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(popupIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel95)
-                    .addComponent(jLabel96))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel96)
+                    .addComponent(jLabel99)
+                    .addComponent(jLabel100))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(popupok)
                 .addContainerGap())
         );
@@ -3098,6 +3123,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -3192,6 +3218,9 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel94;
     private javax.swing.JLabel jLabel95;
     private javax.swing.JLabel jLabel96;
+    private javax.swing.JLabel jLabel97;
+    private javax.swing.JLabel jLabel98;
+    private javax.swing.JLabel jLabel99;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
