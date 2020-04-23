@@ -983,7 +983,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel78.setText("Laskun eräpäivä:");
 
-        jLabel79.setText("Laskutuslisä:");
+        jLabel79.setText("Muistutusmaksu:");
 
         jLabel80.setText("Viivästyskorko:");
 
@@ -2893,16 +2893,13 @@ public class GUI extends javax.swing.JFrame {
             jLabel84.setText(viivastyskorko + " %");
             jLabel86.setText(kohteenOsoite);
             urakkaLaskunumero.setText("Laskun numero: " + laskuid);
-            if(viivastyskorko > 0) {
+            if(perintakulu > 0) {
                 urakkaLaskuEralkm.setText("1/1");
-                urakkaKorvaava.setText("Tämä lasku korvaa laskun numero ");
+                urakkaKorvaava.setText("Tämä lasku korvaa laskun numero " 
+                        + dbmanager.haeAiempi(laskuid));
             } else {
                 urakkaKorvaava.setText("");
-                if(dbmanager.onkoEkaLasku(kohdeid, laskuid)) {
-                    urakkaLaskuEralkm.setText("1/2");
-                } else {
-                    urakkaLaskuEralkm.setText("2/2");
-                }
+                urakkaLaskuEralkm.setText(dbmanager.haeEraluku(kohdeid, laskuid));
             }
 
             String tunnitTotal = df.format(tunnitNollaAlv + tunnitAlv);
@@ -3021,16 +3018,13 @@ public class GUI extends javax.swing.JFrame {
             tyokohdeTyyppi.setText("Tuntityö");
             tyokohdeOsoite.setText(kohteenOsoite);
             laskunNumeroTuntilasku.setText("Laskun numero: " + laskuid);
-            if(viivastyskorko > 0) {
+            if(perintakulu > 0) {
                 laskuEralkm.setText("1/1");
-                tuntilaskuKorvaava.setText("Tämä lasku korvaa laskun numero ");
+                tuntilaskuKorvaava.setText("Tämä lasku korvaa laskun numero "
+                        + dbmanager.haeAiempi(laskuid));
             } else {
                 tuntilaskuKorvaava.setText("");
-                if(dbmanager.onkoEkaLasku(kohdeid, laskuid)) {
-                    laskuEralkm.setText("1/2");
-                } else {
-                    laskuEralkm.setText("2/2");
-                }
+                laskuEralkm.setText(dbmanager.haeEraluku(kohdeid, laskuid));
             }
 
             String tunnitTotal = df.format(tunnitNollaAlv + tunnitAlv);

@@ -1455,7 +1455,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel79">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Laskutuslis&#xe4;:"/>
+            <Property name="text" type="java.lang.String" value="Muistutusmaksu:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel80">

@@ -1210,24 +1210,48 @@ public class DBManager {
         return eriteltavat;
     }
     
-    public boolean onkoEkaLasku(String kohdeid, String laskuid) throws SQLException {
+    public String haeEraluku(String kohdeid, String laskuid) throws SQLException {
         try {
-            boolean response = false;
+            String eraluku = "";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT laskuid FROM lasku "
-                    + "where edeltavaid is null and kohdeid = " + kohdeid
-                    + "order by luontipvm asc LIMIT 1;");
+                    + "WHERE edeltavaid IS null AND kohdeid = " + kohdeid
+                    + "ORDER BY luontipvm ASC LIMIT 1;");
             while(rs.next()) {
-                response = String.valueOf(rs.getString("laskuid")).equals(laskuid);
+                eraluku += String.valueOf(rs.getString("laskuid")).equals(laskuid)? "1" : "2";
+            }
+            
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(laskuid) FROM lasku "
+                    + "WHERE edeltavaid IS null AND kohdeid = " + kohdeid + ";");
+            while(rs.next()) {
+                eraluku += "/" + rs.getString("count");
             }
             rs.close();
             stmt.close();
-            return response;
+            return eraluku;
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }
     }
 
+    public String haeAiempi(String laskuid) throws SQLException {
+        try {
+            String aiempi = "";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT edeltavaid FROM lasku "
+                    + "WHERE laskuid = " + laskuid);
+            while(rs.next()) {
+                aiempi = rs.getString("edeltavaid");
+            }
+            rs.close();
+            stmt.close();
+            return aiempi;
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
+    
     public void update(File file) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
