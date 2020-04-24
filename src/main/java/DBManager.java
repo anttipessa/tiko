@@ -42,12 +42,23 @@ public class DBManager {
         }
     }
 
+    /**
+     * Lisää uuden asiakkaan tietokantaan.
+     *
+     * @param enimi
+     * @param snimi
+     * @param osoite
+     * @param puhelin
+     * @param sahkoposti
+     * @throws SQLException
+     */
     public void lisaaAsiakas(String enimi, String snimi, String osoite,
             String puhelin, String sahkoposti) throws SQLException {
         System.out.println("luodaan uusi asiakas: " + enimi + snimi + osoite
                 + puhelin + sahkoposti);
 
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String update;
             if (sahkoposti.length() == 0) {
@@ -59,10 +70,14 @@ public class DBManager {
                         + " VALUES ('%s', '%s', '%s', '%s', '%s')";
                 stmt.executeUpdate(String.format(update, enimi, snimi, osoite, puhelin, sahkoposti));
             }
+            con.commit();
             stmt.close();
 
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -81,6 +96,7 @@ public class DBManager {
                 + enimi + snimi + osoite + sahkoposti);
 
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String update;
 
@@ -93,11 +109,14 @@ public class DBManager {
                         + " VALUES ('%s', '%s', '%s', '%s')";
                 stmt.executeUpdate(String.format(update, enimi, snimi, osoite, sahkoposti));
             }
-
+            con.commit();
             stmt.close();
 
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -202,22 +221,36 @@ public class DBManager {
         return asiakkaat;
     }
 
+    /**
+     * Luo uuden työkohteen tietokantaan.
+     *
+     * @param asiakasid
+     * @param tyyppi
+     * @param tarjous
+     * @param osoite
+     * @param eralkm
+     * @throws SQLException
+     */
     public void lisaaKohde(String asiakasid, String tyyppi, String tarjous, String osoite, String eralkm)
             throws SQLException {
         System.out.println("luodaan uusi työkohde: " + asiakasid + tyyppi + osoite
                 + eralkm);
 
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
 
             String update = "INSERT INTO tyokohde (asiakasid, tyyppi, tarjous, osoite, eralkm)"
                     + " VALUES (%s, '%s', %s, '%s', %s)";
             stmt.executeUpdate(String.format(update, asiakasid, tyyppi, tarjous, osoite, eralkm));
-
+            con.commit();
             stmt.close();
 
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -283,15 +316,26 @@ public class DBManager {
         return tarjoukset;
     }
 
+    /**
+     * Asettaa tarjouksen hyväksytyksi eli muuttaa tarjous muuttujan.
+     *
+     * @param kohdeid
+     * @throws SQLException
+     */
     public void hyvaksyTarjous(String kohdeid) throws SQLException {
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String query = "UPDATE tyokohde SET tarjous = FALSE "
                     + "WHERE kohdeid = %s";
             stmt.executeUpdate(String.format(query, kohdeid));
-            System.out.println("Päivitys ok.");
+            con.commit();
+            stmt.close();
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -450,11 +494,11 @@ public class DBManager {
     }
 
     /**
-     * Lisää tarvikkeen tietokantaan annetuilla parameterilla.
-     * Jos annettua nimi-parametria vastaava tarvike, jossa tila = 'käytössä'
-     * löytyy jo tietokannasta, päivitetään sen tilaksi 'vanhentunut' ja lisätään
-     * sama tarvike päivitetyillä tiedoilla. Jos kaikki tiedot vastaavat jo
-     * olemassa olevaa riviä niin silloin päivitystä ei tehdä.
+     * Lisää tarvikkeen tietokantaan annetuilla parameterilla. Jos annettua
+     * nimi-parametria vastaava tarvike, jossa tila = 'käytössä' löytyy jo
+     * tietokannasta, päivitetään sen tilaksi 'vanhentunut' ja lisätään sama
+     * tarvike päivitetyillä tiedoilla. Jos kaikki tiedot vastaavat jo olemassa
+     * olevaa riviä niin silloin päivitystä ei tehdä.
      *
      * @param nimi
      * @param yksikko
@@ -739,6 +783,7 @@ public class DBManager {
     public void lisaaKohteeseen(boolean tarvike, String kohdeid, String info, String lkm)
             throws SQLException {
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String insert;
 
@@ -758,6 +803,7 @@ public class DBManager {
                                 + "VALUES (%s, %s, %s)";
                         stmt.executeUpdate(String.format(insert, ttid, kohdeid, lkm));
                     }
+                    con.commit();
                     rs.close();
                     stmt.close();
                 } else {
@@ -775,11 +821,15 @@ public class DBManager {
                             + "VALUES (%s, %s, %s)";
                     stmt.executeUpdate(String.format(insert, kohdeid, info, lkm));
                 }
+                con.commit();
                 rs.close();
                 stmt.close();
             }
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -794,12 +844,17 @@ public class DBManager {
      */
     public void poistaKohteestaTunteja(String kohdeid, String ttid) throws SQLException {
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String delete = "DELETE FROM tehdaan WHERE kohdeid = %s AND ttid = %s";
             stmt.executeUpdate(String.format(delete, kohdeid, ttid));
+            con.commit();
             stmt.close();
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -814,23 +869,34 @@ public class DBManager {
     public void poistaKohteestaTarvikkeita(String kohdeid, String tarvikeid)
             throws SQLException {
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String delete = "DELETE FROM sisaltaa WHERE kohdeid = %s AND tarvikeid = %s";
             stmt.executeUpdate(String.format(delete, kohdeid, tarvikeid));
+            con.commit();
             stmt.close();
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
     public void lisaaTarvikeAlennus(String tarvikeid, String kohdeid, String ale) throws SQLException {
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String query = "UPDATE sisaltaa SET ale = %s  "
                     + "WHERE kohdeid = %s AND tarvikeid = %s";
             stmt.executeUpdate(String.format(query, ale, kohdeid, tarvikeid));
+            con.commit();
+            stmt.close();
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -844,15 +910,27 @@ public class DBManager {
      */
     public void lisaaTuntiAlennus(String ttid, String kohdeid, String ale) throws SQLException {
         try {
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             String query = "UPDATE tehdaan SET ale = %s  "
                     + "WHERE kohdeid = %s AND ttid = %s";
             stmt.executeUpdate(String.format(query, ale, kohdeid, ttid));
+            con.commit();
+            stmt.close();
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
+    /**
+     * Hakee kaikki laskut joista eräpäivä on umpeutunut.
+     *
+     * @return
+     * @throws SQLException
+     */
     public ArrayList<String> haeLaskutErapvmUmpeutunut() throws SQLException {
         ArrayList<String> laskut = new ArrayList<>();
         try {
@@ -1123,6 +1201,7 @@ public class DBManager {
     public String laskuMaksettu(String laskuid) throws SQLException {
         try {
             String laskuTiedot = "";
+            con.setAutoCommit(false);
             Statement stmt = con.createStatement();
             stmt.executeUpdate("UPDATE lasku SET maksupvm = CURRENT_DATE, tila = 'valmis' "
                     + "WHERE laskuid = " + laskuid);
@@ -1130,11 +1209,15 @@ public class DBManager {
             if (rs.next()) {
                 laskuTiedot = rs.getString("maksupvm") + "::" + rs.getString("tila");
             }
+            con.commit();
             rs.close();
             stmt.close();
             return laskuTiedot;
         } catch (SQLException e) {
+            con.rollback();
             throw new SQLException(e.getMessage());
+        } finally {
+            con.setAutoCommit(true);
         }
     }
 
@@ -1166,6 +1249,7 @@ public class DBManager {
                 stmt.executeUpdate("UPDATE lasku SET tila = 'siirtynyt' WHERE laskuid = "
                         + laskuid);
                 con.commit();
+                stmt.close();
             }
         } catch (SQLException e) {
             con.rollback();
@@ -1252,6 +1336,11 @@ public class DBManager {
         }
     }
     
+    /**
+     * Lukee tekstitiedoston rivi kerrallaan ja yrittää lisätä tarvikkeen.
+     *
+     * @param file
+     */
     public void update(File file) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -1269,6 +1358,9 @@ public class DBManager {
         }
     }
 
+    /**
+     * Sulkee yhteyden tietokantaan kun ohjelma suljetaan.
+     */
     public void close() {
         try {
             System.out.println("Suljetaan yhteydet..");
