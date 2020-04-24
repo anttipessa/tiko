@@ -36,3 +36,6 @@ target/
 
 # MacOS
 .DS_Store
+
+# Word docs
+*.docx
