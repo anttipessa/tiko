@@ -5,9 +5,14 @@ import java.io.FileReader;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 
 public class DBManager {
-
+    private Connection con;
+    
+    /*
     private static final String PROTOKOLLA = "jdbc:postgresql:";
     private static final String PALVELIN = "localhost";
     private static final int PORTTI = 5432;
@@ -18,7 +23,7 @@ public class DBManager {
     //private static final String TIETOKANTA = "postgres";
     //private static final String KAYTTAJA = "postgres";
     //private static final String SALASANA = "salasana";
-    private Connection con;
+    */
 
     /**
      * Alustaa tietokantayhteyden DBManager-oliolle.
@@ -27,6 +32,7 @@ public class DBManager {
      * suoritus.
      */
     public DBManager() {
+        /*
         try {
             con = DriverManager.getConnection(PROTOKOLLA + "//" + PALVELIN + ":"
                     + PORTTI + "/" + TIETOKANTA, KAYTTAJA, SALASANA);
@@ -40,8 +46,41 @@ public class DBManager {
             // Lopetetaan ohjelman suoritus, jos tietokantayhteys epäonnistuu
             System.exit(0);
         }
+        */
+        
+        try {
+            String strSshUser = "ab123456";  // SSH login username
+            String strSshPassword = "pptunnussalasana";  // SSH login password
+            String strSshHost = "linux-ssh.tuni.fi";  // hostname or ip or SSH server
+            int nSshPort = 22;  // remote SSH host port number
+            String strRemoteHost = "dbstud2.sis.uta.fi";  // hostname or ip of your database server
+            int nLocalPort = 3306;  // local port number use to bind SSH tunnel
+            int nRemotePort = 5432;  // remote port number of your database 
+            String strDbUser = "ab123456";  // database login username
+            String strDbPassword = "sqlsalasana";  // database login password
+
+            doSshTunnel(strSshUser, strSshPassword, strSshHost, nSshPort, strRemoteHost, nLocalPort, nRemotePort);
+            con = DriverManager.getConnection("jdbc:postgresql://localhost:"+nLocalPort+"/", strDbUser, strDbPassword);
+            
+        } catch( Exception e ) {
+            e.printStackTrace();
+            System.exit(0);
+        } 
     }
 
+    // https://cryptofreek.org/2012/06/06/howto-jdbc-over-an-ssh-tunnel/
+    private static void doSshTunnel( String strSshUser, String strSshPassword, String strSshHost, int nSshPort, String strRemoteHost, int nLocalPort, int nRemotePort ) throws JSchException {
+        final JSch jsch = new JSch();
+        Session session = jsch.getSession( strSshUser, strSshHost, nSshPort );
+        session.setPassword( strSshPassword );
+        
+        final Properties config = new Properties();
+        config.put( "StrictHostKeyChecking", "no" );
+        session.setConfig( config );
+        session.connect();
+        session.setPortForwardingL(nLocalPort, strRemoteHost, nRemotePort);
+    }
+    
     /**
      * Lisää uuden asiakkaan tietokantaan.
      *
