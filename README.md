@@ -1,4 +1,24 @@
-# Tietokantaohjelmointi 2020
+# Tietokantaohjelmointi 2020 harjoitustyö
+
+## Tehtävänanto
+
+Tmi Sähkötärsky on Seppo Tärskyn toiminimi, jonka nimissä hän suorittaa sähkötöitä sekä välittää
+asentamiaan sähkötarvikkeita. Seppo tunnetaan kylällä mukavana ja ahkerana miehenä, mutta
+laskutuksessa on ollut ongelmia. Laskujen lähetys usein viivästyy eikä laskuissa ole aina eritelty
+kotitalousvähennykseen kelpaavaa osuutta.
+Kotitalousvähennyksen osalta laskussa on ilmoitettava kotitalousvähennykseen kelpaava osuus.
+Käytännössä tämä tarkoittaa työn osuutta laskusta. Lisätietoa kotitalousvähennyksestä osoitteessa
+https://www.vero.fi/fi-FI/Henkiloasiakkaat/Kotitalousvahennys
+Tehtävänä on suunnitella ja toteuttaa tietokanta, joka mahdollistaa laskujen kokoamisen ja sekä alla
+kuvatun toiminnallisuuden.
+
+[Tarkemmin](https://github.com/anttipessa/tiko/blob/master/docs/Tiko%202020_ht.pdf)
+
+## Tekijät
+
+- Antti Pessa
+- Henri Hakkarainen [@henrihakkarainen](https://www.github.com/henrihakkarainen)
+- Risto Meltaus [@rmel770](https://www.github.com/rmel770)
 
 
 ## Docker-ympäristön pystyttäminen

@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 
 public class GUI extends javax.swing.JFrame {
 
+    final int KORKO = 16;
     private DBManager dbmanager;
     private static DecimalFormat df = new DecimalFormat("0.00");
 
@@ -782,11 +783,12 @@ public class GUI extends javax.swing.JFrame {
             laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(laskuErittelyIkkunaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
-                    .addComponent(jLabel42)
-                    .addComponent(laskuLuontipvm)
-                    .addComponent(laskunNumeroTuntilasku))
+                .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(laskunNumeroTuntilasku, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel31)
+                        .addComponent(jLabel42)
+                        .addComponent(laskuLuontipvm)))
                 .addGap(28, 28, 28)
                 .addGroup(laskuErittelyIkkunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel41)
@@ -2898,11 +2900,11 @@ public class GUI extends javax.swing.JFrame {
             jLabel82.setText(erapvm);
             jLabel60.setText(luontipvm);
             jLabel83.setText(perintakulu + " €");
-            double viivastyskorko = 0;
+            int kierros = 0;
             for (int i = 10; i <= perintakulu; i += 5) {
-                viivastyskorko += 16;
+                kierros += 1;
             }
-            jLabel84.setText(viivastyskorko + " %");
+            jLabel84.setText((kierros > 0 ? String.valueOf(KORKO) : "0") + " %");
             jLabel86.setText(kohteenOsoite);
             urakkaLaskunumero.setText("Laskun numero: " + laskuid);
             if(perintakulu > 0) {
@@ -2917,23 +2919,25 @@ public class GUI extends javax.swing.JFrame {
             String tunnitTotal = df.format(tunnitNollaAlv + tunnitAlv);
             String tarvikkeetTotal = df.format(tarvikkeetNollaAlv + tarvikkeetAlv);
 
-            jLabel69.setText("" + df.format(tunnitNollaAlv));
-            jLabel68.setText("" + df.format(tunnitAlv));
-            jLabel67.setText(tunnitTotal);
+            jLabel69.setText(df.format(tunnitNollaAlv) + " €");
+            jLabel68.setText(df.format(tunnitAlv) + " €");
+            jLabel67.setText(tunnitTotal + " €");
 
-            jLabel71.setText("" + df.format(tarvikkeetNollaAlv));
-            jLabel73.setText("" + df.format(tarvikkeetAlv));
-            jLabel75.setText(tarvikkeetTotal);
+            jLabel71.setText(df.format(tarvikkeetNollaAlv) + " €");
+            jLabel73.setText(df.format(tarvikkeetAlv) + " €");
+            jLabel75.setText(tarvikkeetTotal + " €");
 
             total += tunnitNollaAlv + tunnitAlv
                     + tarvikkeetNollaAlv + tarvikkeetAlv;
 
             total /= dbmanager.haeErat(kohdeid);
             
-            total *= (100 + viivastyskorko) / 100;
+            // vuosikoron perusteella lasketaan laskutusajan korko ja
+            // toisesta karhulaskusta alkaen korkoa korolle.
+            total *= Math.pow((1+(KORKO*28)/(100.0*360)),kierros);
 
             total += perintakulu; // perintäkulu lisätään viimeiseksi, koska sille ei tule korkoa
-            jLabel76.setText("" + df.format(total));
+            jLabel76.setText("" + df.format(total) + " €");
 
             urakkaErittelyIkkuna.setVisible(true);
 
@@ -3022,11 +3026,11 @@ public class GUI extends javax.swing.JFrame {
             laskuErapvm.setText(erapvm);
             laskuLuontipvm.setText(luontipvm);
             laskuPerintakulu.setText(perintakulu + " €");
-            double viivastyskorko = 0;
+            int kierros = 0;
             for (int i = 10; i <= perintakulu; i += 5) {
-                viivastyskorko += 16;
+                kierros += 1;
             }
-            laskuViivastyskorko.setText(viivastyskorko + " %");
+            laskuViivastyskorko.setText((kierros > 0 ? String.valueOf(KORKO) : "0") + " %");
             tyokohdeTyyppi.setText("Tuntityö");
             tyokohdeOsoite.setText(kohteenOsoite);
             laskunNumeroTuntilasku.setText("Laskun numero: " + laskuid);
@@ -3054,11 +3058,13 @@ public class GUI extends javax.swing.JFrame {
                     + tarvikkeetNollaAlv + tarvikkeetAlv;
 
             total /= dbmanager.haeErat(kohdeid);
-            
-            total *= (100 + viivastyskorko) / 100;
+            // vuosikoron perusteella lasketaan laskutusajan korko ja
+            // toisesta karhulaskusta alkaen korkoa korolle.
+            total *= Math.pow((1+(KORKO*28)/(100.0*360)),kierros);
+            //total *= (100 + viivastyskorko) / 100;
 
             total += perintakulu; // perintäkulu lisätään viimeiseksi, koska sille ei tule korkoa
-            laskuTotal.setText("" + df.format(total));
+            laskuTotal.setText(df.format(total) + " €");
 
             laskuErittelyIkkuna.setVisible(true);
 
