@@ -10,20 +10,15 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class DBManager {
+
     private Connection con;
-    
-    /*
+
     private static final String PROTOKOLLA = "jdbc:postgresql:";
     private static final String PALVELIN = "localhost";
     private static final int PORTTI = 5432;
     private static final String TIETOKANTA = "tiko_ht";
     private static final String KAYTTAJA = "tiko";
     private static final String SALASANA = "t1k0";
-
-    //private static final String TIETOKANTA = "postgres";
-    //private static final String KAYTTAJA = "postgres";
-    //private static final String SALASANA = "salasana";
-    */
 
     /**
      * Alustaa tietokantayhteyden DBManager-oliolle.
@@ -32,7 +27,7 @@ public class DBManager {
      * suoritus.
      */
     public DBManager() {
-        /*
+
         try {
             con = DriverManager.getConnection(PROTOKOLLA + "//" + PALVELIN + ":"
                     + PORTTI + "/" + TIETOKANTA, KAYTTAJA, SALASANA);
@@ -46,8 +41,11 @@ public class DBManager {
             // Lopetetaan ohjelman suoritus, jos tietokantayhteys epäonnistuu
             System.exit(0);
         }
-        */
         
+        
+        /*
+        
+        sshTunneli versio
         try {
             String strSshUser = "ab123456";  // SSH login username
             String strSshPassword = "pptunnussalasana";  // SSH login password
@@ -66,21 +64,22 @@ public class DBManager {
             e.printStackTrace();
             System.exit(0);
         } 
+         */
     }
 
     // https://cryptofreek.org/2012/06/06/howto-jdbc-over-an-ssh-tunnel/
-    private static void doSshTunnel( String strSshUser, String strSshPassword, String strSshHost, int nSshPort, String strRemoteHost, int nLocalPort, int nRemotePort ) throws JSchException {
+    private static void doSshTunnel(String strSshUser, String strSshPassword, String strSshHost, int nSshPort, String strRemoteHost, int nLocalPort, int nRemotePort) throws JSchException {
         final JSch jsch = new JSch();
-        Session session = jsch.getSession( strSshUser, strSshHost, nSshPort );
-        session.setPassword( strSshPassword );
-        
+        Session session = jsch.getSession(strSshUser, strSshHost, nSshPort);
+        session.setPassword(strSshPassword);
+
         final Properties config = new Properties();
-        config.put( "StrictHostKeyChecking", "no" );
-        session.setConfig( config );
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config);
         session.connect();
         session.setPortForwardingL(nLocalPort, strRemoteHost, nRemotePort);
     }
-    
+
     /**
      * Lisää uuden asiakkaan tietokantaan.
      *
@@ -1332,7 +1331,7 @@ public class DBManager {
 
         return eriteltavat;
     }
-    
+
     public String haeEraluku(String kohdeid, String laskuid) throws SQLException {
         try {
             String eraluku = "";
@@ -1340,14 +1339,14 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery("SELECT laskuid FROM lasku "
                     + "WHERE edeltavaid IS null AND kohdeid = " + kohdeid
                     + "ORDER BY luontipvm ASC LIMIT 1;");
-            while(rs.next()) {
-                eraluku += String.valueOf(rs.getString("laskuid")).equals(laskuid)? "1" : "2";
+            while (rs.next()) {
+                eraluku += String.valueOf(rs.getString("laskuid")).equals(laskuid) ? "1" : "2";
             }
-            
+
             stmt = con.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(laskuid) FROM lasku "
                     + "WHERE edeltavaid IS null AND kohdeid = " + kohdeid + ";");
-            while(rs.next()) {
+            while (rs.next()) {
                 eraluku += "/" + rs.getString("count");
             }
             rs.close();
@@ -1364,7 +1363,7 @@ public class DBManager {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT edeltavaid FROM lasku "
                     + "WHERE laskuid = " + laskuid);
-            while(rs.next()) {
+            while (rs.next()) {
                 aiempi = rs.getString("edeltavaid");
             }
             rs.close();
@@ -1374,7 +1373,7 @@ public class DBManager {
             throw new SQLException(e.getMessage());
         }
     }
-    
+
     /**
      * Lukee tekstitiedoston rivi kerrallaan ja yrittää lisätä tarvikkeen.
      *
