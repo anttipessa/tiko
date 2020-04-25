@@ -20,6 +20,21 @@ kuvatun toiminnallisuuden.
 - Henri Hakkarainen [@henrihakkarainen](https://www.github.com/henrihakkarainen)
 - Risto Meltaus [@rmel770](https://www.github.com/rmel770)
 
+## Tietokanta
+
+![ER](./docs/kuvia/ER_kaavio.jpeg)
+[Luontilauseet](https://github.com/anttipessa/tiko/blob/master/sql/luontilauseet.sql)
+## Toteutus
+
+Toteutimme ohjelman Javalla ja teimme käyttöliittymän Swing käyttöliittymäkirjastolla. Ohjelma
+jakautuu kolmeen tiedostoon Tiko2020, GUI ja DBManager, missä tehdään kaikki tietokantakyselyt.
+Tiko2020 on pääluokka, josta ohjelma käynnistyy.
+
+![T1](./docs/kuvia/T1.PNG)
+Lisää työkohde näkymä
+
+![T5](./docs/kuvia/T5.PNG)
+Tarvikkeen lisäys tekstitiedostosta
 
 ## Docker-ympäristön pystyttäminen
 Projektin juurikansiossa suoritetaan komento:
@@ -94,3 +109,22 @@ Palvelut:
   - Avaa PostgreSQL-tietokannan ja ohjaa sen porttiin 5432.
 - adminer
   - Avaa adminer-webkäyttöliittymätyökalun porttiin 8080.
+  
+## Dokumentaatio
+
+[Linkki](https://github.com/anttipessa/tiko/blob/master/docs/tiko_dokumentti.pdf)
+
+## Asennusohjeet
+
+1. Asenna Maven https://maven.apache.org/ ja Java 11 https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+2. DBManager.java tiedostossa seuraavat vakiot pitää asettaa vastaamaan oman PostgreSQL-tietokannan speksejä:
+```
+private static final String PROTOKOLLA = "jdbc:postgresql:";
+private static final String PALVELIN = "localhost";
+private static final int PORTTI = 5432; // default portti on 5432
+private static final String TIETOKANTA = "tiko_ht"; // tähän tietokannan nimi
+private static final String KAYTTAJA = "tiko"; // tähän tietokannan käyttäjä
+private static final String SALASANA = "t1k0"; // tähän tietokantakäyttäjän salasana
+```
+3. Projektin juuressa kirjoita komentoriviin
+`mvn clean compile exec:java`
