@@ -1,4 +1,4 @@
-# Tietokantaohjelmointi 2020
+# Tietokantaohjelmointi 2020 harjoitustyö
 
 ## Tehtävänanto
 
@@ -13,6 +13,13 @@ Tehtävänä on suunnitella ja toteuttaa tietokanta, joka mahdollistaa laskujen 
 kuvatun toiminnallisuuden.
 
 [Tarkemmin](https://github.com/anttipessa/tiko/blob/master/docs/Tiko%202020_ht.pdf)
+
+## Tekijät
+
+- Antti Pessa
+- Henri Hakkarainen [@henrihakkarainen](https://www.github.com/henrihakkarainen)
+- Risto Meltaus [@rmel770](https://www.github.com/rmel770)
+
 
 ## Docker-ympäristön pystyttäminen
 Projektin juurikansiossa suoritetaan komento:
