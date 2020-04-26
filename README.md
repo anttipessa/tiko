@@ -1,5 +1,7 @@
 # Tietokantaohjelmointi 2020 harjoitustyö
 
+Kolmen hengen ryhmässä tehty harjoitustyö Tampereen Yliopiston Tietokantaohjelmointi kurssilla.
+
 ## Tehtävänanto
 
 Tmi Sähkötärsky on Seppo Tärskyn toiminimi, jonka nimissä hän suorittaa sähkötöitä sekä välittää
@@ -12,7 +14,7 @@ https://www.vero.fi/fi-FI/Henkiloasiakkaat/Kotitalousvahennys
 Tehtävänä on suunnitella ja toteuttaa tietokanta, joka mahdollistaa laskujen kokoamisen ja sekä alla
 kuvatun toiminnallisuuden.
 
-[Tarkemmin](https://github.com/anttipessa/tiko/blob/master/docs/Tiko%202020_ht.pdf)
+[Koko tehtävänanto](https://github.com/anttipessa/tiko/blob/master/docs/Tiko%202020_ht.pdf)
 
 ## Tekijät
 
@@ -30,11 +32,16 @@ Toteutimme ohjelman Javalla ja teimme käyttöliittymän Swing käyttöliittymä
 jakautuu kolmeen tiedostoon Tiko2020, GUI ja DBManager, missä tehdään kaikki tietokantakyselyt.
 Tiko2020 on pääluokka, josta ohjelma käynnistyy.
 
-![T1](./docs/kuvia/T1.PNG)
+![T1](./docs/kuvia/T1.PNG)</br>
 Lisää työkohde näkymä
 
 ![T5](./docs/kuvia/T5.PNG)
 Tarvikkeen lisäys tekstitiedostosta
+
+## Dokumentaatio
+
+Tarkemmin tietokannasta, toteutuksesta ja ohjelman ominaisuuksista:
+[Dokumentti](https://github.com/anttipessa/tiko/blob/master/docs/tiko_dokumentti.pdf)
 
 ## Docker-ympäristön pystyttäminen
 Projektin juurikansiossa suoritetaan komento:
@@ -110,14 +117,11 @@ Palvelut:
 - adminer
   - Avaa adminer-webkäyttöliittymätyökalun porttiin 8080.
   
-## Dokumentaatio
-
-[Linkki](https://github.com/anttipessa/tiko/blob/master/docs/tiko_dokumentti.pdf)
-
 ## Asennusohjeet
 
 1. Asenna Maven https://maven.apache.org/ ja Java 11 https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
-2. DBManager.java tiedostossa seuraavat vakiot pitää asettaa vastaamaan oman PostgreSQL-tietokannan speksejä:
+2. Käynnistä PostgreSQL-tietokanta Dockerissa
+3. DBManager.java tiedostossa seuraavat vakiot pitää asettaa vastaamaan oman PostgreSQL-tietokannan speksejä:
 ```
 private static final String PROTOKOLLA = "jdbc:postgresql:";
 private static final String PALVELIN = "localhost";
@@ -126,5 +130,7 @@ private static final String TIETOKANTA = "tiko_ht"; // tähän tietokannan nimi
 private static final String KAYTTAJA = "tiko"; // tähän tietokannan käyttäjä
 private static final String SALASANA = "t1k0"; // tähän tietokantakäyttäjän salasana
 ```
-3. Projektin juuressa kirjoita komentoriviin
-`mvn clean compile exec:java`
+4. Projektin juuressa kirjoita komentoriviin
+```
+mvn clean compile exec:java
+```
