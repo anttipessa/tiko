@@ -80,23 +80,6 @@ Salasana: t1k0
 Tietokanta: tiko_ht
 ```
 
-## Docker Toolbox
-
-Avaa komentokehote admininia ja suorita komento:
-
-`  docker-machine create --virtualbox-disk-size 40000 --virtualbox-memory 4096 default`
-
-Myöhemmillä kerroilla riittää komento:
-
-`docker-machine start default`
-
-Sitten:
-
-`docker-machine ssh default`
-
-Nyt voi jatkaa Docker-ympäristön pystyttäminen kohdan mukaisesti.
-
-
 ## Docker-tiedostot
 
 ### .dockerfiles/db
